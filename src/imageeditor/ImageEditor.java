@@ -35,8 +35,11 @@ public class ImageEditor extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         UploadImage = new javax.swing.JMenuItem();
+        SaveAs = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         GrayScale = new javax.swing.JMenuItem();
+        BlackAndWhite = new javax.swing.JMenuItem();
+        RemoveFilters = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -59,6 +62,14 @@ public class ImageEditor extends javax.swing.JFrame {
         });
         jMenu1.add(UploadImage);
 
+        SaveAs.setText("Guardar Imagen como...");
+        SaveAs.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SaveAsActionPerformed(evt);
+            }
+        });
+        jMenu1.add(SaveAs);
+
         jMenu2.setText("Filtros");
 
         GrayScale.setText("Escala de Grises");
@@ -68,6 +79,22 @@ public class ImageEditor extends javax.swing.JFrame {
             }
         });
         jMenu2.add(GrayScale);
+
+        BlackAndWhite.setText("Blanco y Negro");
+        BlackAndWhite.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BlackAndWhiteActionPerformed(evt);
+            }
+        });
+        jMenu2.add(BlackAndWhite);
+
+        RemoveFilters.setText("Quitar Filtros");
+        RemoveFilters.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RemoveFiltersActionPerformed(evt);
+            }
+        });
+        jMenu2.add(RemoveFilters);
 
         jMenu1.add(jMenu2);
 
@@ -113,6 +140,18 @@ public class ImageEditor extends javax.swing.JFrame {
         System.exit(1);
     }//GEN-LAST:event_CloseActionPerformed
 
+    private void SaveAsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveAsActionPerformed
+        jLabel1.setIcon(new ImageIcon(ObjProcesamiento.guardarImagen()));
+    }//GEN-LAST:event_SaveAsActionPerformed
+
+    private void RemoveFiltersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RemoveFiltersActionPerformed
+        jLabel1.setIcon(new ImageIcon(ObjProcesamiento.RemoverFiltros()));
+    }//GEN-LAST:event_RemoveFiltersActionPerformed
+
+    private void BlackAndWhiteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BlackAndWhiteActionPerformed
+        jLabel1.setIcon(new ImageIcon(ObjProcesamiento.BlancoYNegro()));
+    }//GEN-LAST:event_BlackAndWhiteActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -148,8 +187,11 @@ public class ImageEditor extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem BlackAndWhite;
     private javax.swing.JButton Close;
     private javax.swing.JMenuItem GrayScale;
+    private javax.swing.JMenuItem RemoveFilters;
+    private javax.swing.JMenuItem SaveAs;
     private javax.swing.JMenuItem UploadImage;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
