@@ -355,22 +355,22 @@ public class ProcesamientoImagen {
 
     public Integer ContarColores() {
         Map<Integer, Integer> out = new HashMap<>();
-
+        int size;
+        size = 0;
         for (int ii = 0; ii < imageActual.getWidth(); ii++) {
             for (int jj = 0; jj < imageActual.getHeight(); jj++) {
                 int colorsito = imageActual.getRGB(ii, jj);
-
+                
                 if (out.containsKey(colorsito)) {
                     out.replace(colorsito, out.get(colorsito) + 1);
                 } else {
                     out.put(colorsito, 1);
+                    size++;
                 }
             }
         }
-         
+        
 
-        int size;
-        size = getMaxValue(out);
         return size;
     }
     
