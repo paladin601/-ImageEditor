@@ -11,8 +11,12 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.Scanner;
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
@@ -192,14 +196,12 @@ public class ProcesamientoImagen {
             for (int j = 0; j < imageActual.getHeight(); j++) {
                 // Almacenamos el color del píxel
                 colorAux = new Color(this.imageActual.getRGB(i, j));
-                Red      = colorAux.getRed();
-                Red      = (Red > Umbral)?
-                           255
-                           : 0;
+                int rgb = this.imageActual.getRGB(i, j);
+                Red= colorAux.getRed();
+                Red= (Red > Umbral)? 255: 0;
                 imageActual.setRGB(i, j, new Color(Red, Red, Red).getRGB());
             }
         }
-
         // Retornamos la imagen
         return imageActual;
     }
@@ -351,7 +353,7 @@ public class ProcesamientoImagen {
         return out;
     }
 
-    public Map<Integer, Integer> ContarColores() {
+    public Integer ContarColores() {
         Map<Integer, Integer> out = new HashMap<>();
 
         for (int ii = 0; ii < imageActual.getWidth(); ii++) {
@@ -366,13 +368,24 @@ public class ProcesamientoImagen {
             }
         }
          
-        out.entrySet().forEach((entry) -> {
-            Color co = new Color(entry.getKey());
-            System.out.println("("+co.getRed()+", "+co.getGreen()+", "+ co.getBlue()+")" +" -> " + entry.getValue());
-        });
-        return out;
-    }
 
+        int size;
+        size = getMaxValue(out);
+        return size;
+    }
+    
+    public static Integer getMaxValue(Map<Integer, Integer> map){        
+       Integer maxValue = 0;
+       Integer max = Collections.max(map.values());
+
+           for (Entry<Integer, Integer> entry : map.entrySet()) {
+               Integer value = entry.getValue();
+               if(null != value && Objects.equals(max, value)) {
+                   maxValue = value;
+               }
+           }
+       return maxValue;
+    }
     // Se puede combinar con las keys de ContarColores para hacer algo
     public int[] extraerRGB(int color) {
         return new int[] {    // rgba

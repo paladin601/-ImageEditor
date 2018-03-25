@@ -13,9 +13,7 @@ import javax.swing.ImageIcon;
  */
 public class ImageEditor extends javax.swing.JFrame {
     ProcesamientoImagen ObjProcesamiento=new ProcesamientoImagen();
-    /**
-     * Creates new form ImageEditor1
-     */
+    
     public ImageEditor() {
         initComponents();
     }
@@ -32,16 +30,26 @@ public class ImageEditor extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jLabel1 = new javax.swing.JLabel();
         Close = new javax.swing.JButton();
+        Umbral = new javax.swing.JSlider();
+        jLabel2 = new javax.swing.JLabel();
+        UniqueColor = new javax.swing.JTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         UploadImage = new javax.swing.JMenuItem();
         SaveAs = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
+        Filter = new javax.swing.JMenu();
         GrayScale = new javax.swing.JMenuItem();
         BlackAndWhite = new javax.swing.JMenuItem();
+        Negative = new javax.swing.JMenuItem();
         RemoveFilters = new javax.swing.JMenuItem();
+        UniqueColors = new javax.swing.JMenuItem();
+        Rotate = new javax.swing.JMenu();
+        Right = new javax.swing.JMenuItem();
+        Left = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
 
         jScrollPane1.setViewportView(jLabel1);
 
@@ -52,8 +60,23 @@ public class ImageEditor extends javax.swing.JFrame {
             }
         });
 
+        Umbral.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                UmbralStateChanged(evt);
+            }
+        });
+
+        jLabel2.setText("Colores Unicos");
+
+        UniqueColor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                UniqueColorActionPerformed(evt);
+            }
+        });
+
         jMenu1.setText("Archivo");
 
+        UploadImage.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
         UploadImage.setText("Cargar Imagen");
         UploadImage.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -62,7 +85,9 @@ public class ImageEditor extends javax.swing.JFrame {
         });
         jMenu1.add(UploadImage);
 
+        SaveAs.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.CTRL_MASK));
         SaveAs.setText("Guardar Imagen como...");
+        SaveAs.setEnabled(false);
         SaveAs.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 SaveAsActionPerformed(evt);
@@ -70,33 +95,81 @@ public class ImageEditor extends javax.swing.JFrame {
         });
         jMenu1.add(SaveAs);
 
-        jMenu2.setText("Filtros");
+        Filter.setText("Filtros");
+        Filter.setEnabled(false);
 
+        GrayScale.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         GrayScale.setText("Escala de Grises");
         GrayScale.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 GrayScaleActionPerformed(evt);
             }
         });
-        jMenu2.add(GrayScale);
+        Filter.add(GrayScale);
+        GrayScale.getAccessibleContext().setAccessibleDescription("");
+        GrayScale.getAccessibleContext().setAccessibleParent(null);
 
+        BlackAndWhite.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         BlackAndWhite.setText("Blanco y Negro");
         BlackAndWhite.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BlackAndWhiteActionPerformed(evt);
             }
         });
-        jMenu2.add(BlackAndWhite);
+        Filter.add(BlackAndWhite);
 
-        RemoveFilters.setText("Quitar Filtros");
+        Negative.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        Negative.setText("Negativo");
+        Negative.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                NegativeActionPerformed(evt);
+            }
+        });
+        Filter.add(Negative);
+
+        RemoveFilters.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        RemoveFilters.setText("Deshacer Filtros");
         RemoveFilters.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 RemoveFiltersActionPerformed(evt);
             }
         });
-        jMenu2.add(RemoveFilters);
+        Filter.add(RemoveFilters);
 
-        jMenu1.add(jMenu2);
+        jMenu1.add(Filter);
+
+        UniqueColors.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        UniqueColors.setText("Colores Unicos");
+        UniqueColors.setEnabled(false);
+        UniqueColors.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                UniqueColorsActionPerformed(evt);
+            }
+        });
+        jMenu1.add(UniqueColors);
+
+        Rotate.setText("Rotar 90 grados");
+        Rotate.setEnabled(false);
+
+        Right.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.CTRL_MASK));
+        Right.setText("Derecha");
+        Right.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RightActionPerformed(evt);
+            }
+        });
+        Rotate.add(Right);
+
+        Left.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.CTRL_MASK));
+        Left.setText("Izquierda");
+        Left.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LeftActionPerformed(evt);
+            }
+        });
+        Rotate.add(Left);
+
+        jMenu1.add(Rotate);
 
         jMenuBar1.add(jMenu1);
 
@@ -109,20 +182,34 @@ public class ImageEditor extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 477, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(UniqueColor, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(Umbral, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 190, Short.MAX_VALUE)
                         .addComponent(Close)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 324, Short.MAX_VALUE)
+                .addGap(6, 6, 6)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 322, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addComponent(Close)
-                .addContainerGap())
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(Umbral, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(UniqueColor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap())
+                    .addComponent(Close, javax.swing.GroupLayout.Alignment.TRAILING)))
         );
 
         pack();
@@ -134,6 +221,10 @@ public class ImageEditor extends javax.swing.JFrame {
 
     private void UploadImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UploadImageActionPerformed
         jLabel1.setIcon(new ImageIcon(ObjProcesamiento.abrirImagen()));
+        UniqueColors.setEnabled(true);
+        SaveAs.setEnabled(true);
+        Filter.setEnabled(true);
+        Rotate.setEnabled(true);
     }//GEN-LAST:event_UploadImageActionPerformed
 
     private void CloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CloseActionPerformed
@@ -151,6 +242,31 @@ public class ImageEditor extends javax.swing.JFrame {
     private void BlackAndWhiteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BlackAndWhiteActionPerformed
         jLabel1.setIcon(new ImageIcon(ObjProcesamiento.BlancoYNegro()));
     }//GEN-LAST:event_BlackAndWhiteActionPerformed
+
+    private void NegativeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NegativeActionPerformed
+       jLabel1.setIcon(new ImageIcon(ObjProcesamiento.Negativo()));
+    }//GEN-LAST:event_NegativeActionPerformed
+
+    private void UmbralStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_UmbralStateChanged
+       int i;
+       i=10;
+    }//GEN-LAST:event_UmbralStateChanged
+
+    private void UniqueColorsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UniqueColorsActionPerformed
+        UniqueColor.setText(ObjProcesamiento.ContarColores().toString());
+    }//GEN-LAST:event_UniqueColorsActionPerformed
+
+    private void UniqueColorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UniqueColorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_UniqueColorActionPerformed
+
+    private void RightActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RightActionPerformed
+        jLabel1.setIcon(new ImageIcon(ObjProcesamiento.RotarDerecha()));
+    }//GEN-LAST:event_RightActionPerformed
+
+    private void LeftActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LeftActionPerformed
+        jLabel1.setIcon(new ImageIcon(ObjProcesamiento.RotarIzquierda()));
+    }//GEN-LAST:event_LeftActionPerformed
 
     /**
      * @param args the command line arguments
@@ -189,13 +305,21 @@ public class ImageEditor extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem BlackAndWhite;
     private javax.swing.JButton Close;
+    private javax.swing.JMenu Filter;
     private javax.swing.JMenuItem GrayScale;
+    private javax.swing.JMenuItem Left;
+    private javax.swing.JMenuItem Negative;
     private javax.swing.JMenuItem RemoveFilters;
+    private javax.swing.JMenuItem Right;
+    private javax.swing.JMenu Rotate;
     private javax.swing.JMenuItem SaveAs;
+    private javax.swing.JSlider Umbral;
+    private javax.swing.JTextField UniqueColor;
+    private javax.swing.JMenuItem UniqueColors;
     private javax.swing.JMenuItem UploadImage;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
