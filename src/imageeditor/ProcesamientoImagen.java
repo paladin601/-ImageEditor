@@ -60,7 +60,7 @@ public class ProcesamientoImagen {
 
                 // Devuelve el fichero seleccionado
                 File   imagenSeleccionada = selector.getSelectedFile();
-                String ext                = selector.getSelectedFile().getAbsolutePath();
+                String ext= selector.getSelectedFile().getAbsolutePath();
 
                 ext = ext.substring(ext.lastIndexOf("."));
                 System.out.println(ext);
@@ -369,23 +369,9 @@ public class ProcesamientoImagen {
                 }
             }
         }
-        
-
         return size;
     }
-    
-    public static Integer getMaxValue(Map<Integer, Integer> map){        
-       Integer maxValue = 0;
-       Integer max = Collections.max(map.values());
-
-           for (Entry<Integer, Integer> entry : map.entrySet()) {
-               Integer value = entry.getValue();
-               if(null != value && Objects.equals(max, value)) {
-                   maxValue = value;
-               }
-           }
-       return maxValue;
-    }
+    s
     // Se puede combinar con las keys de ContarColores para hacer algo
     public int[] extraerRGB(int color) {
         return new int[] {    // rgba
