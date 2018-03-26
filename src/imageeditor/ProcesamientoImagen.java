@@ -22,6 +22,7 @@ public class ProcesamientoImagen {
     private int maxColores = 255;
     private int Umbral;
     private String formato;
+    private String formatoinit;
 
     // Método que devuelve una imagen abierta desde archivo
     // Retorna un objeto BufferedImagen
@@ -56,6 +57,7 @@ public class ProcesamientoImagen {
                     formato=ext.equals(".pbm")?"P1":(ext.equals(".pgm")?"P2":"P3");
                     bmp = leerNETPBM(imagenSeleccionada);
                 }
+                formatoinit=formato;
                 // Asignamos la imagen cargada a la propiedad imageActual
                 imageActual = bmp;
                 imageCopy   = copiarImagen(bmp);
@@ -122,10 +124,14 @@ public class ProcesamientoImagen {
                     for (int y = 0; y < yLimit; y++) {
                         for (int x = 0; x < xLimit ; x++) {
                             Color co = new Color(imageActual.getRGB(x, y));
-                            if(formato.equals("P2")){//binario
+                            if(formato.equals("P2")){
                                 writer.println(co.getRed());
                             }else{//color
-                                writer.println(co.getRed() +" "+ co.getGreen()+" "+co.getBlue());
+                                if(formato.equals("P1")){//binario
+                                    writer.println(co.getRed()/255);
+                                }else{
+                                    writer.println(co.getRed() +" "+ co.getGreen()+" "+co.getBlue());
+                                }  
                             }
                         }
                     }
@@ -138,10 +144,8 @@ public class ProcesamientoImagen {
     }
 
     public BufferedImage RemoverFiltros() {
-
-        /* FUNCIONA UNA SOLA VEZ */
         imageActual = copiarImagen(imageCopy);
-        
+        formato=formatoinit;
         return imageActual;
     }
 
@@ -247,11 +251,10 @@ public class ProcesamientoImagen {
                         //hago que ocupe todos los colores
                         if (pixelType[imgType] == BufferedImage.TYPE_INT_RGB) {
                             out.setRGB(ii, pp, new Color((pixel[0]), (pixel[1]), (pixel[2])).getRGB());
-                            //out.setRGB(ii, pp, new Color((pixel[0]/maxColores)*255, (pixel[1]/maxColores)*255, (pixel[2]/maxColores)*255).getRGB());
                         } else {
-                            int extColor = (pixel[0]);///maxColores) * 255;
+                            int extColor = pixel[0];
                             if(pixelType[imgType]== BufferedImage.TYPE_BYTE_BINARY){
-                                extColor = pixel[0] * 255;
+                                extColor = extColor * 255;
                                 out.setRGB(ii, pp, new Color(extColor, extColor , extColor).getRGB());
                             }else{
                                 out.setRGB(ii, pp, new Color(extColor, extColor , extColor).getRGB());
@@ -269,7 +272,6 @@ public class ProcesamientoImagen {
                 }
             }
         }
-        System.out.println(width + " / " + height + " / type" + imgType);
         return out;
     }
 
@@ -321,7 +323,8 @@ public class ProcesamientoImagen {
     }
 
     public String ComprimirRLE(String x){ 
-        String aux = ""; 
+        String aux; 
+        aux = "";
         int contador; 
         for (int i = 0; i < x.length(); i++) { 
             contador = 0; 
@@ -330,7 +333,7 @@ public class ProcesamientoImagen {
                 contador++; 
                 i++; 
             }  
-            aux += String.valueOf(contador) + String.valueOf(caracter)+" "; //string resultante
+            aux += String.valueOf(contador) + String.valueOf(caracter);//agrego al string
         } 
         return aux; //retorno el string comprimido
     }
@@ -338,9 +341,7 @@ public class ProcesamientoImagen {
     /*public float getRLE(){
         int lastSeen, count;
         for (int y = 0; y < imageActual.getHeight(); y++) {
-            for (int x = 0; x < imageActual.getWidth(); x++) {
-                
-                
+            for (int x = 0; x < imageActual.getWidth(); x++) {  
             }
         }
     }*/
