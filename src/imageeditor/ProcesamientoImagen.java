@@ -121,35 +121,18 @@ public class ProcesamientoImagen {
                     }
                     int yLimit = imageActual.getHeight();
                     int xLimit = imageActual.getWidth();
-                    String a="";
-                    String b="";
-                    int cont=0;
                     for (int y = 0; y < yLimit; y++) {
                         for (int x = 0; x < xLimit ; x++) {
                             Color co = new Color(imageActual.getRGB(x, y));
                             if(formato.equals("P2")){
-                                a=a + co.getRed();
+                                writer.println(co.getRed());
                             }else{//color
                                 if(formato.equals("P1")){//binario
-                                    a= a + co.getRed()/255;
+                                    writer.println(co.getRed()/255);
                                 }else{
-                                    if(b.length()+cont>70){
-                                        writer.println(a);
-                                        a="";
-                                        cont=0;
-                                    }
-                                    a= a + b;
+                                    writer.println(co.getRed() +" "+ co.getGreen()+" "+co.getBlue());
                                 }  
                             }
-                            cont = a.length();
-                            if(cont<=69){
-                                a=a+" ";
-                            }else{
-                                writer.println(a);
-                                cont=0;
-                                a="";
-                            }                         
-                            
                         }
                     }
                 }
