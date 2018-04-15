@@ -161,14 +161,17 @@ public class ProcesamientoImagen {
                 for (int cy = yy - conv.pivoty; cy < conv.heigth; cy++) {//entramos loop convolucion
                     for (int cx = xx - conv.pivotx; cx < conv.width; cx++) {
                         try{
-                            co.assignRGB(imageActual.getRGB(cx, cx));
+                            co.operate( ( a,b) -> { return a+b;} , new Colorsin().assignRGB(imageActual.getRGB(cx, cy)).multiplicarConstante(conv.conv[cy][cx]));
                             num++;
                         }catch(Exception ex){
-                            
+                            //si me salgo de la matriz no hago nada
+                            System.out.println(" en aplicar convolucion "+cx+","+cy+"    /"+ ex.getMessage());
                         }
                     }
                 }//Salimos loop convolucion 
-                
+                co.multiplicarConstante(1/num);
+                co.clamp();
+                imageActual.setRGB(xx, yy, co.toRGB());
             }
         }
         return out;
@@ -426,10 +429,12 @@ public class ProcesamientoImagen {
             return toColor().getRGB();
         }
         
-        public void assignRGB(int rgb){
-            color[2]= rgb & 0xFF;
-            color[1]= (rgb << 8) & 0xFF;
-            color[0]= (rgb << 16) & 0xFF;
+        public Colorsin assignRGB(int rgb){
+            Color co = new Color(rgb);
+            color[2]= co.getBlue();
+            color[1]= co.getGreen();
+            color[0]= co.getRed();
+            return this;
         }
         public Colorsin operate(IntOperation operation,Colorsin co){
             return new Colorsin(operation.op(this.color[0],co.color[0]), operation.op(this.color[1],co.color[1]), operation.op(this.color[2],co.color[2]));
