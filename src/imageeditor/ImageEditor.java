@@ -47,6 +47,8 @@ public class ImageEditor extends javax.swing.JFrame {
         Rotate = new javax.swing.JMenu();
         Right = new javax.swing.JMenuItem();
         Left = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -139,7 +141,6 @@ public class ImageEditor extends javax.swing.JFrame {
         });
         Filter.add(GrayScale);
         GrayScale.getAccessibleContext().setAccessibleDescription("");
-        GrayScale.getAccessibleContext().setAccessibleParent(null);
 
         BlackAndWhite.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         BlackAndWhite.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
@@ -200,6 +201,18 @@ public class ImageEditor extends javax.swing.JFrame {
         jMenu1.add(Rotate);
 
         jMenuBar1.add(jMenu1);
+
+        jMenu2.setText("jMenu2");
+
+        jMenuItem1.setText("Zoom In x2");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem1);
+
+        jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
 
@@ -316,6 +329,10 @@ public class ImageEditor extends javax.swing.JFrame {
         ObjProcesamiento.CambiarUmbral(a);
     }//GEN-LAST:event_UmbralNumberStateChanged
 
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        jLabel1.setIcon(new ImageIcon(ObjProcesamiento.ZoomIn()));
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -369,7 +386,9 @@ public class ImageEditor extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

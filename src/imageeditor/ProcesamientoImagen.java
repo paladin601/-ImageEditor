@@ -218,7 +218,6 @@ public class ProcesamientoImagen {
             for (int j = 0; j < imageActual.getHeight(); j++) {
                 // Almacenamos el color del píxel
                 colorAux = new Color(this.imageActual.getRGB(i, j));
-                int rgb = this.imageActual.getRGB(i, j);
                 Red= colorAux.getRed();
                 Red= (Red > Umbral)? 255: 0;
                 imageActual.setRGB(i, j, new Color(Red, Red, Red).getRGB());
@@ -404,9 +403,11 @@ public class ProcesamientoImagen {
         }
         return aux;
     }
+    
     public interface IntOperation{
         public int op(int a, int b);
     }
+    
     public class Colorsin{
         int[] color;
         public Colorsin(int red, int green, int blue){
@@ -462,4 +463,72 @@ public class ProcesamientoImagen {
             return this.sum;
         }
     }
+    
+    public Color PromColor(Color aux1,Color aux2){
+        Color aux=new Color((aux1.getRed()+aux2.getRed())/2 , (aux1.getGreen()+aux2.getGreen())/2, (aux1.getBlue()+aux2.getBlue())/2 );
+        return aux;
+    }
+    
+    public BufferedImage ZoomIn(){
+        int height,width,heightaux,widthaux;
+        Color colorAux1,colorAux2;
+        height=imageActual.getHeight();
+        width=imageActual.getWidth();
+        heightaux=height *2;
+        widthaux=width *2;
+        BufferedImage aux=new BufferedImage(widthaux,heightaux,imageActual.getType());
+        int i , j,imod,jmod,k,l;
+        k=0;
+        l=0;
+        for(i=0;i<widthaux;i++){
+            imod=i%2;
+            for(j=0;j<heightaux;j++){
+                jmod=j%2;
+                if(imod==0 && jmod==0){
+                    aux.setRGB(i, j, imageActual.getRGB(k,l));
+                    l++;
+                    if(l==height){
+                        l=0;
+                        k++;
+                    }
+                }else{
+                    if(j==heightaux-1 && imod==0){
+                       aux.setRGB(i, j, aux.getRGB(i,j-1)); 
+                    }else{
+                        if(i==widthaux-1 && jmod==0){
+                            aux.setRGB(i, j, aux.getRGB(i-1,j));
+                        }else{
+                            aux.setRGB(i,j,-1);
+                        }
+                    }
+                }
+            }
+        }
+        for(i=0;i<widthaux;i++){
+            imod=i%2;
+            for(j=0;j<heightaux;j++){
+                jmod=j%2;
+                if(jmod!=0 && j!=heightaux-1 && imod==0){
+                    colorAux1 = new Color(aux.getRGB(i, j-1));
+                    colorAux2 = new Color(aux.getRGB(i, j+1));
+                    aux.setRGB(i,j, PromColor(colorAux1,colorAux2).getRGB());
+                }else{
+                    if(jmod==0 && imod!=0 && i!=widthaux-1){
+                        colorAux1 = new Color(aux.getRGB(i-1, j));
+                        colorAux2 = new Color(aux.getRGB(i+1, j));
+                        aux.setRGB(i,j, PromColor(colorAux1,colorAux2).getRGB());
+                    }else{
+                        if(imod!=0 && jmod!=0){
+                            colorAux1 = new Color(aux.getRGB(i, j-1));
+                            colorAux2 = new Color(aux.getRGB(i-1, j));
+                            aux.setRGB(i,j, PromColor(colorAux1,colorAux2).getRGB());
+                        }
+                    }
+                }
+            }
+        }
+        imageActual=aux;
+        return imageActual;
+    }
+    
 }
