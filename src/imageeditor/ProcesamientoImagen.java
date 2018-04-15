@@ -154,26 +154,32 @@ public class ProcesamientoImagen {
         int newWidth = imageActual.getWidth() + imageActual.getHeight();
         BufferedImage out = new BufferedImage(imageActual.getWidth(), imageActual.getHeight(), imageActual.getType());
         
-        Colorsin co = new Colorsin();
+        Colorsin co = null;
         for (int yy = 0; yy < out.getHeight(); yy++) {
             for (int xx = 0; xx < out.getWidth(); xx++) {
                 float num = 0;
-                for (int cy = yy - conv.pivoty; cy < yy +conv.heigth; cy++) {//entramos loop convolucion
-                    for (int cx = xx - conv.pivotx; cx < xx +conv.width; cx++) {
+                co= new Colorsin();
+                //System.out.println("Convolucionando-------------------------------------------- "+xx+","+yy);
+                for (int cy = yy - conv.pivoty, convy = 0; convy <conv.heigth; cy++, convy++) {//entramos loop convolucion
+                    for (int cx = xx - conv.pivotx, convx=0; convx <conv.width; cx++, convx++) {
                         try{
-                            co.operate( ( a,b) -> { return a+b;} , new Colorsin().assignRGB(imageActual.getRGB(cx, cy)).multiplicarConstante(conv.conv[cy][cx]));
+                            co = co.operate( ( a,b) -> { return a+b;} , new Colorsin().assignRGB(imageActual.getRGB(cx, cy)).multiplicarConstante(conv.conv[convy][convx]));
+                            //imageActual.getRGB(cx, cy);
                             num++;
+                            //System.out.println("Convolucione "+cx+","+cy);
                         }catch(Exception ex){
                             //si me salgo de la matriz no hago nada
-                            System.out.println(" en aplicar convolucion "+cx+","+cy+"    /"+ ex.getMessage());
+                            //System.out.println(" en aplicar convolucion "+cx+","+cy+"    /"+ ex.getMessage()+ "cause "+ ex.getCause());
                         }
                     }
-                }//Salimos loop convolucion 
-                co.multiplicarConstante(1/num);
-                co.clamp();
-                imageActual.setRGB(xx, yy, co.toRGB());
+                }//Salimos loop convolucion
+                //System.out.println("producto final "+xx+","+yy+" = "+co);
+                co = co.multiplicarConstante(1/num);
+                co = co.clamp();
+                out.setRGB(xx, yy, co.toRGB());
             }
         }
+        imageActual=out;
         return out;
         
     }
@@ -465,6 +471,9 @@ public class ProcesamientoImagen {
                 color[ii] = aux;
             }
             return this;
+        }
+        public String toString(){
+            return "Colorsin Red "+color[0] + "/Green "+color[1]+" /Blue "+color[2];
         }
     }
     
