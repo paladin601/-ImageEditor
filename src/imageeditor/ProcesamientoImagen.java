@@ -564,4 +564,23 @@ public class ProcesamientoImagen {
         return imageActual;
     }
     
+    public BufferedImage ZoomOut(){
+        int height,width,heightaux,widthaux;
+        height=imageActual.getHeight();
+        width=imageActual.getWidth();
+        heightaux=height /2;
+        widthaux=width /2;
+        BufferedImage aux=new BufferedImage(widthaux,heightaux,imageActual.getType());
+        int i , j,imod,jmod;
+        for(i=0;i<widthaux;i++){
+            imod=i*2;
+            for(j=0;j<heightaux;j++){
+               jmod=j*2;
+               aux.setRGB(i, j, imageActual.getRGB(imod,jmod));
+            }
+        }
+        imageActual=aux;
+        return imageActual;
+    }
+    
 }
