@@ -148,6 +148,53 @@ public class ProcesamientoImagen {
         formato=formatoinit;
         return imageActual;
     }
+    
+    public BufferedImage aplicarConvolucion(String conv_path){
+        Convolucion conv = cargarConvolucion(conv_path);
+        int newWidth = imageActual.getWidth() + imageActual.getHeight();
+        BufferedImage out = new BufferedImage(imageActual.getWidth(), imageActual.getHeight(), imageActual.getType());
+        for (int yy = 0; yy < out.getHeight(); yy++) {
+            for (int xx = 0; xx < out.getWidth(); xx++) {
+                float valor = 0;
+                for (int cy = yy - conv.pivoty; cy < conv.heigth; cy++) {
+                    for (int cx = xx - conv.pivotx; cx < conv.width; cx++) {
+                        
+                    }
+                }
+            }
+        }
+        return out;
+        
+    }
+    public Convolucion cargarConvolucion (String conv_name){
+        
+        Convolucion out = null; 
+        try(Scanner in = new Scanner(conv_name)){
+            String line = in.nextLine();
+            String[] split = line.split(" ");
+            out = new Convolucion(Integer.parseInt(split[0]), Integer.parseInt(split[1]), Integer.parseInt(split[2]), Integer.parseInt(split[3]));
+            for(int yy = 0; yy < out.heigth; yy ++){
+                split = in.nextLine().split(" ");
+                for (int xx = 0; xx < out.width; xx++) {
+                    out.conv[yy][xx] = Integer.parseInt(split[xx]);
+                    System.out.println(split[xx]);
+                }
+            }
+        }catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+        return out; 
+    }
+    
+    public BufferedImage operarImagenes(BufferedImage other, int alpha){
+        BufferedImage out = new BufferedImage(imageActual.getWidth(), imageActual.getHeight(), imageActual.getType());
+        
+        return out;
+    }
+//    public BufferedImage rotarLibre(){
+//        //BufferedImage out = new BufferedImage(imageA);
+//        
+//    }
 
     public void CambiarUmbral(int u){
        Umbral=u;
@@ -354,5 +401,35 @@ public class ProcesamientoImagen {
             }
         }
         return aux;
+    }
+    
+//    public class Colorsin{
+//        int red, green, blue, alpha;
+//        public Colorsin(int i, int i1, int i2) {
+//            super(i, i1, i2);
+//        }
+//    }
+    
+    public class Convolucion{
+        float[][] conv;
+        int pivotx, width;
+        int pivoty, heigth; 
+        float sum;
+        public Convolucion(int _width, int _heigth, int px, int py){
+            conv = new float[_heigth][_width];
+            width = _width;
+            heigth = _heigth;
+            pivotx = px;
+            pivoty = py;
+        }
+        public float getSum(){
+            float sum = 0;
+            for (int yy = 0; yy < heigth; yy++) {
+                for (int xx = 0; xx < width; xx++) {
+                    sum += conv[yy][xx];
+                }
+            }
+            return sum;
+        }
     }
 }
