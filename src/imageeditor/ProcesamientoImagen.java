@@ -154,14 +154,14 @@ public class ProcesamientoImagen {
         int newWidth = imageActual.getWidth() + imageActual.getHeight();
         BufferedImage out = new BufferedImage(imageActual.getWidth(), imageActual.getHeight(), imageActual.getType());
         
-//        float[] color = color
+        Colorsin co = new Colorsin();
         for (int yy = 0; yy < out.getHeight(); yy++) {
             for (int xx = 0; xx < out.getWidth(); xx++) {
                 float num = 0;
                 for (int cy = yy - conv.pivoty; cy < conv.heigth; cy++) {//entramos loop convolucion
                     for (int cx = xx - conv.pivotx; cx < conv.width; cx++) {
                         try{
-                            
+                            co.assignRGB(imageActual.getRGB(cx, cx));
                             num++;
                         }catch(Exception ex){
                             
@@ -386,14 +386,6 @@ public class ProcesamientoImagen {
         return aux; //retorno el string comprimido
     }
     
-    /*public float getRLE(){
-        int lastSeen, count;
-        for (int y = 0; y < imageActual.getHeight(); y++) {
-            for (int x = 0; x < imageActual.getWidth(); x++) {  
-            }
-        }
-    }*/
-    
     public BufferedImage copiarImagen(BufferedImage in){
         BufferedImage aux= new BufferedImage(in.getWidth(),in.getHeight(),in.getType());
         for (int i = 0; i < in.getWidth(); i++) {
@@ -416,9 +408,13 @@ public class ProcesamientoImagen {
             color[1] = green;
             color[2] = blue;
         }
+        public Colorsin(Colorsin co){
+            color = new int[4];
+            System.arraycopy(co.color, 0, this.color, 0, 3);
+        }
         public Colorsin(){
             color = new int[4];
-            color[0]=0;
+            color[0] =0;
             color[1]=0;
             color[2]=0;
         }
@@ -438,6 +434,31 @@ public class ProcesamientoImagen {
         }
         public Colorsin operate(IntOperation operation,Colorsin co){
             return new Colorsin(operation.op(this.color[0],co.color[0]), operation.op(this.color[1],co.color[1]), operation.op(this.color[2],co.color[2]));
+        }
+        public Colorsin sumarConstante(int cons){
+            Colorsin out = new Colorsin(this);
+            for (int ii = 0; ii < 4; ii++) {
+                out.color[ii]+=cons;
+            }
+            return out;
+        }
+        
+        public Colorsin multiplicarConstante(float cons){
+            Colorsin out = new Colorsin(this);
+            for (int ii = 0; ii < 4; ii++) {
+                out.color[ii] *= cons;
+            }
+            return out;
+        }
+        
+        public Colorsin clamp(){
+            for (int ii = 0; ii < 4; ii++) {
+                int aux = color[ii];
+                aux = (aux > 255) ? 255: aux;
+                aux = (aux < 0) ? 0: aux;
+                color[ii] = aux;
+            }
+            return this;
         }
     }
     
