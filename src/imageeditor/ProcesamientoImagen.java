@@ -153,14 +153,22 @@ public class ProcesamientoImagen {
         Convolucion conv = cargarConvolucion(conv_path);
         int newWidth = imageActual.getWidth() + imageActual.getHeight();
         BufferedImage out = new BufferedImage(imageActual.getWidth(), imageActual.getHeight(), imageActual.getType());
+        
+//        float[] color = color
         for (int yy = 0; yy < out.getHeight(); yy++) {
             for (int xx = 0; xx < out.getWidth(); xx++) {
-                float valor = 0;
-                for (int cy = yy - conv.pivoty; cy < conv.heigth; cy++) {
+                float num = 0;
+                for (int cy = yy - conv.pivoty; cy < conv.heigth; cy++) {//entramos loop convolucion
                     for (int cx = xx - conv.pivotx; cx < conv.width; cx++) {
-                        
+                        try{
+                            
+                            num++;
+                        }catch(Exception ex){
+                            
+                        }
                     }
-                }
+                }//Salimos loop convolucion 
+                
             }
         }
         return out;
@@ -340,12 +348,6 @@ public class ProcesamientoImagen {
         return size;
     }
     // Se puede combinar con las keys de ContarColores para hacer algo
-    public int[] extraerRGB(int color) {
-        return new int[] {    // rgba
-            // #FF son los primeros 8 bits a la derecha, de resto solo voy moviendo bits para tomar los que quiero
-            (color >> 16) & 0xF, (color >> 8) & 0xFF, (color) & 0xFF, (color >> 24) & 0xFF
-        };
-    }
     
     public BufferedImage RotarIzquierda() {
         BufferedImage out = new BufferedImage(imageActual.getHeight(), imageActual.getWidth(), imageActual.getType());
@@ -402,13 +404,41 @@ public class ProcesamientoImagen {
         }
         return aux;
     }
-    
-//    public class Colorsin{
-//        int red, green, blue, alpha;
-//        public Colorsin(int i, int i1, int i2) {
-//            super(i, i1, i2);
-//        }
-//    }
+    public interface IntOperation{
+        public int op(int a, int b);
+    }
+    public class Colorsin{
+        int[] color;
+        public Colorsin(int red, int green, int blue){
+            color = new int[4];
+            color[0] = red;
+            color[1] = green;
+            color[2] = blue;
+        }
+        public Colorsin(){
+            color = new int[4];
+            color[0]=0;
+            color[1]=0;
+            color[2]=0;
+        }
+        
+        public Color toColor(){
+            return new Color(color[0], color[1], color[2]);
+        }
+        
+        public int toRGB(){
+            return toColor().getRGB();
+        }
+        
+        public void assignRGB(int rgb){
+            color[2]= rgb & 0xFF;
+            color[1]= (rgb << 8) & 0xFF;
+            color[0]= (rgb << 16) & 0xFF;
+        }
+        public Colorsin operate(IntOperation operation,Colorsin co){
+            return new Colorsin(operation.op(this.color[0],co.color[0]), operation.op(this.color[1],co.color[1]), operation.op(this.color[2],co.color[2]));
+        }
+    }
     
     public class Convolucion{
         float[][] conv;
@@ -423,13 +453,13 @@ public class ProcesamientoImagen {
             pivoty = py;
         }
         public float getSum(){
-            float sum = 0;
+            this.sum = 0;
             for (int yy = 0; yy < heigth; yy++) {
                 for (int xx = 0; xx < width; xx++) {
-                    sum += conv[yy][xx];
+                    this.sum += conv[yy][xx];
                 }
             }
-            return sum;
+            return this.sum;
         }
     }
 }
