@@ -35,6 +35,8 @@ public class ImageEditor extends javax.swing.JFrame {
         UniqueColor = new javax.swing.JTextField();
         UmbralNumber = new javax.swing.JSpinner();
         jLabel3 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         UploadImage = new javax.swing.JMenuItem();
@@ -49,6 +51,7 @@ public class ImageEditor extends javax.swing.JFrame {
         Left = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -72,7 +75,7 @@ public class ImageEditor extends javax.swing.JFrame {
         Umbral.setPaintLabels(true);
         Umbral.setPaintTicks(true);
         Umbral.setValue(150);
-        Umbral.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Umbral.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         Umbral.setFocusable(false);
         Umbral.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
@@ -92,7 +95,7 @@ public class ImageEditor extends javax.swing.JFrame {
         UmbralNumber.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
         UmbralNumber.setModel(new javax.swing.SpinnerNumberModel(150, 0, 255, 1));
         UmbralNumber.setToolTipText("");
-        UmbralNumber.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        UmbralNumber.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         UmbralNumber.setFocusable(false);
         UmbralNumber.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
@@ -102,6 +105,10 @@ public class ImageEditor extends javax.swing.JFrame {
 
         jLabel3.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
         jLabel3.setText("Umbral");
+
+        jButton1.setText("jButton1");
+
+        jButton2.setText("jButton2");
 
         jMenu1.setText("Archivo");
         jMenu1.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
@@ -211,6 +218,19 @@ public class ImageEditor extends javax.swing.JFrame {
             }
         });
         jMenu2.add(jMenuItem1);
+
+        jMenuItem2.setText("Sobel");
+        jMenuItem2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenuItem2MouseClicked(evt);
+            }
+        });
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem2);
 
         jMenuBar1.add(jMenu2);
 
@@ -333,6 +353,16 @@ public class ImageEditor extends javax.swing.JFrame {
         jLabel1.setIcon(new ImageIcon(ObjProcesamiento.ZoomIn()));
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:ImageIcon(ObjProcesamiento.));
+         jLabel1.setIcon(new ImageIcon(ObjProcesamiento.aplicarConvolucion("C:\\Users\\FliaMejias\\Desktop\\-ImageEditor\\conv\\sobelhorinzontal.txt")));
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem2MouseClicked
+        // TODO add your handling code here:
+       jLabel1.setIcon(new ImageIcon(ObjProcesamiento.aplicarConvolucion("C:\\Users\\FliaMejias\\Desktop\\-ImageEditor\\conv\\sobelhorinzontal.txt")));
+    }//GEN-LAST:event_jMenuItem2MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -382,6 +412,8 @@ public class ImageEditor extends javax.swing.JFrame {
     private javax.swing.JSpinner UmbralNumber;
     private javax.swing.JTextField UniqueColor;
     private javax.swing.JMenuItem UploadImage;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -389,6 +421,7 @@ public class ImageEditor extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

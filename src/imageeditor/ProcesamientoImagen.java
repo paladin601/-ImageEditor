@@ -158,8 +158,8 @@ public class ProcesamientoImagen {
         for (int yy = 0; yy < out.getHeight(); yy++) {
             for (int xx = 0; xx < out.getWidth(); xx++) {
                 float num = 0;
-                for (int cy = yy - conv.pivoty; cy < conv.heigth; cy++) {//entramos loop convolucion
-                    for (int cx = xx - conv.pivotx; cx < conv.width; cx++) {
+                for (int cy = yy - conv.pivoty; cy < yy +conv.heigth; cy++) {//entramos loop convolucion
+                    for (int cx = xx - conv.pivotx; cx < xx +conv.width; cx++) {
                         try{
                             co.operate( ( a,b) -> { return a+b;} , new Colorsin().assignRGB(imageActual.getRGB(cx, cy)).multiplicarConstante(conv.conv[cy][cx]));
                             num++;
@@ -180,10 +180,11 @@ public class ProcesamientoImagen {
     public Convolucion cargarConvolucion (String conv_name){
         
         Convolucion out = null; 
-        try(Scanner in = new Scanner(conv_name)){
+        try(Scanner in = new Scanner(new File(conv_name))){
             String line = in.nextLine();
             String[] split = line.split(" ");
             out = new Convolucion(Integer.parseInt(split[0]), Integer.parseInt(split[1]), Integer.parseInt(split[2]), Integer.parseInt(split[3]));
+            System.out.println(out);
             for(int yy = 0; yy < out.heigth; yy ++){
                 split = in.nextLine().split(" ");
                 for (int xx = 0; xx < out.width; xx++) {
@@ -193,6 +194,7 @@ public class ProcesamientoImagen {
             }
         }catch(Exception ex){
             System.out.println(ex.getMessage());
+            System.out.println("NO cargoOOOooOoOoOooO");
         }
         return out; 
     }
@@ -244,6 +246,7 @@ public class ProcesamientoImagen {
     }
     
     public BufferedImage leerNETPBM(File path) throws IOException, Exception {
+        System.out.println(path);
         BufferedImage out;
         String  line;
         int width= -1,height= -1,imgType= -1;
@@ -470,6 +473,12 @@ public class ProcesamientoImagen {
         int pivotx, width;
         int pivoty, heigth; 
         float sum;
+        @Override
+        public String toString(){
+            String out = "";
+            out = out + "(width, "+width+") (heigth, "+heigth+") (pivotx, "+pivotx+") (pivoty,"+pivoty+")/n";
+            return out;
+        }
         public Convolucion(int _width, int _heigth, int px, int py){
             conv = new float[_heigth][_width];
             width = _width;
