@@ -69,11 +69,11 @@ public class ProcesamientoImagen {
         return bmp;
     }
 
-    public BufferedImage escalaGrises() {
+    public BufferedImage escalaGrises(boolean a) {
         int   mediaPixel, colorSRGB;
         Color colorAux;
+        BufferedImage aux= new BufferedImage(imageActual.getWidth(),imageActual.getHeight(),imageActual.getType());
         //formato pgm
-        formato = "P2";
         // Recorremos pixel a pixel
         for (int i = 0; i < imageActual.getWidth(); i++) {
             for (int j = 0; j < imageActual.getHeight(); j++) {
@@ -83,11 +83,15 @@ public class ProcesamientoImagen {
                 mediaPixel = (int) ((colorAux.getRed() + colorAux.getGreen() + colorAux.getBlue()) / 3);
                 colorSRGB = (mediaPixel << 16) | (mediaPixel << 8) | mediaPixel;
                 // Asignamos el nuevo valor al BufferedImage
-                imageActual.setRGB(i, j, colorSRGB);
+                aux.setRGB(i, j, colorSRGB);
             }
         }
         // Retornamos la imagen
-        return imageActual;
+        if(a==true){
+          formato = "P2";
+          imageActual=aux;
+        }
+        return aux;
     }
 
     public BufferedImage guardarImagen() {
@@ -183,6 +187,7 @@ public class ProcesamientoImagen {
         return out;
         
     }
+    
     public Convolucion cargarConvolucion (String conv_name){
         
         Convolucion out = null; 
@@ -222,28 +227,24 @@ public class ProcesamientoImagen {
     public BufferedImage BlancoYNegro(boolean a) {    // Ta mal
         int   Red;
         Color colorAux;
-        BufferedImage aux1,aux = null;
-        escalaGrises();
-        if(a==false){
-            aux=copiarImagen(imageActual);
-        }
-        formato = "P1";
+        BufferedImage aux;
+        aux= escalaGrises(false);
         // Recorremos la imagen píxel a píxel
-        for (int i = 0; i < imageActual.getWidth(); i++) {
-            for (int j = 0; j < imageActual.getHeight(); j++) {
+        for (int i = 0; i < aux.getWidth(); i++) {
+            for (int j = 0; j < aux.getHeight(); j++) {
                 // Almacenamos el color del píxel
-                colorAux = new Color(this.imageActual.getRGB(i, j));
+                colorAux = new Color(aux.getRGB(i, j));
                 Red= colorAux.getRed();
                 Red= (Red > Umbral)? 255: 0;
-                imageActual.setRGB(i, j, new Color(Red, Red, Red).getRGB());
+                aux.setRGB(i, j, new Color(Red, Red, Red).getRGB());
             }
         }
         // Retornamos la imagen
-        aux1=imageActual;
-        if(a==false){
+        if(a==true){
+            formato = "P1";
             imageActual=aux;
         }
-        return aux1;
+        return aux;
     }
 
     public BufferedImage Negativo(){
