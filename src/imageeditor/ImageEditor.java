@@ -37,6 +37,8 @@ public class ImageEditor extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jSlider1 = new javax.swing.JSlider();
+        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         UploadImage = new javax.swing.JMenuItem();
@@ -50,8 +52,9 @@ public class ImageEditor extends javax.swing.JFrame {
         Right = new javax.swing.JMenuItem();
         Left = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+        ZoomIn = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
+        Sobel = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -69,8 +72,8 @@ public class ImageEditor extends javax.swing.JFrame {
             }
         });
 
-        Umbral.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
-        Umbral.setMajorTickSpacing(50);
+        Umbral.setFont(new java.awt.Font("Times New Roman", 0, 10)); // NOI18N
+        Umbral.setMajorTickSpacing(255);
         Umbral.setMaximum(255);
         Umbral.setPaintLabels(true);
         Umbral.setPaintTicks(true);
@@ -109,6 +112,13 @@ public class ImageEditor extends javax.swing.JFrame {
         jButton1.setText("jButton1");
 
         jButton2.setText("jButton2");
+
+        jSlider1.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
+        jSlider1.setMajorTickSpacing(255);
+        jSlider1.setMaximum(255);
+        jSlider1.setPaintLabels(true);
+        jSlider1.setPaintTicks(true);
+        jSlider1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         jMenu1.setText("Archivo");
         jMenu1.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
@@ -209,9 +219,17 @@ public class ImageEditor extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setText("jMenu2");
+        jMenu2.setText("Tarea2");
 
-        jMenuItem1.setText("Zoom In x2");
+        ZoomIn.setText("Zoom In x2");
+        ZoomIn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ZoomInActionPerformed(evt);
+            }
+        });
+        jMenu2.add(ZoomIn);
+
+        jMenuItem1.setText("jMenuItem1");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem1ActionPerformed(evt);
@@ -219,18 +237,18 @@ public class ImageEditor extends javax.swing.JFrame {
         });
         jMenu2.add(jMenuItem1);
 
-        jMenuItem2.setText("Sobel");
-        jMenuItem2.addMouseListener(new java.awt.event.MouseAdapter() {
+        Sobel.setText("Sobel");
+        Sobel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jMenuItem2MouseClicked(evt);
+                SobelMouseClicked(evt);
             }
         });
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+        Sobel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
+                SobelActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItem2);
+        jMenu2.add(Sobel);
 
         jMenuBar1.add(jMenu2);
 
@@ -248,21 +266,24 @@ public class ImageEditor extends javax.swing.JFrame {
                         .addGap(10, 10, 10)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(Umbral, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(UmbralNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 87, Short.MAX_VALUE)
+                                        .addComponent(Umbral, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(UmbralNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(76, 155, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                         .addComponent(jLabel2)
                                         .addGap(18, 18, 18)
                                         .addComponent(UniqueColor, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(0, 0, Short.MAX_VALUE)
-                                        .addComponent(Close))))
+                                    .addComponent(Close, javax.swing.GroupLayout.Alignment.TRAILING)))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel3)
-                                .addGap(0, 0, Short.MAX_VALUE)))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(filler1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(175, 175, 175)))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -271,18 +292,28 @@ public class ImageEditor extends javax.swing.JFrame {
                 .addGap(6, 6, 6)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel3)
-                .addGap(12, 12, 12)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(UmbralNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(UniqueColor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
-                        .addComponent(Close))
-                    .addComponent(Umbral, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                        .addComponent(jLabel3)
+                        .addGap(12, 12, 12))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(filler1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(UmbralNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(UniqueColor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(Umbral, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(Close)
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(12, Short.MAX_VALUE))))
         );
 
         pack();
@@ -320,7 +351,7 @@ public class ImageEditor extends javax.swing.JFrame {
     }//GEN-LAST:event_RemoveFiltersActionPerformed
 
     private void BlackAndWhiteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BlackAndWhiteActionPerformed
-        jLabel1.setIcon(new ImageIcon(ObjProcesamiento.BlancoYNegro()));
+        jLabel1.setIcon(new ImageIcon(ObjProcesamiento.BlancoYNegro(true)));
         UniqueColor.setText(ObjProcesamiento.ContarColores().toString());
     }//GEN-LAST:event_BlackAndWhiteActionPerformed
 
@@ -341,27 +372,33 @@ public class ImageEditor extends javax.swing.JFrame {
         int a = Umbral.getValue();
         UmbralNumber.setValue(a);
         ObjProcesamiento.CambiarUmbral(a);
+        jLabel1.setIcon(new ImageIcon(ObjProcesamiento.BlancoYNegro(false)));
     }//GEN-LAST:event_UmbralStateChanged
 
     private void UmbralNumberStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_UmbralNumberStateChanged
         int a = (Integer) UmbralNumber.getValue();
         Umbral.setValue(a);
         ObjProcesamiento.CambiarUmbral(a);
+        jLabel1.setIcon(new ImageIcon(ObjProcesamiento.BlancoYNegro(false)));
     }//GEN-LAST:event_UmbralNumberStateChanged
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    private void ZoomInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ZoomInActionPerformed
         jLabel1.setIcon(new ImageIcon(ObjProcesamiento.ZoomIn()));
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    }//GEN-LAST:event_ZoomInActionPerformed
 
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+    private void SobelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SobelActionPerformed
         // TODO add your handling code here:ImageIcon(ObjProcesamiento.));
          jLabel1.setIcon(new ImageIcon(ObjProcesamiento.aplicarConvolucion("C:\\Users\\FliaMejias\\Desktop\\-ImageEditor\\conv\\sobelhorinzontal.txt")));
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
+    }//GEN-LAST:event_SobelActionPerformed
 
-    private void jMenuItem2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem2MouseClicked
+    private void SobelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SobelMouseClicked
         // TODO add your handling code here:
        jLabel1.setIcon(new ImageIcon(ObjProcesamiento.aplicarConvolucion("C:\\Users\\FliaMejias\\Desktop\\-ImageEditor\\conv\\sobelhorinzontal.txt")));
-    }//GEN-LAST:event_jMenuItem2MouseClicked
+    }//GEN-LAST:event_SobelMouseClicked
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+       jLabel1.setIcon(new ImageIcon(ObjProcesamiento.ZoomOut()));
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -408,10 +445,13 @@ public class ImageEditor extends javax.swing.JFrame {
     private javax.swing.JMenuItem Right;
     private javax.swing.JMenu Rotate;
     private javax.swing.JMenuItem SaveAs;
+    private javax.swing.JMenuItem Sobel;
     private javax.swing.JSlider Umbral;
     private javax.swing.JSpinner UmbralNumber;
     private javax.swing.JTextField UniqueColor;
     private javax.swing.JMenuItem UploadImage;
+    private javax.swing.JMenuItem ZoomIn;
+    private javax.swing.Box.Filler filler1;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
@@ -421,7 +461,7 @@ public class ImageEditor extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSlider jSlider1;
     // End of variables declaration//GEN-END:variables
 }

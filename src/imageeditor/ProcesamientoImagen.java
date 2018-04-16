@@ -219,10 +219,14 @@ public class ProcesamientoImagen {
        Umbral=u;
     }
     
-    public BufferedImage BlancoYNegro() {    // Ta mal
+    public BufferedImage BlancoYNegro(boolean a) {    // Ta mal
         int   Red;
         Color colorAux;
-        imageActual = escalaGrises();
+        BufferedImage aux1,aux = null;
+        escalaGrises();
+        if(a==false){
+            aux=copiarImagen(imageActual);
+        }
         formato = "P1";
         // Recorremos la imagen píxel a píxel
         for (int i = 0; i < imageActual.getWidth(); i++) {
@@ -235,7 +239,11 @@ public class ProcesamientoImagen {
             }
         }
         // Retornamos la imagen
-        return imageActual;
+        aux1=imageActual;
+        if(a==false){
+            imageActual=aux;
+        }
+        return aux1;
     }
 
     public BufferedImage Negativo(){
