@@ -73,7 +73,6 @@ public class ProcesamientoImagen {
         int   mediaPixel, colorSRGB;
         Color colorAux;
         BufferedImage aux= new BufferedImage(imageActual.getWidth(),imageActual.getHeight(),imageActual.getType());
-        //formato pgm
         // Recorremos pixel a pixel
         for (int i = 0; i < imageActual.getWidth(); i++) {
             for (int j = 0; j < imageActual.getHeight(); j++) {
@@ -86,7 +85,7 @@ public class ProcesamientoImagen {
                 aux.setRGB(i, j, colorSRGB);
             }
         }
-        // Retornamos la imagen
+        // verificamos si es solo un cambio visual en la gui
         if(a==true){
           formato = "P2";
           imageActual=aux;
@@ -239,7 +238,7 @@ public class ProcesamientoImagen {
                 aux.setRGB(i, j, new Color(Red, Red, Red).getRGB());
             }
         }
-        // Retornamos la imagen
+        // verificamos si hay que guardar la imagen o solo fue un cambio visual en la gui
         if(a==true){
             formato = "P1";
             imageActual=aux;
@@ -416,9 +415,11 @@ public class ProcesamientoImagen {
         }
         return aux;
     }
+    
     public interface IntOperation{
         public int op(int a, int b);
     }
+    
     public class Colorsin{
         int[] color;
         public Colorsin(int red, int green, int blue){
