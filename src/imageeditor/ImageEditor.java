@@ -27,6 +27,7 @@ public class ImageEditor extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jMenuItem4 = new javax.swing.JMenuItem();
         jScrollPane1 = new javax.swing.JScrollPane();
         jLabel1 = new javax.swing.JLabel();
         Close = new javax.swing.JButton();
@@ -48,25 +49,29 @@ public class ImageEditor extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         UploadImage = new javax.swing.JMenuItem();
         SaveAs = new javax.swing.JMenuItem();
+        RemoveFilters = new javax.swing.JMenuItem();
         Filter = new javax.swing.JMenu();
         GrayScale = new javax.swing.JMenuItem();
         BlackAndWhite = new javax.swing.JMenuItem();
         Negative = new javax.swing.JMenuItem();
-        RemoveFilters = new javax.swing.JMenuItem();
         Rotate = new javax.swing.JMenu();
         Right = new javax.swing.JMenuItem();
         Left = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         ZoomIn = new javax.swing.JMenuItem();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        ZoomOut = new javax.swing.JMenuItem();
+        Umbralización = new javax.swing.JMenuItem();
         Sobel = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenuItem3 = new javax.swing.JMenuItem();
-        jMenuItem4 = new javax.swing.JMenuItem();
-        jMenuItem5 = new javax.swing.JMenuItem();
-        jMenuItem6 = new javax.swing.JMenuItem();
-        jMenuItem7 = new javax.swing.JMenuItem();
-        jMenuItem8 = new javax.swing.JMenuItem();
+        BrilloMenu = new javax.swing.JMenuItem();
+        contrasteMenu = new javax.swing.JMenuItem();
+        Roberts = new javax.swing.JMenuItem();
+        Prewitt = new javax.swing.JMenuItem();
+        laplaceGauss = new javax.swing.JMenuItem();
+        promedio = new javax.swing.JMenuItem();
+        mediana = new javax.swing.JMenuItem();
+        filtroCustom = new javax.swing.JMenuItem();
+
+        jMenuItem4.setText("jMenuItem4");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -191,6 +196,16 @@ public class ImageEditor extends javax.swing.JFrame {
         });
         jMenu1.add(SaveAs);
 
+        RemoveFilters.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        RemoveFilters.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
+        RemoveFilters.setText("Deshacer Filtros");
+        RemoveFilters.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RemoveFiltersActionPerformed(evt);
+            }
+        });
+        jMenu1.add(RemoveFilters);
+
         Filter.setText("Filtros");
         Filter.setEnabled(false);
         Filter.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
@@ -226,16 +241,6 @@ public class ImageEditor extends javax.swing.JFrame {
         });
         Filter.add(Negative);
 
-        RemoveFilters.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
-        RemoveFilters.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
-        RemoveFilters.setText("Deshacer Filtros");
-        RemoveFilters.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                RemoveFiltersActionPerformed(evt);
-            }
-        });
-        Filter.add(RemoveFilters);
-
         jMenu1.add(Filter);
 
         Rotate.setText("Rotar 90 grados");
@@ -267,6 +272,11 @@ public class ImageEditor extends javax.swing.JFrame {
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Tarea2");
+        jMenu2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenu2ActionPerformed(evt);
+            }
+        });
 
         ZoomIn.setText("Zoom In x2");
         ZoomIn.addActionListener(new java.awt.event.ActionListener() {
@@ -276,13 +286,21 @@ public class ImageEditor extends javax.swing.JFrame {
         });
         jMenu2.add(ZoomIn);
 
-        jMenuItem1.setText("Zoom Out x2");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        ZoomOut.setText("Zoom Out x2");
+        ZoomOut.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                ZoomOutActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItem1);
+        jMenu2.add(ZoomOut);
+
+        Umbralización.setText("Umbralización");
+        Umbralización.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                UmbralizaciónActionPerformed(evt);
+            }
+        });
+        jMenu2.add(Umbralización);
 
         Sobel.setText("Sobel");
         Sobel.addActionListener(new java.awt.event.ActionListener() {
@@ -292,41 +310,64 @@ public class ImageEditor extends javax.swing.JFrame {
         });
         jMenu2.add(Sobel);
 
-        jMenuItem2.setText("Brillo");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+        BrilloMenu.setText("Brillo");
+        BrilloMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
+                BrilloMenuActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItem2);
+        jMenu2.add(BrilloMenu);
 
-        jMenuItem3.setText("Contraste");
-        jMenu2.add(jMenuItem3);
-
-        jMenuItem4.setText("Robert");
-        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+        contrasteMenu.setText("Contraste");
+        contrasteMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem4ActionPerformed(evt);
+                contrasteMenuActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItem4);
+        jMenu2.add(contrasteMenu);
 
-        jMenuItem5.setText("Prewit");
-        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+        Roberts.setText("Roberts");
+        Roberts.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem5ActionPerformed(evt);
+                RobertsActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItem5);
+        jMenu2.add(Roberts);
 
-        jMenuItem6.setText("Laplaciano del Gaussiano");
-        jMenu2.add(jMenuItem6);
+        Prewitt.setText("Prewitt");
+        Prewitt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PrewittActionPerformed(evt);
+            }
+        });
+        jMenu2.add(Prewitt);
 
-        jMenuItem7.setText("Filtro promedio");
-        jMenu2.add(jMenuItem7);
+        laplaceGauss.setText("Laplaciano del Gaussiano");
+        laplaceGauss.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                laplaceGaussActionPerformed(evt);
+            }
+        });
+        jMenu2.add(laplaceGauss);
 
-        jMenuItem8.setText("Filtro mediana");
-        jMenu2.add(jMenuItem8);
+        promedio.setText("Filtro promedio");
+        promedio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                promedioActionPerformed(evt);
+            }
+        });
+        jMenu2.add(promedio);
+
+        mediana.setText("Filtro mediana");
+        mediana.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                medianaActionPerformed(evt);
+            }
+        });
+        jMenu2.add(mediana);
+
+        filtroCustom.setText("Filtro Custom");
+        jMenu2.add(filtroCustom);
 
         jMenuBar1.add(jMenu2);
 
@@ -471,10 +512,10 @@ public class ImageEditor extends javax.swing.JFrame {
     }//GEN-LAST:event_UmbralStateChanged
 
     private void UmbralNumberStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_UmbralNumberStateChanged
-        int a = (Integer) UmbralNumber.getValue();
+        /*int a = (Integer) UmbralNumber.getValue();
         Umbral.setValue(a);
         ObjProcesamiento.CambiarUmbral(a);
-        jLabel1.setIcon(new ImageIcon(ObjProcesamiento.BlancoYNegro(false)));
+        jLabel1.setIcon(new ImageIcon(ObjProcesamiento.BlancoYNegro(false)));*/
     }//GEN-LAST:event_UmbralNumberStateChanged
 
     private void ZoomInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ZoomInActionPerformed
@@ -482,13 +523,12 @@ public class ImageEditor extends javax.swing.JFrame {
     }//GEN-LAST:event_ZoomInActionPerformed
 
     private void SobelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SobelActionPerformed
-        // TODO add your handling code here:ImageIcon(ObjProcesamiento.));
          jLabel1.setIcon(new ImageIcon(ObjProcesamiento.aplicarConvolucion("conv\\sobelhorinzontal.txt")));
     }//GEN-LAST:event_SobelActionPerformed
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    private void ZoomOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ZoomOutActionPerformed
        jLabel1.setIcon(new ImageIcon(ObjProcesamiento.ZoomOut()));
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    }//GEN-LAST:event_ZoomOutActionPerformed
 
     private void ContrasteNumberStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_ContrasteNumberStateChanged
         // TODO add your handling code here:
@@ -498,17 +538,48 @@ public class ImageEditor extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_BrilloNumberStateChanged
 
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
+    private void BrilloMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BrilloMenuActionPerformed
+        // Brillooooo
+        jLabel1.setIcon(new ImageIcon(ObjProcesamiento.aplicarConvolucion("conv\\sobelhorinzontal.txt")));
+    }//GEN-LAST:event_BrilloMenuActionPerformed
 
-    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+    private void RobertsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RobertsActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem4ActionPerformed
+        jLabel1.setIcon(new ImageIcon(ObjProcesamiento.aplicarConvolucion("conv\\robertspositivo.txt")));
+    }//GEN-LAST:event_RobertsActionPerformed
 
-    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+    private void PrewittActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PrewittActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem5ActionPerformed
+        jLabel1.setIcon(new ImageIcon(ObjProcesamiento.aplicarConvolucion("conv\\prewitthorizontal.txt")));
+    }//GEN-LAST:event_PrewittActionPerformed
+
+    private void jMenu2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu2ActionPerformed
+        // TODO add your handling code here:
+        jLabel1.setIcon(new ImageIcon(ObjProcesamiento.aplicarConvolucion("conv\\sobelhorinzontal.txt")));
+    }//GEN-LAST:event_jMenu2ActionPerformed
+
+    private void promedioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_promedioActionPerformed
+        // TODO add your handling code here:
+        jLabel1.setIcon(new ImageIcon(ObjProcesamiento.aplicarConvolucion("conv\\promedio7.txt")));
+    }//GEN-LAST:event_promedioActionPerformed
+
+    private void laplaceGaussActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_laplaceGaussActionPerformed
+        // TODO add your handling code here:
+        jLabel1.setIcon(new ImageIcon(ObjProcesamiento.aplicarConvolucion("conv\\laplacegauss.txt")));
+    }//GEN-LAST:event_laplaceGaussActionPerformed
+
+    private void medianaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_medianaActionPerformed
+        // TODO add your handling code here:
+        jLabel1.setIcon(new ImageIcon(ObjProcesamiento.aplicarConvolucion("conv\\mediana.txt")));
+    }//GEN-LAST:event_medianaActionPerformed
+
+    private void contrasteMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contrasteMenuActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_contrasteMenuActionPerformed
+
+    private void UmbralizaciónActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UmbralizaciónActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_UmbralizaciónActionPerformed
 
     /**
      * @param args the command line arguments
@@ -547,6 +618,7 @@ public class ImageEditor extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem BlackAndWhite;
     private javax.swing.JSlider Brillo;
+    private javax.swing.JMenuItem BrilloMenu;
     private javax.swing.JSpinner BrilloNumber;
     private javax.swing.JButton Close;
     private javax.swing.JSlider Contraste;
@@ -555,17 +627,23 @@ public class ImageEditor extends javax.swing.JFrame {
     private javax.swing.JMenuItem GrayScale;
     private javax.swing.JMenuItem Left;
     private javax.swing.JMenuItem Negative;
+    private javax.swing.JMenuItem Prewitt;
     private javax.swing.JMenuItem RemoveFilters;
     private javax.swing.JMenuItem Right;
+    private javax.swing.JMenuItem Roberts;
     private javax.swing.JMenu Rotate;
     private javax.swing.JMenuItem SaveAs;
     private javax.swing.JMenuItem Sobel;
     private javax.swing.JSlider Umbral;
     private javax.swing.JSpinner UmbralNumber;
+    private javax.swing.JMenuItem Umbralización;
     private javax.swing.JTextField UniqueColor;
     private javax.swing.JMenuItem UploadImage;
     private javax.swing.JMenuItem ZoomIn;
+    private javax.swing.JMenuItem ZoomOut;
+    private javax.swing.JMenuItem contrasteMenu;
     private javax.swing.Box.Filler filler1;
+    private javax.swing.JMenuItem filtroCustom;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
@@ -576,14 +654,10 @@ public class ImageEditor extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JMenuItem jMenuItem5;
-    private javax.swing.JMenuItem jMenuItem6;
-    private javax.swing.JMenuItem jMenuItem7;
-    private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JMenuItem laplaceGauss;
+    private javax.swing.JMenuItem mediana;
+    private javax.swing.JMenuItem promedio;
     // End of variables declaration//GEN-END:variables
 }

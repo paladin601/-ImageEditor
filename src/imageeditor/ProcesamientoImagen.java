@@ -177,7 +177,7 @@ public class ProcesamientoImagen {
                     }
                 }//Salimos loop convolucion
                 //System.out.println("producto final "+xx+","+yy+" = "+co);
-                co = co.multiplicarConstante(1/num);
+                //co = co.multiplicarConstante(1/num);
                 co = co.clamp();
                 out.setRGB(xx, yy, co.toRGB());
             }
