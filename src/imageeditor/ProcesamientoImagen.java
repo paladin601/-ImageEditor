@@ -23,6 +23,8 @@ public class ProcesamientoImagen {
     private int Umbral;
     private String formato;
     private String formatoinit;
+    private int brillo =0;
+    private int contraste=0;
 
     // Método que devuelve una imagen abierta desde archivo
     // Retorna un objeto BufferedImagen
@@ -601,5 +603,141 @@ public class ProcesamientoImagen {
         imageActual=aux;
         return imageActual;
     }
+   
+    public BufferedImage BrilloPN(boolean a){
+        if(brillo>0){
+            return BrilloPositive(a);
+        }else{
+            if(brillo<0){
+                return BrilloNegative(a);
+            }
+        }
+        return imageActual;
+    }    
+   
+    public void CambiarBrillo(int u){
+       brillo=u;
+    }
+   
+    public BufferedImage BrilloPositive(boolean a) {
+        Color colorAux;
+        int red,green,blue;
+        BufferedImage aux= new BufferedImage(imageActual.getWidth(),imageActual.getHeight(),imageActual.getType());
+        // Recorremos pixel a pixel
+        for (int i = 0; i < imageActual.getWidth(); i++) {
+            for (int j = 0; j < imageActual.getHeight(); j++) {
+                // Almacenamos color del pixel
+                colorAux = new Color(this.imageActual.getRGB(i, j));
+                // Calculamos la media de los tres colores RGB
+                red=colorAux.getRed()+brillo;
+                green=colorAux.getGreen()+brillo;
+                blue=colorAux.getBlue()+brillo;
+                red=(red>255)?255:red;
+                green=(green>255)?255:green;
+                blue=(blue>255)?255:blue;
+                // Asignamos el nuevo valor al BufferedImage
+                aux.setRGB(i, j, new Color(red,green,blue).getRGB());
+            }
+        }
+        // verificamos si es solo un cambio visual en la gui
+        if(a==true){
+          imageActual=aux;
+        }
+        return aux;
+    }
+    
+    public BufferedImage BrilloNegative(boolean a) {
+        Color colorAux;
+        int red,green,blue;
+        BufferedImage aux= new BufferedImage(imageActual.getWidth(),imageActual.getHeight(),imageActual.getType());
+        // Recorremos pixel a pixel
+        for (int i = 0; i < imageActual.getWidth(); i++) {
+            for (int j = 0; j < imageActual.getHeight(); j++) {
+                // Almacenamos color del pixel
+                colorAux = new Color(this.imageActual.getRGB(i, j));
+                // Calculamos la media de los tres colores RGB
+                red=colorAux.getRed()+brillo;
+                green=colorAux.getGreen()+brillo;
+                blue=colorAux.getBlue()+brillo;
+                red=(red<0)?0:red;
+                green=(green<0)?0:green;
+                blue=(blue<0)?0:blue;
+                // Asignamos el nuevo valor al BufferedImage
+                aux.setRGB(i, j, new Color(red,green,blue).getRGB());
+            }
+        }
+        // verificamos si es solo un cambio visual en la gui
+        if(a==true){
+          imageActual=aux;
+        }
+        return aux;
+    }
+    
+    public BufferedImage ContrastePN(boolean a){
+        if(contraste>1){
+            return ContrastePositive(a);
+        }else{
+            if(contraste<0){
+                return ContrasteNegative(a);
+            }
+        }
+        return imageActual;
+    }   
+    
+    public void CambiarContraste(int u){
+       contraste=u;
+    }
+    
+    public BufferedImage ContrastePositive(boolean a) {
+        Color colorAux;
+        int red,green,blue;
+        BufferedImage aux= new BufferedImage(imageActual.getWidth(),imageActual.getHeight(),imageActual.getType());
+        // Recorremos pixel a pixel
+        for (int i = 0; i < imageActual.getWidth(); i++) {
+            for (int j = 0; j < imageActual.getHeight(); j++) {
+                // Almacenamos color del pixel
+                colorAux = new Color(this.imageActual.getRGB(i, j));
+                // Calculamos la media de los tres colores RGB
+                red=colorAux.getRed()/contraste;
+                green=colorAux.getGreen()/contraste;
+                blue=colorAux.getBlue()/contraste;
+                // Asignamos el nuevo valor al BufferedImage
+                aux.setRGB(i, j, new Color(red,green,blue).getRGB());
+            }
+        }
+        // verificamos si es solo un cambio visual en la gui
+        if(a==true){
+          imageActual=aux;
+        }
+        return aux;
+    }
+    
+    public BufferedImage ContrasteNegative(boolean a) {
+        Color colorAux;
+        int red,green,blue;
+        BufferedImage aux= new BufferedImage(imageActual.getWidth(),imageActual.getHeight(),imageActual.getType());
+        // Recorremos pixel a pixel
+        for (int i = 0; i < imageActual.getWidth(); i++) {
+            for (int j = 0; j < imageActual.getHeight(); j++) {
+                // Almacenamos color del pixel
+                colorAux = new Color(this.imageActual.getRGB(i, j));
+                // Calculamos la media de los tres colores RGB
+                red=colorAux.getRed()*contraste*-1;
+                green=colorAux.getGreen()*contraste*-1;
+                blue=colorAux.getBlue()*contraste*-1;
+                red=(red>255)?255:red;
+                green=(green>255)?255:green;
+                blue=(blue>255)?255:blue;
+                // Asignamos el nuevo valor al BufferedImage
+                aux.setRGB(i, j, new Color(red,green,blue).getRGB());
+            }
+        }
+        // verificamos si es solo un cambio visual en la gui
+        if(a==true){
+          imageActual=aux;
+        }
+        return aux;
+    }
+    
     
 }

@@ -38,12 +38,12 @@ public class ImageEditor extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        Brillo = new javax.swing.JSlider();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
         Contraste = new javax.swing.JSlider();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         ContrasteNumber = new javax.swing.JSpinner();
+        Brillo = new javax.swing.JSlider();
         BrilloNumber = new javax.swing.JSpinner();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -96,6 +96,7 @@ public class ImageEditor extends javax.swing.JFrame {
         Umbral.setPaintTicks(true);
         Umbral.setValue(150);
         Umbral.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        Umbral.setEnabled(false);
         Umbral.setFocusable(false);
         Umbral.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
@@ -116,6 +117,7 @@ public class ImageEditor extends javax.swing.JFrame {
         UmbralNumber.setModel(new javax.swing.SpinnerNumberModel(150, 0, 255, 1));
         UmbralNumber.setToolTipText("");
         UmbralNumber.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        UmbralNumber.setEnabled(false);
         UmbralNumber.setFocusable(false);
         UmbralNumber.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
@@ -130,19 +132,20 @@ public class ImageEditor extends javax.swing.JFrame {
 
         jButton2.setText("jButton2");
 
-        Brillo.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
-        Brillo.setMajorTickSpacing(255);
-        Brillo.setMaximum(255);
-        Brillo.setPaintLabels(true);
-        Brillo.setPaintTicks(true);
-        Brillo.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-
         Contraste.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         Contraste.setMajorTickSpacing(255);
         Contraste.setMaximum(255);
+        Contraste.setMinimum(-255);
+        Contraste.setMinorTickSpacing(-255);
         Contraste.setPaintLabels(true);
         Contraste.setPaintTicks(true);
-        Contraste.setValue(150);
+        Contraste.setValue(0);
+        Contraste.setEnabled(false);
+        Contraste.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                ContrasteStateChanged(evt);
+            }
+        });
 
         jLabel4.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
         jLabel4.setText("Brillo");
@@ -151,9 +154,10 @@ public class ImageEditor extends javax.swing.JFrame {
         jLabel5.setText("Contraste");
 
         ContrasteNumber.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
-        ContrasteNumber.setModel(new javax.swing.SpinnerNumberModel(150, 0, 255, 1));
+        ContrasteNumber.setModel(new javax.swing.SpinnerNumberModel(0, -255, 255, 1));
         ContrasteNumber.setToolTipText("");
         ContrasteNumber.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        ContrasteNumber.setEnabled(false);
         ContrasteNumber.setFocusable(false);
         ContrasteNumber.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
@@ -161,10 +165,26 @@ public class ImageEditor extends javax.swing.JFrame {
             }
         });
 
+        Brillo.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
+        Brillo.setMajorTickSpacing(255);
+        Brillo.setMaximum(255);
+        Brillo.setMinimum(-255);
+        Brillo.setMinorTickSpacing(-255);
+        Brillo.setPaintLabels(true);
+        Brillo.setPaintTicks(true);
+        Brillo.setValue(0);
+        Brillo.setEnabled(false);
+        Brillo.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                BrilloStateChanged(evt);
+            }
+        });
+
         BrilloNumber.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
-        BrilloNumber.setModel(new javax.swing.SpinnerNumberModel(150, 0, 255, 1));
+        BrilloNumber.setModel(new javax.swing.SpinnerNumberModel(0, -255, 255, 1));
         BrilloNumber.setToolTipText("");
         BrilloNumber.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        BrilloNumber.setEnabled(false);
         BrilloNumber.setFocusable(false);
         BrilloNumber.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
@@ -399,15 +419,15 @@ public class ImageEditor extends javax.swing.JFrame {
                                         .addGap(18, 18, 18)
                                         .addComponent(UmbralNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(Brillo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(BrilloNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
                                         .addComponent(Contraste, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
                                         .addComponent(ContrasteNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(jLabel4)
-                                    .addComponent(jLabel5))))
+                                    .addComponent(jLabel5)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(Brillo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(BrilloNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                         .addGap(51, 51, 51))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(Close)
@@ -436,14 +456,11 @@ public class ImageEditor extends javax.swing.JFrame {
                     .addComponent(UmbralNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(25, 25, 25)
                 .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(Brillo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(BrilloNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(32, 32, 32)))
+                    .addComponent(Brillo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BrilloNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel5)
                 .addGap(15, 15, 15)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -466,9 +483,12 @@ public class ImageEditor extends javax.swing.JFrame {
             SaveAs.setEnabled(true);
             Filter.setEnabled(true);
             Rotate.setEnabled(true);
-            Umbral.setValue(150);
-            UmbralNumber.setValue(150);
-            ObjProcesamiento.CambiarUmbral(150);
+            Umbral.setEnabled(true);
+            UmbralNumber.setEnabled(true);
+            Brillo.setEnabled(true);
+            BrilloNumber.setEnabled(true);
+            Contraste.setEnabled(true);
+            ContrasteNumber.setEnabled(true);
             UniqueColor.setText(ObjProcesamiento.ContarColores().toString());
         }
     }//GEN-LAST:event_UploadImageActionPerformed
@@ -512,10 +532,10 @@ public class ImageEditor extends javax.swing.JFrame {
     }//GEN-LAST:event_UmbralStateChanged
 
     private void UmbralNumberStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_UmbralNumberStateChanged
-        /*int a = (Integer) UmbralNumber.getValue();
+        int a = (Integer) UmbralNumber.getValue();
         Umbral.setValue(a);
         ObjProcesamiento.CambiarUmbral(a);
-        jLabel1.setIcon(new ImageIcon(ObjProcesamiento.BlancoYNegro(false)));*/
+        jLabel1.setIcon(new ImageIcon(ObjProcesamiento.BlancoYNegro(false)));
     }//GEN-LAST:event_UmbralNumberStateChanged
 
     private void ZoomInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ZoomInActionPerformed
@@ -531,12 +551,11 @@ public class ImageEditor extends javax.swing.JFrame {
     }//GEN-LAST:event_ZoomOutActionPerformed
 
     private void ContrasteNumberStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_ContrasteNumberStateChanged
-        // TODO add your handling code here:
+        int a = (Integer) ContrasteNumber.getValue();
+        Contraste.setValue(a);
+        ObjProcesamiento.CambiarContraste(a);
+        jLabel1.setIcon(new ImageIcon(ObjProcesamiento.ContrastePN(false)));
     }//GEN-LAST:event_ContrasteNumberStateChanged
-
-    private void BrilloNumberStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_BrilloNumberStateChanged
-        // TODO add your handling code here:
-    }//GEN-LAST:event_BrilloNumberStateChanged
 
     private void BrilloMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BrilloMenuActionPerformed
         // Brillooooo
@@ -574,12 +593,33 @@ public class ImageEditor extends javax.swing.JFrame {
     }//GEN-LAST:event_medianaActionPerformed
 
     private void contrasteMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contrasteMenuActionPerformed
-        // TODO add your handling code here:
+        jLabel1.setIcon(new ImageIcon(ObjProcesamiento.ContrastePN(true)));
     }//GEN-LAST:event_contrasteMenuActionPerformed
 
     private void UmbralizaciónActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UmbralizaciónActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_UmbralizaciónActionPerformed
+
+    private void ContrasteStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_ContrasteStateChanged
+        int a = (Integer) Contraste.getValue();
+        ContrasteNumber.setValue(a);
+        ObjProcesamiento.CambiarContraste(a);
+        jLabel1.setIcon(new ImageIcon(ObjProcesamiento.ContrastePN(false)));
+    }//GEN-LAST:event_ContrasteStateChanged
+
+    private void BrilloStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_BrilloStateChanged
+        int a = (Integer) Brillo.getValue();
+        BrilloNumber.setValue(a);
+        ObjProcesamiento.CambiarBrillo(a);
+        jLabel1.setIcon(new ImageIcon(ObjProcesamiento.BrilloPN(false)));
+    }//GEN-LAST:event_BrilloStateChanged
+
+    private void BrilloNumberStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_BrilloNumberStateChanged
+        int a = (Integer) BrilloNumber.getValue();
+        Brillo.setValue(a);
+        ObjProcesamiento.CambiarBrillo(a);
+        jLabel1.setIcon(new ImageIcon(ObjProcesamiento.BrilloPN(false)));
+    }//GEN-LAST:event_BrilloNumberStateChanged
 
     /**
      * @param args the command line arguments
