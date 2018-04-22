@@ -3,6 +3,7 @@ package imageeditor;
 //~--- JDK imports ------------------------------------------------------------
 
 import java.awt.Color;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -17,8 +18,9 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class ProcesamientoImagen {
 
     // Imagen actual que se ha cargado
-    private BufferedImage imageActual;
-    private BufferedImage imageCopy;
+    private static BufferedImage imageActual;
+    private static BufferedImage imageCopy;
+    private static BufferedImage imageAnt;
     private int maxColores = 255;
     private int Umbral;
     private String formato;
@@ -55,6 +57,9 @@ public class ProcesamientoImagen {
                 if (ext.equals(".bmp")) {
                     bmp = ImageIO.read(imagenSeleccionada);
                     formato = "bmp";
+                    BufferedImage source = new BufferedImage(bmp.getWidth(),bmp.getHeight(), BufferedImage.TYPE_INT_RGB);
+                    source.getGraphics().drawImage(bmp, 0, 0, null);
+                    bmp=source;
                 } else {
                     formato=ext.equals(".pbm")?"P1":(ext.equals(".pgm")?"P2":"P3");
                     bmp = leerNETPBM(imagenSeleccionada);
@@ -739,5 +744,19 @@ public class ProcesamientoImagen {
         return aux;
     }
     
+    public static BufferedImage rotacionImagen(double grados,boolean a) {
+        BufferedImage aux;
+        //utilizo la copia porque el movimiento es relativo a la imagen que le paso se toma el centro si se usa la actual y se actualiza la actual explota jaja
+        ImageTransform imgtrans = new ImageTransform(imageActual.getHeight(), imageActual.getWidth());
+        imgtrans.cambiarGrados(grados);
+        imgtrans.findRotacion();
+        AffineTransformOp aux2 = new AffineTransformOp(imgtrans.getRotacion(), AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+        aux = aux2.createCompatibleDestImage(imageActual, imageActual.getColorModel());
+        aux=aux2.filter(imageActual, aux);
+        if(a==true){
+          imageActual=aux;
+        }
+        return aux;
+    }
     
 }
