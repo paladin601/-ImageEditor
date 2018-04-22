@@ -614,4 +614,22 @@ public class ProcesamientoImagen {
         return aux;
     }
     
+    public Integer getWidth(){
+        return imageActual.getWidth();
+    }
+    public Integer getHeight(){
+        return imageActual.getHeight();
+    }
+    
+    public String getDPI(){
+        float inch = (float) 2.54;
+        String dpi;
+        dpi = Math.ceil(imageActual.getWidth()/inch) + " x" + Math.ceil(imageActual.getHeight()/inch);
+        return dpi;
+    }
+    
+    public Integer getBitPixel(){
+       return ("P1".equals(formato))?1:("P2".equals(formato))?8:24;
+    }
+    
 }

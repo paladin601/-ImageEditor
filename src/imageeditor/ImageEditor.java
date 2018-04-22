@@ -55,7 +55,15 @@ public class ImageEditor extends javax.swing.JFrame {
         ContrastButtom = new javax.swing.JButton();
         RotacionButtom = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
-        UniqueColor1 = new javax.swing.JTextField();
+        DPI = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        Width = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        Height = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        BitsPixel = new javax.swing.JTextField();
+        jLabel12 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         UploadImage = new javax.swing.JMenuItem();
@@ -269,11 +277,44 @@ public class ImageEditor extends javax.swing.JFrame {
         jLabel7.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
         jLabel7.setText("DPI");
 
-        UniqueColor1.setEditable(false);
-        UniqueColor1.setBackground(new java.awt.Color(255, 255, 255));
-        UniqueColor1.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
-        UniqueColor1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        UniqueColor1.setFocusable(false);
+        DPI.setEditable(false);
+        DPI.setBackground(new java.awt.Color(255, 255, 255));
+        DPI.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
+        DPI.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        DPI.setFocusable(false);
+
+        jLabel8.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
+        jLabel8.setText("Dimensiones");
+
+        Width.setEditable(false);
+        Width.setBackground(new java.awt.Color(255, 255, 255));
+        Width.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
+        Width.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        Width.setFocusable(false);
+
+        jLabel9.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
+        jLabel9.setText("Ancho");
+
+        jLabel10.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
+        jLabel10.setText("Alto");
+
+        Height.setEditable(false);
+        Height.setBackground(new java.awt.Color(255, 255, 255));
+        Height.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
+        Height.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        Height.setFocusable(false);
+
+        jLabel11.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
+        jLabel11.setText("Bits por Pixel");
+
+        BitsPixel.setEditable(false);
+        BitsPixel.setBackground(new java.awt.Color(255, 255, 255));
+        BitsPixel.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
+        BitsPixel.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        BitsPixel.setFocusable(false);
+
+        jLabel12.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
+        jLabel12.setText("Colores");
 
         jMenu1.setText("Archivo");
         jMenu1.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
@@ -458,82 +499,108 @@ public class ImageEditor extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(filler1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(Close)
-                        .addGap(34, 34, 34))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(79, 79, 79)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(Rotacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(RotacionNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(RotacionButtom))
-                                    .addComponent(jLabel3)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(Umbral, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(UmbralNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(UmbralButtom))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(Contraste, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(ContrasteNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(ContrastButtom))
-                                    .addComponent(jLabel4)
-                                    .addComponent(jLabel5)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(Brillo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(BrilloNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(BrilloButtom))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel6)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(RotacionCheck))))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addComponent(jScrollPane1)
+                        .addGap(35, 35, 35)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(Umbral, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(UmbralNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(UmbralButtom))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(Contraste, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(ContrasteNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(ContrastButtom))
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel5)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(Brillo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(BrilloNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(BrilloButtom))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addGap(18, 18, 18)
+                                .addComponent(RotacionCheck))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(Rotacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(RotacionNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(RotacionButtom))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel11))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(BitsPixel, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(UniqueColor, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.LEADING))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(filler1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(52, 52, 52)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel8)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel7)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(UniqueColor1, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel2)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(UniqueColor, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                        .addContainerGap(80, Short.MAX_VALUE))))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel9)
+                                            .addComponent(jLabel7))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(Width, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(16, 16, 16)
+                                                .addComponent(jLabel10)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(Height, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(DPI, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                        .addGap(467, 467, 467)
+                        .addComponent(Close)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(6, 6, 6)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 362, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(UniqueColor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(filler1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 82, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(Width, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Height, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(UniqueColor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(DPI, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(UniqueColor1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                            .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(BitsPixel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Close)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
+                        .addComponent(filler1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(40, 40, 40)))
+                .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel3)
@@ -569,9 +636,7 @@ public class ImageEditor extends javax.swing.JFrame {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(RotacionNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(RotacionButtom)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 138, Short.MAX_VALUE)
-                .addComponent(Close)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -579,26 +644,42 @@ public class ImageEditor extends javax.swing.JFrame {
    
     private void GrayScaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GrayScaleActionPerformed
         jLabel1.setIcon(new ImageIcon(ObjProcesamiento.escalaGrises(true)));
-        UniqueColor.setText(ObjProcesamiento.ContarColores().toString());
+        ColorUnique();
     }//GEN-LAST:event_GrayScaleActionPerformed
 
+   private void EnabledInit(){
+        SaveAs.setEnabled(true);
+        Filter.setEnabled(true);
+        Rotate.setEnabled(true);
+        Umbral.setEnabled(true);
+        UmbralNumber.setEnabled(true);
+        UmbralButtom.setEnabled(true);
+        Brillo.setEnabled(true);
+        BrilloNumber.setEnabled(true);
+        BrilloButtom.setEnabled(true);
+        Contraste.setEnabled(true);
+        ContrasteNumber.setEnabled(true);
+        ContrastButtom.setEnabled(true);
+        RotacionCheck.setEnabled(true);
+   }
+    
+   private void WidthHeight(){
+       Width.setText(ObjProcesamiento.getWidth().toString());
+       Height.setText(ObjProcesamiento.getHeight().toString());
+       DPI.setText(ObjProcesamiento.getDPI());
+   }
+   
+   private void ColorUnique(){
+       UniqueColor.setText(ObjProcesamiento.ContarColores().toString());
+       BitsPixel.setText(ObjProcesamiento.getBitPixel().toString());
+   }
+   
     private void UploadImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UploadImageActionPerformed
         jLabel1.setIcon(new ImageIcon(ObjProcesamiento.abrirImagen()));
         if(ObjProcesamiento.imagenCargada()){
-            SaveAs.setEnabled(true);
-            Filter.setEnabled(true);
-            Rotate.setEnabled(true);
-            Umbral.setEnabled(true);
-            UmbralNumber.setEnabled(true);
-            UmbralButtom.setEnabled(true);
-            Brillo.setEnabled(true);
-            BrilloNumber.setEnabled(true);
-            BrilloButtom.setEnabled(true);
-            Contraste.setEnabled(true);
-            ContrasteNumber.setEnabled(true);
-            ContrastButtom.setEnabled(true);
-            RotacionCheck.setEnabled(true);
-            UniqueColor.setText(ObjProcesamiento.ContarColores().toString());
+            EnabledInit();
+            WidthHeight();
+            ColorUnique();
         }
     }//GEN-LAST:event_UploadImageActionPerformed
 
@@ -612,25 +693,28 @@ public class ImageEditor extends javax.swing.JFrame {
 
     private void RemoveFiltersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RemoveFiltersActionPerformed
         jLabel1.setIcon(new ImageIcon(ObjProcesamiento.RemoverFiltros()));
-        UniqueColor.setText(ObjProcesamiento.ContarColores().toString());
+        WidthHeight();
+        ColorUnique();
     }//GEN-LAST:event_RemoveFiltersActionPerformed
 
     private void BlackAndWhiteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BlackAndWhiteActionPerformed
         jLabel1.setIcon(new ImageIcon(ObjProcesamiento.BlancoYNegro(true)));
-        UniqueColor.setText(ObjProcesamiento.ContarColores().toString());
+        ColorUnique();
     }//GEN-LAST:event_BlackAndWhiteActionPerformed
 
     private void NegativeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NegativeActionPerformed
        jLabel1.setIcon(new ImageIcon(ObjProcesamiento.Negativo()));
-       UniqueColor.setText(ObjProcesamiento.ContarColores().toString());
+        ColorUnique();
     }//GEN-LAST:event_NegativeActionPerformed
 
     private void RightActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RightActionPerformed
         jLabel1.setIcon(new ImageIcon(ObjProcesamiento.RotarDerecha()));
+        WidthHeight();
     }//GEN-LAST:event_RightActionPerformed
 
     private void LeftActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LeftActionPerformed
         jLabel1.setIcon(new ImageIcon(ObjProcesamiento.RotarIzquierda()));
+        WidthHeight();
     }//GEN-LAST:event_LeftActionPerformed
 
     private void UmbralStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_UmbralStateChanged
@@ -649,14 +733,17 @@ public class ImageEditor extends javax.swing.JFrame {
 
     private void ZoomInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ZoomInActionPerformed
         jLabel1.setIcon(new ImageIcon(ObjProcesamiento.ZoomIn()));
+        WidthHeight();
     }//GEN-LAST:event_ZoomInActionPerformed
 
     private void SobelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SobelActionPerformed
-         jLabel1.setIcon(new ImageIcon(ObjProcesamiento.aplicarConvolucion("conv\\sobelhorinzontal.txt")));
+        jLabel1.setIcon(new ImageIcon(ObjProcesamiento.aplicarConvolucion("conv\\sobelhorinzontal.txt")));
+        ColorUnique();
     }//GEN-LAST:event_SobelActionPerformed
 
     private void ZoomOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ZoomOutActionPerformed
        jLabel1.setIcon(new ImageIcon(ObjProcesamiento.ZoomOut()));
+       WidthHeight();
     }//GEN-LAST:event_ZoomOutActionPerformed
 
     private void ContrasteNumberStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_ContrasteNumberStateChanged
@@ -669,31 +756,37 @@ public class ImageEditor extends javax.swing.JFrame {
     private void RobertsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RobertsActionPerformed
         // TODO add your handling code here:
         jLabel1.setIcon(new ImageIcon(ObjProcesamiento.aplicarConvolucion("conv\\robertspositivo.txt")));
+        ColorUnique();
     }//GEN-LAST:event_RobertsActionPerformed
 
     private void PrewittActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PrewittActionPerformed
         // TODO add your handling code here:
         jLabel1.setIcon(new ImageIcon(ObjProcesamiento.aplicarConvolucion("conv\\prewitthorizontal.txt")));
+        ColorUnique();
     }//GEN-LAST:event_PrewittActionPerformed
 
     private void jMenu2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu2ActionPerformed
         // TODO add your handling code here:
         jLabel1.setIcon(new ImageIcon(ObjProcesamiento.aplicarConvolucion("conv\\sobelhorinzontal.txt")));
+        ColorUnique();
     }//GEN-LAST:event_jMenu2ActionPerformed
 
     private void promedioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_promedioActionPerformed
         // TODO add your handling code here:
         jLabel1.setIcon(new ImageIcon(ObjProcesamiento.aplicarConvolucion("conv\\promedio7.txt")));
+        ColorUnique();
     }//GEN-LAST:event_promedioActionPerformed
 
     private void laplaceGaussActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_laplaceGaussActionPerformed
         // TODO add your handling code here:
         jLabel1.setIcon(new ImageIcon(ObjProcesamiento.aplicarConvolucion("conv\\laplacegauss.txt")));
+        ColorUnique();
     }//GEN-LAST:event_laplaceGaussActionPerformed
 
     private void medianaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_medianaActionPerformed
         // TODO add your handling code here:
         jLabel1.setIcon(new ImageIcon(ObjProcesamiento.aplicarMediana(3, 3, 1, 1)));
+        ColorUnique();
     }//GEN-LAST:event_medianaActionPerformed
 
     private void ContrasteStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_ContrasteStateChanged
@@ -721,6 +814,7 @@ public class ImageEditor extends javax.swing.JFrame {
         int a = (int) Rotacion.getValue();
         RotacionNumber.setValue(a);
         jLabel1.setIcon(new ImageIcon(ObjProcesamiento.rotacionImagen((double) a,false)));
+        WidthHeight();
     }//GEN-LAST:event_RotacionStateChanged
 
     private void RotacionNumberStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_RotacionNumberStateChanged
@@ -731,7 +825,7 @@ public class ImageEditor extends javax.swing.JFrame {
 
     private void UmbralButtomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UmbralButtomActionPerformed
         jLabel1.setIcon(new ImageIcon(ObjProcesamiento.BlancoYNegro(true)));
-        UniqueColor.setText(ObjProcesamiento.ContarColores().toString());
+        ColorUnique();
     }//GEN-LAST:event_UmbralButtomActionPerformed
 
     private void RotacionCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RotacionCheckActionPerformed
@@ -744,16 +838,17 @@ public class ImageEditor extends javax.swing.JFrame {
     private void RotacionButtomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RotacionButtomActionPerformed
         double a = (double) Rotacion.getValue();
         jLabel1.setIcon(new ImageIcon(ObjProcesamiento.rotacionImagen(a,true)));
+        WidthHeight();
     }//GEN-LAST:event_RotacionButtomActionPerformed
 
     private void ContrastButtomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ContrastButtomActionPerformed
         jLabel1.setIcon(new ImageIcon(ObjProcesamiento.ContrastePN(true)));
-        UniqueColor.setText(ObjProcesamiento.ContarColores().toString());
+        ColorUnique();
     }//GEN-LAST:event_ContrastButtomActionPerformed
 
     private void BrilloButtomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BrilloButtomActionPerformed
         jLabel1.setIcon(new ImageIcon(ObjProcesamiento.BrilloPN(true)));
-        UniqueColor.setText(ObjProcesamiento.ContarColores().toString());
+        ColorUnique();
     }//GEN-LAST:event_BrilloButtomActionPerformed
 
     /**
@@ -791,6 +886,7 @@ public class ImageEditor extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField BitsPixel;
     private javax.swing.JMenuItem BlackAndWhite;
     private javax.swing.JSlider Brillo;
     private javax.swing.JButton BrilloButtom;
@@ -799,8 +895,10 @@ public class ImageEditor extends javax.swing.JFrame {
     private javax.swing.JButton ContrastButtom;
     private javax.swing.JSlider Contraste;
     private javax.swing.JSpinner ContrasteNumber;
+    private javax.swing.JTextField DPI;
     private javax.swing.JMenu Filter;
     private javax.swing.JMenuItem GrayScale;
+    private javax.swing.JTextField Height;
     private javax.swing.JMenuItem Left;
     private javax.swing.JMenuItem Negative;
     private javax.swing.JMenuItem Prewitt;
@@ -818,8 +916,8 @@ public class ImageEditor extends javax.swing.JFrame {
     private javax.swing.JButton UmbralButtom;
     private javax.swing.JSpinner UmbralNumber;
     private javax.swing.JTextField UniqueColor;
-    private javax.swing.JTextField UniqueColor1;
     private javax.swing.JMenuItem UploadImage;
+    private javax.swing.JTextField Width;
     private javax.swing.JMenuItem ZoomIn;
     private javax.swing.JMenuItem ZoomOut;
     private javax.swing.Box.Filler filler1;
@@ -827,12 +925,17 @@ public class ImageEditor extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
