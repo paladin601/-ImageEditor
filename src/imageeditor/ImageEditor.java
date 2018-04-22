@@ -71,10 +71,7 @@ public class ImageEditor extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
         ZoomIn = new javax.swing.JMenuItem();
         ZoomOut = new javax.swing.JMenuItem();
-        Umbralización = new javax.swing.JMenuItem();
         Sobel = new javax.swing.JMenuItem();
-        BrilloMenu = new javax.swing.JMenuItem();
-        contrasteMenu = new javax.swing.JMenuItem();
         Roberts = new javax.swing.JMenuItem();
         Prewitt = new javax.swing.JMenuItem();
         laplaceGauss = new javax.swing.JMenuItem();
@@ -144,10 +141,9 @@ public class ImageEditor extends javax.swing.JFrame {
         jButton2.setText("jButton2");
 
         Contraste.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
-        Contraste.setMajorTickSpacing(255);
-        Contraste.setMaximum(255);
-        Contraste.setMinimum(-255);
-        Contraste.setMinorTickSpacing(-255);
+        Contraste.setMajorTickSpacing(100);
+        Contraste.setMinimum(-100);
+        Contraste.setMinorTickSpacing(-100);
         Contraste.setPaintLabels(true);
         Contraste.setPaintTicks(true);
         Contraste.setValue(0);
@@ -165,7 +161,7 @@ public class ImageEditor extends javax.swing.JFrame {
         jLabel5.setText("Contraste");
 
         ContrasteNumber.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
-        ContrasteNumber.setModel(new javax.swing.SpinnerNumberModel(0, -255, 255, 1));
+        ContrasteNumber.setModel(new javax.swing.SpinnerNumberModel(0, -100, 100, 1));
         ContrasteNumber.setToolTipText("");
         ContrasteNumber.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         ContrasteNumber.setEnabled(false);
@@ -401,14 +397,6 @@ public class ImageEditor extends javax.swing.JFrame {
         });
         jMenu2.add(ZoomOut);
 
-        Umbralización.setText("Umbralización");
-        Umbralización.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                UmbralizaciónActionPerformed(evt);
-            }
-        });
-        jMenu2.add(Umbralización);
-
         Sobel.setText("Sobel");
         Sobel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -416,22 +404,6 @@ public class ImageEditor extends javax.swing.JFrame {
             }
         });
         jMenu2.add(Sobel);
-
-        BrilloMenu.setText("Brillo");
-        BrilloMenu.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BrilloMenuActionPerformed(evt);
-            }
-        });
-        jMenu2.add(BrilloMenu);
-
-        contrasteMenu.setText("Contraste");
-        contrasteMenu.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                contrasteMenuActionPerformed(evt);
-            }
-        });
-        jMenu2.add(contrasteMenu);
 
         Roberts.setText("Roberts");
         Roberts.addActionListener(new java.awt.event.ActionListener() {
@@ -694,11 +666,6 @@ public class ImageEditor extends javax.swing.JFrame {
         jLabel1.setIcon(new ImageIcon(ObjProcesamiento.ContrastePN(false)));
     }//GEN-LAST:event_ContrasteNumberStateChanged
 
-    private void BrilloMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BrilloMenuActionPerformed
-        // Brillooooo
-        jLabel1.setIcon(new ImageIcon(ObjProcesamiento.aplicarConvolucion("conv\\sobelhorinzontal.txt")));
-    }//GEN-LAST:event_BrilloMenuActionPerformed
-
     private void RobertsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RobertsActionPerformed
         // TODO add your handling code here:
         jLabel1.setIcon(new ImageIcon(ObjProcesamiento.aplicarConvolucion("conv\\robertspositivo.txt")));
@@ -728,14 +695,6 @@ public class ImageEditor extends javax.swing.JFrame {
         // TODO add your handling code here:
         jLabel1.setIcon(new ImageIcon(ObjProcesamiento.aplicarMediana(3, 3, 1, 1)));
     }//GEN-LAST:event_medianaActionPerformed
-
-    private void contrasteMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contrasteMenuActionPerformed
-        jLabel1.setIcon(new ImageIcon(ObjProcesamiento.ContrastePN(true)));
-    }//GEN-LAST:event_contrasteMenuActionPerformed
-
-    private void UmbralizaciónActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UmbralizaciónActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_UmbralizaciónActionPerformed
 
     private void ContrasteStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_ContrasteStateChanged
         int a = (Integer) Contraste.getValue();
@@ -789,10 +748,12 @@ public class ImageEditor extends javax.swing.JFrame {
 
     private void ContrastButtomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ContrastButtomActionPerformed
         jLabel1.setIcon(new ImageIcon(ObjProcesamiento.ContrastePN(true)));
+        UniqueColor.setText(ObjProcesamiento.ContarColores().toString());
     }//GEN-LAST:event_ContrastButtomActionPerformed
 
     private void BrilloButtomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BrilloButtomActionPerformed
         jLabel1.setIcon(new ImageIcon(ObjProcesamiento.BrilloPN(true)));
+        UniqueColor.setText(ObjProcesamiento.ContarColores().toString());
     }//GEN-LAST:event_BrilloButtomActionPerformed
 
     /**
@@ -833,7 +794,6 @@ public class ImageEditor extends javax.swing.JFrame {
     private javax.swing.JMenuItem BlackAndWhite;
     private javax.swing.JSlider Brillo;
     private javax.swing.JButton BrilloButtom;
-    private javax.swing.JMenuItem BrilloMenu;
     private javax.swing.JSpinner BrilloNumber;
     private javax.swing.JButton Close;
     private javax.swing.JButton ContrastButtom;
@@ -857,13 +817,11 @@ public class ImageEditor extends javax.swing.JFrame {
     private javax.swing.JSlider Umbral;
     private javax.swing.JButton UmbralButtom;
     private javax.swing.JSpinner UmbralNumber;
-    private javax.swing.JMenuItem Umbralización;
     private javax.swing.JTextField UniqueColor;
     private javax.swing.JTextField UniqueColor1;
     private javax.swing.JMenuItem UploadImage;
     private javax.swing.JMenuItem ZoomIn;
     private javax.swing.JMenuItem ZoomOut;
-    private javax.swing.JMenuItem contrasteMenu;
     private javax.swing.Box.Filler filler1;
     private javax.swing.JMenuItem filtroCustom;
     private javax.swing.JButton jButton1;

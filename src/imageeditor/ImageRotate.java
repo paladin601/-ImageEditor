@@ -9,13 +9,13 @@ import java.awt.geom.Point2D;
  *
  * @author Leonardo
  */
-public class ImageTransform {
+public class ImageRotate {
     private final AffineTransform trasnf;
     private final int             height;
     private final int             width;
     private double                grados;
 
-    public ImageTransform(int alturaImagen, int anchuraImagen) {
+    public ImageRotate(int alturaImagen, int anchuraImagen) {
         trasnf = new AffineTransform();
         height = alturaImagen;
         width  = anchuraImagen;
