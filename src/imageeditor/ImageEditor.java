@@ -726,7 +726,7 @@ public class ImageEditor extends javax.swing.JFrame {
 
     private void medianaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_medianaActionPerformed
         // TODO add your handling code here:
-        jLabel1.setIcon(new ImageIcon(ObjProcesamiento.aplicarConvolucion("conv\\mediana.txt")));
+        jLabel1.setIcon(new ImageIcon(ObjProcesamiento.aplicarMediana(3, 3, 1, 1)));
     }//GEN-LAST:event_medianaActionPerformed
 
     private void contrasteMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contrasteMenuActionPerformed

@@ -42,7 +42,7 @@ public class ProcesamientoImagen {
         // Le damos un título
         selector.setDialogTitle("Seleccione una imagen");
         // Filtramos los tipos de archivos
-        FileNameExtensionFilter filtroImagen = new FileNameExtensionFilter("bmp , pbm , pgm y ppm", "pbm", "pgm", "ppm","bmp");
+        FileNameExtensionFilter filtroImagen = new FileNameExtensionFilter("bmp ,jpg, png pbm , pgm y ppm","jpg","png", "pbm", "pgm", "ppm","bmp");
         selector.setFileFilter(filtroImagen);
         // Abrimos el cuadro de diálog
         int flag = selector.showOpenDialog(null);
@@ -54,9 +54,9 @@ public class ProcesamientoImagen {
                 String ext= selector.getSelectedFile().getAbsolutePath();
                 ext = ext.substring(ext.lastIndexOf("."));
                 // Asignamos a la variable bmp la imagen leida
-                if (ext.equals(".bmp")) {
+                if (ext.equals(".bmp") || ext.equals(".png") || ext.equals(".jpg")) {
                     bmp = ImageIO.read(imagenSeleccionada);
-                    formato = "bmp";
+                    formato = ext;
                     BufferedImage source = new BufferedImage(bmp.getWidth(),bmp.getHeight(), BufferedImage.TYPE_INT_RGB);
                     source.getGraphics().drawImage(bmp, 0, 0, null);
                     bmp=source;
@@ -104,7 +104,7 @@ public class ProcesamientoImagen {
         JFileChooser selector = new JFileChooser();
         //cuadro para cargar imagen
         selector.setDialogTitle("Guardar Como");
-        FileNameExtensionFilter filtroImagen = new FileNameExtensionFilter("bmp , pbm , pgm y ppm", "pbm", "pgm", "ppm", "bmp");
+        FileNameExtensionFilter filtroImagen = new FileNameExtensionFilter("jpg, png ,bmp , pbm , pgm y ppm", "jpg","png" ,"pbm", "pgm", "ppm", "bmp");
         selector.setFileFilter(filtroImagen);
         int flag = selector.showSaveDialog(null);
         //verificar formato compatible
@@ -161,44 +161,34 @@ public class ProcesamientoImagen {
     
     public BufferedImage aplicarConvolucion(String conv_path){
         Convolucion conv = new Convolucion(conv_path);
-        int newWidth = imageActual.getWidth() + imageActual.getHeight();
         BufferedImage out = new BufferedImage(imageActual.getWidth(), imageActual.getHeight(), imageActual.getType());
-        
-        Colorsin co = null;
         for (int yy = 0; yy < out.getHeight(); yy++) {
             for (int xx = 0; xx < out.getWidth(); xx++) {
-                float num = 0;
-                co= new Colorsin();
                 
-                conv.absorb(imageActual, xx, yy);
-                
-                co = conv.getConvedValues().multiplicarConstante(1/conv.getConvSum());
-                co.clamp();
-                //System.out.println("Convolucionando-------------------------------------------- "+xx+","+yy);
-                /*
-                for (int cy = yy - conv.pivoty, convy = 0; convy <conv.heigth; cy++, convy++) {//entramos loop convolucion
-                    for (int cx = xx - conv.pivotx, convx=0; convx <conv.width; cx++, convx++) {
-                        try{
-                            co = co.operate( ( a,b) -> { return a+b;} , new Colorsin().assignRGB(imageActual.getRGB(cx, cy)).multiplicarConstante(conv.conv[convy][convx]));
-                            //imageActual.getRGB(cx, cy);
-                            num++;
-                            //System.out.println("Convolucione "+cx+","+cy);
-                        }catch(Exception ex){
-                            //si me salgo de la matriz no hago nada
-                            //System.out.println(" en aplicar convolucion "+cx+","+cy+"    /"+ ex.getMessage()+ "cause "+ ex.getCause());
-                        }
-                    }
-                }//Salimos loop convolucion
-                */
-                //System.out.println("producto final "+xx+","+yy+" = "+co);
-//                co = co.multiplicarConstante(1/num);
-//                co = co.clamp();
+                conv = conv.absorb(imageActual, xx, yy);     
+                Colorsin co = new Colorsin(conv.getConvedValues());
+                co = co.multiplicarConstante(1/conv.getConvSum());
+                co = co.clamp();
                 out.setRGB(xx, yy, co.toRGB());
+                
             }
         }
         imageActual=out;
         return out;
-        
+    }
+    public BufferedImage aplicarMediana(int sizeConvx, int sizeConvy, int pivotx, int pivoty){
+        BufferedImage out = new BufferedImage(imageActual.getWidth(), imageActual.getHeight(), imageActual.getType());
+        Convolucion conv = new Convolucion(sizeConvx,  sizeConvy,  pivotx,  pivoty);
+        for (int yy = 0; yy < out.getHeight(); yy++) {
+            for (int xx = 0; xx < out.getWidth(); xx++) {
+                conv = conv.absorb(imageActual, xx, yy);     
+                Colorsin co = new Colorsin(conv.mediana());
+                out.setRGB(xx, yy, co.toRGB());
+                
+            }
+        }
+        imageActual=out;
+        return out;
     }
     
     /*

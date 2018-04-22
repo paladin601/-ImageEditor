@@ -25,17 +25,17 @@ public class Colorsin {
     }
 
     public Colorsin(Colorsin co) {
-        color = new int[4];
+        color = new int[3];
         System.arraycopy(co.color, 0, this.color, 0, 3);
     }
 
     public Colorsin(int rgb) {
-        color = new int[4];
+        color = new int[3];
         assignRGB(rgb);
     }
 
     public Colorsin(int red, int green, int blue) {
-        color    = new int[4];
+        color    = new int[3];
         color[0] = red;
         color[1] = green;
         color[2] = blue;
@@ -67,7 +67,7 @@ public class Colorsin {
     public Colorsin sumarConstante(int cons) {
         Colorsin out = new Colorsin(this);
 
-        for (int ii = 0; ii < 4; ii++) {
+        for (int ii = 0; ii < 3; ii++) {
             out.color[ii] += cons;
         }
 
@@ -77,7 +77,7 @@ public class Colorsin {
     public Colorsin multiplicarConstante(float cons) {
         Colorsin out = new Colorsin(this);
 
-        for (int ii = 0; ii < 4; ii++) {
+        for (int ii = 0; ii < 3; ii++) {
             out.color[ii] *= cons;
         }
 
@@ -85,7 +85,7 @@ public class Colorsin {
     }
 
     public Colorsin clamp() {
-        for (int ii = 0; ii < 4; ii++) {
+        for (int ii = 0; ii < 3; ii++) {
             int aux = color[ii];
 
             aux       = (aux > 255)

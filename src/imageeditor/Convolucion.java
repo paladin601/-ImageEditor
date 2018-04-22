@@ -11,6 +11,7 @@ package imageeditor;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.ArrayList;
 
 import java.util.Arrays;
 import java.util.Scanner;
@@ -25,8 +26,8 @@ public class Convolucion {
     int notNullcolors;
     int          pivotx, width;
     int          pivoty, heigth;
-    Colorsin     asum, qsum;
-    float        sum;
+    Colorsin     absorbedSum, appliedConvolutionSum;
+    float        convolutionSum;
 
     public Convolucion(int _width, int _heigth, int px, int py) {
         conv    = new float[_heigth][_width];
@@ -73,48 +74,47 @@ public class Convolucion {
     }
 
     public float getConvSum() {
-        this.sum = 0;
+        this.convolutionSum = 0;
 
         for (int yy = 0; yy < heigth; yy++) {
             for (int xx = 0; xx < width; xx++) {
-                this.sum += conv[yy][xx];
+                if(colores[yy][xx] == null) continue;
+                this.convolutionSum += conv[yy][xx];
             }
         }
 
-        return this.sum;
+        return this.convolutionSum;
     }
 
     public Colorsin getAbsorbedSum() {
-        this.asum = new Colorsin();
+        this.absorbedSum = new Colorsin();
 
         for (int yy = 0; yy < heigth; yy++) {
             for (int xx = 0; xx < width; xx++) {
-                
-                 asum = asum.operate( (x,y) -> {return x+y;} , colores[yy][xx]);
+                if(colores[yy][xx] == null) continue;
+                 absorbedSum = absorbedSum.operate( (x,y) -> {return x+y;} , colores[yy][xx]);
             }
         }
 
-        return asum;
+        return absorbedSum;
     }
 
     public Colorsin getConvedValues() {
-        this.qsum = new Colorsin();
+        this.appliedConvolutionSum = new Colorsin();
         for (int yy = 0; yy < heigth; yy++) {
             for (int xx = 0; xx < width; xx++) {
-                try{
-                    qsum = qsum.operate( (x,y) -> {return x+y;} , colores[yy][xx].multiplicarConstante(conv[yy][xx]));
-                }catch(Exception ex){
-                    
-                }
+                if(colores[yy][xx] == null) continue;
+                appliedConvolutionSum = appliedConvolutionSum.operate( (x,y) -> {return x + y;} , colores[yy][xx].multiplicarConstante(conv[yy][xx]));
             }
         }
 
-        return qsum;
+        return appliedConvolutionSum;
     }
 
     public Convolucion clamp(){
-        for (int yy = 0; yy < colores.length; yy++) {
-            for (int xx = 0; xx < colores.length; yy++) {
+        for (int yy = 0; yy < heigth; yy++) {
+            for (int xx = 0; xx < width; yy++) {
+                if(colores[yy][xx] == null) continue;
                 colores[yy][xx] = colores[yy][xx].clamp();
             }
         }
@@ -130,7 +130,7 @@ public class Convolucion {
                     colores[convy][convx] = new Colorsin(in.getRGB(cx, cy));
                     this.notNullcolors++;
                 } catch (Exception ex) {
-                    colores[convy][convx] = new Colorsin();
+                    colores[convy][convx] = null;
                 }
             }
         }    // Salimos loop convolucion
@@ -139,15 +139,19 @@ public class Convolucion {
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////
-    public Colorsin media() {
+    public Colorsin mediana() {
         Colorsin out = new Colorsin();
-        int[][]  co  = new int[3][colores.length * colores[0].length];
+        int[][]  co  = new int[3][this.notNullcolors];
 
-        for (int auxii = 0, yy = 0; yy < colores.length; yy++, auxii++) {
-            for (int xx = 0; xx < colores[0].length; xx++) {
+        for (int auxii = 0, yy = 0; yy < heigth; yy++) {
+            for (int xx = 0; xx < width; xx++) {
+                if(colores[yy][xx] == null) continue;
+            
                 for (int cc = 0; cc < 3; cc++) {
                     co[cc][auxii] = colores[yy][xx].color[cc];
                 }
+                
+                auxii++;
             }
         }
 
@@ -165,7 +169,43 @@ public class Convolucion {
                 out.color[cc] = co[cc][pos];
             }
         }
+    
+//////////////////////////////////////////////////////////////
+        /*
+la implementacion de arriba sirve, pero ahora estoy poniendo los colores 
+//invalidos con null y no quiero que sean tomados en cuenta en la media
 
+       
+       // despues compacto esto
+    ArrayList<Integer> r,g,b;
+    r = new ArrayList<>();
+    g = new ArrayList<>();
+    b = new ArrayList<>();
+
+    for(int yy = 0; yy < heigth; yy++){
+        for (int xx = 0; xx < width; xx++) {
+            Colorsin co = colores[yy][xx];
+            if(co == null) continue;
+            r.add(co.color[0]);
+            g.add(co.color[1]);
+            b.add(co.color[2]);
+
+        }
+    }
+    
+    r.sort((x,y) -> {return x - y;});
+    g.sort((x,y) -> {return x - y;});
+    b.sort((x,y) -> {return x - y;});
+
+    int red = (r.size() % 2 == 0)? (r.get(r.size()/2) + r.get((r.size()/2)+1))/2 : r.get(r.size()/2);
+    int green = (g.size() % 2 == 0)? (g.get(r.size()/2) + g.get((g.size()/2)+1))/2 : g.get(r.size()/2);
+    int blue = (b.size() % 2 == 0)? (b.get(b.size()/2) + b.get((r.size()/2)+1))/2 : b.get(r.size()/2);
+
+    //me acabo de dar cuenta que con declarar el array con length notNullColor lo pude haber hecho
+    //comento esto y lo hago de nuevo....
+    
+    */
+        //return new Colorsin(red, green, blue);
         return out;
     }
 }
