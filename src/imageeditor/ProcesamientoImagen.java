@@ -184,7 +184,7 @@ public class ProcesamientoImagen {
                     }
                 }//Salimos loop convolucion
                 //System.out.println("producto final "+xx+","+yy+" = "+co);
-                //co = co.multiplicarConstante(1/num);
+                co = co.multiplicarConstante(1/num);
                 co = co.clamp();
                 out.setRGB(xx, yy, co.toRGB());
             }
@@ -192,6 +192,13 @@ public class ProcesamientoImagen {
         imageActual=out;
         return out;
         
+    }
+    
+    public BufferedImage filtroMedia(int sizex, int sizey, int pivotx, int pivoty){
+        BufferedImage out = new BufferedImage(imageActual.getWidth(), imageActual.getHeight(), imageActual.getType());
+        Convolucion conv = new Convolucion(sizex, sizey, pivotx, pivoty);//fill con 1s
+        
+        return out;
     }
     
     public Convolucion cargarConvolucion (String conv_name){
@@ -427,102 +434,6 @@ public class ProcesamientoImagen {
         public int op(int a, int b);
     }
     
-    public class Colorsin{
-        int[] color;
-        public Colorsin(int red, int green, int blue){
-            color = new int[4];
-            color[0] = red;
-            color[1] = green;
-            color[2] = blue;
-        }
-        public Colorsin(Colorsin co){
-            color = new int[4];
-            System.arraycopy(co.color, 0, this.color, 0, 3);
-        }
-        public Colorsin(){
-            color = new int[4];
-            color[0] =0;
-            color[1]=0;
-            color[2]=0;
-        }
-        
-        public Color toColor(){
-            return new Color(color[0], color[1], color[2]);
-        }
-        
-        public int toRGB(){
-            return toColor().getRGB();
-        }
-        
-        public Colorsin assignRGB(int rgb){
-            Color co = new Color(rgb);
-            color[2]= co.getBlue();
-            color[1]= co.getGreen();
-            color[0]= co.getRed();
-            return this;
-        }
-        public Colorsin operate(IntOperation operation,Colorsin co){
-            return new Colorsin(operation.op(this.color[0],co.color[0]), operation.op(this.color[1],co.color[1]), operation.op(this.color[2],co.color[2]));
-        }
-        public Colorsin sumarConstante(int cons){
-            Colorsin out = new Colorsin(this);
-            for (int ii = 0; ii < 4; ii++) {
-                out.color[ii]+=cons;
-            }
-            return out;
-        }
-        
-        public Colorsin multiplicarConstante(float cons){
-            Colorsin out = new Colorsin(this);
-            for (int ii = 0; ii < 4; ii++) {
-                out.color[ii] *= cons;
-            }
-            return out;
-        }
-        
-        public Colorsin clamp(){
-            for (int ii = 0; ii < 4; ii++) {
-                int aux = color[ii];
-                aux = (aux > 255) ? 255: aux;
-                aux = (aux < 0) ? 0: aux;
-                color[ii] = aux;
-            }
-            return this;
-        }
-        public String toString(){
-            return "Colorsin Red "+color[0] + "/Green "+color[1]+" /Blue "+color[2];
-        }
-    }
-    
-    public class Convolucion{
-        float[][] conv;
-        int pivotx, width;
-        int pivoty, heigth; 
-        float sum;
-        @Override
-        public String toString(){
-            String out = "";
-            out = out + "(width, "+width+") (heigth, "+heigth+") (pivotx, "+pivotx+") (pivoty,"+pivoty+")/n";
-            return out;
-        }
-        public Convolucion(int _width, int _heigth, int px, int py){
-            conv = new float[_heigth][_width];
-            width = _width;
-            heigth = _heigth;
-            pivotx = px;
-            pivoty = py;
-        }
-        public float getSum(){
-            this.sum = 0;
-            for (int yy = 0; yy < heigth; yy++) {
-                for (int xx = 0; xx < width; xx++) {
-                    this.sum += conv[yy][xx];
-                }
-            }
-            return this.sum;
-        }
-    }
-    
     public Color PromColor(Color aux1,Color aux2){
         Color aux=new Color((aux1.getRed()+aux2.getRed())/2 , (aux1.getGreen()+aux2.getGreen())/2, (aux1.getBlue()+aux2.getBlue())/2 );
         return aux;
@@ -659,6 +570,35 @@ public class ProcesamientoImagen {
         for (int i = 0; i < imageActual.getWidth(); i++) {
             for (int j = 0; j < imageActual.getHeight(); j++) {
                 // Almacenamos color del pixel
+                colorAux = new Color(this.imageActual.getRGB(i, j));
+                // Calculamos la media de los tres colores RGB
+                red=colorAux.getRed()+brillo;
+                green=colorAux.getGreen()+brillo;
+                blue=colorAux.getBlue()+brillo;
+                red=(red<0)?0:red;
+                green=(green<0)?0:green;
+                blue=(blue<0)?0:blue;
+                // Asignamos el nuevo valor al BufferedImage
+                aux.setRGB(i, j, new Color(red,green,blue).getRGB());
+            }
+        }
+        // verificamos si es solo un cambio visual en la gui
+        if(a==true){
+          imageActual=aux;
+        }
+        return aux;
+    }
+    
+        public BufferedImage Brillo(boolean a) {
+        Color colorAux;
+        Colorsin auxColorsin = new Colorsin();
+        int red,green,blue;
+        BufferedImage aux= new BufferedImage(imageActual.getWidth(),imageActual.getHeight(),imageActual.getType());
+        // Recorremos pixel a pixel
+        for (int i = 0; i < imageActual.getWidth(); i++) {
+            for (int j = 0; j < imageActual.getHeight(); j++) {
+                // Almacenamos color del pixel
+                 
                 colorAux = new Color(this.imageActual.getRGB(i, j));
                 // Calculamos la media de los tres colores RGB
                 red=colorAux.getRed()+brillo;
