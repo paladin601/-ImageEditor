@@ -160,7 +160,7 @@ public class ProcesamientoImagen {
     }
     
     public BufferedImage aplicarConvolucion(String conv_path){
-        Convolucion conv = cargarConvolucion(conv_path);
+        Convolucion conv = new Convolucion(conv_path);
         int newWidth = imageActual.getWidth() + imageActual.getHeight();
         BufferedImage out = new BufferedImage(imageActual.getWidth(), imageActual.getHeight(), imageActual.getType());
         
@@ -169,7 +169,13 @@ public class ProcesamientoImagen {
             for (int xx = 0; xx < out.getWidth(); xx++) {
                 float num = 0;
                 co= new Colorsin();
+                
+                conv.absorb(imageActual, xx, yy);
+                
+                co = conv.getConvedValues().multiplicarConstante(1/conv.getConvSum());
+                co.clamp();
                 //System.out.println("Convolucionando-------------------------------------------- "+xx+","+yy);
+                /*
                 for (int cy = yy - conv.pivoty, convy = 0; convy <conv.heigth; cy++, convy++) {//entramos loop convolucion
                     for (int cx = xx - conv.pivotx, convx=0; convx <conv.width; cx++, convx++) {
                         try{
@@ -183,9 +189,10 @@ public class ProcesamientoImagen {
                         }
                     }
                 }//Salimos loop convolucion
+                */
                 //System.out.println("producto final "+xx+","+yy+" = "+co);
-                co = co.multiplicarConstante(1/num);
-                co = co.clamp();
+//                co = co.multiplicarConstante(1/num);
+//                co = co.clamp();
                 out.setRGB(xx, yy, co.toRGB());
             }
         }
@@ -194,6 +201,36 @@ public class ProcesamientoImagen {
         
     }
     
+    /*
+    public BufferedImage[] histogramas(int px){
+        BufferedImage[] out = new BufferedImage[3];
+        int pixelHor = 3, maxAlto = 500, paddingVertical = 10, paddingHorizontal = 20, altoLinea = 5;
+        int initHistoY = paddingVertical/2 + altoLinea;
+        int finHistoy = padding/2;
+        
+        for(int jj = 0; jj < 3; jj++){
+            /*
+            el ancho de las barras del histograma es pixHor
+            PEROOOO 
+            el alto de cada barra será frecuencia / frecuenciaMaxima * maxAlto
+            
+            //el +10 es para darle un chance por arriba y por debajo de la vaina
+            
+            
+            out[0] = new BufferedImage((pixelHor *  256), maxAlto + paddingVertical, imageActual.getType());
+            
+            for (int ii = 0; ii < ; ii++) {
+                
+            }
+            
+            
+            for(int cc = 0; cc < 255; cc++){
+                
+            }
+        }
+    }
+    */
+    
     public BufferedImage filtroMedia(int sizex, int sizey, int pivotx, int pivoty){
         BufferedImage out = new BufferedImage(imageActual.getWidth(), imageActual.getHeight(), imageActual.getType());
         Convolucion conv = new Convolucion(sizex, sizey, pivotx, pivoty);//fill con 1s
@@ -201,27 +238,6 @@ public class ProcesamientoImagen {
         return out;
     }
     
-    public Convolucion cargarConvolucion (String conv_name){
-        
-        Convolucion out = null; 
-        try(Scanner in = new Scanner(new File(conv_name))){
-            String line = in.nextLine();
-            String[] split = line.split(" ");
-            out = new Convolucion(Integer.parseInt(split[0]), Integer.parseInt(split[1]), Integer.parseInt(split[2]), Integer.parseInt(split[3]));
-            System.out.println(out);
-            for(int yy = 0; yy < out.heigth; yy ++){
-                split = in.nextLine().split(" ");
-                for (int xx = 0; xx < out.width; xx++) {
-                    out.conv[yy][xx] = Integer.parseInt(split[xx]);
-                    System.out.println(split[xx]);
-                }
-            }
-        }catch(Exception ex){
-            System.out.println(ex.getMessage());
-            System.out.println("NO cargoOOOooOoOoOooO");
-        }
-        return out; 
-    }
     
     public BufferedImage operarImagenes(BufferedImage other, int alpha){
         BufferedImage out = new BufferedImage(imageActual.getWidth(), imageActual.getHeight(), imageActual.getType());

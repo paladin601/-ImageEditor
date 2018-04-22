@@ -10,8 +10,10 @@ package imageeditor;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+import java.io.File;
 
 import java.util.Arrays;
+import java.util.Scanner;
 
 /**
  *
@@ -20,6 +22,7 @@ import java.util.Arrays;
 public class Convolucion {
     float[][]    conv;
     Colorsin[][] colores;
+    int notNullcolors;
     int          pivotx, width;
     int          pivoty, heigth;
     Colorsin     asum, qsum;
@@ -32,6 +35,31 @@ public class Convolucion {
         pivotx  = px;
         pivoty  = py;
         colores = new Colorsin[_heigth][_width];
+        
+    }
+    public Convolucion(String conv_name){
+        System.out.println(conv_name);
+        try(Scanner in = new Scanner(new File(conv_name))){
+            String line = in.nextLine();
+            String[] split = line.split(" ");
+            
+            width = Integer.parseInt(split[0]);
+            heigth = Integer.parseInt(split[1]);
+            pivotx = Integer.parseInt(split[2]);
+            pivoty = Integer.parseInt(split[3]);
+            conv = new float[heigth][width];
+            colores = new Colorsin[heigth][width];
+            for(int yy = 0; yy < heigth; yy ++){
+                split = in.nextLine().split(" ");
+                for (int xx = 0; xx < width; xx++) {
+                    conv[yy][xx] = Float.parseFloat(split[xx]);                    
+                }
+            }
+            
+        }catch(Exception ex){
+            System.out.println(ex.getMessage());
+            System.out.println("NO cargoOOOooOoOoOooO");
+        } 
     }
     
     @Override
@@ -69,20 +97,22 @@ public class Convolucion {
         return asum;
     }
 
-    public Colorsin getQuantifiedSum() {
+    public Colorsin getConvedValues() {
         this.qsum = new Colorsin();
-
         for (int yy = 0; yy < heigth; yy++) {
             for (int xx = 0; xx < width; xx++) {
-
-                qsum = qsum.operate( (x,y) -> {return x+y;} , colores[yy][xx].multiplicarConstante(conv[xx][yy]));
+                try{
+                    qsum = qsum.operate( (x,y) -> {return x+y;} , colores[yy][xx].multiplicarConstante(conv[yy][xx]));
+                }catch(Exception ex){
+                    
+                }
             }
         }
 
         return qsum;
     }
 
-    public Convolucion clamp() {
+    public Convolucion clamp(){
         for (int yy = 0; yy < colores.length; yy++) {
             for (int xx = 0; xx < colores.length; yy++) {
                 colores[yy][xx] = colores[yy][xx].clamp();
@@ -93,16 +123,14 @@ public class Convolucion {
     }
 
     public Convolucion absorb(BufferedImage in, int xx, int yy) {
+        this.notNullcolors = 0;
         for (int cy = yy - pivoty, convy = 0; convy < heigth; cy++, convy++) {    // entramos loop convolucion
             for (int cx = xx - pivotx, convx = 0; convx < width; cx++, convx++) {
                 try {
-                    colores[cy][cx] = new Colorsin(in.getRGB(cx, cy));
-
-                    // System.out.println("Convolucione "+cx+","+cy);
+                    colores[convy][convx] = new Colorsin(in.getRGB(cx, cy));
+                    this.notNullcolors++;
                 } catch (Exception ex) {
-
-                    // si me salgo de la matriz no hago nada
-                    // System.out.println(" en aplicar convolucion "+cx+","+cy+"    /"+ ex.getMessage()+ "cause "+ ex.getCause());
+                    colores[convy][convx] = new Colorsin();
                 }
             }
         }    // Salimos loop convolucion
