@@ -21,6 +21,7 @@ public class ProcesamientoImagen {
     private static BufferedImage imageActual;
     private static BufferedImage imageCopy;
     private static BufferedImage imageAnt;
+    Map<Integer, Integer> conteoColores;
     private int maxColores = 255;
     private int Umbral;
     private String formato;
@@ -157,7 +158,7 @@ public class ProcesamientoImagen {
 
     public BufferedImage RemoverFiltros() {
         imageActual = copiarImagen(imageCopy);
-        formato=formatoinit;
+        formato = formatoinit;
         return imageActual;
     }
     
@@ -175,7 +176,7 @@ public class ProcesamientoImagen {
                 
             }
         }
-        imageActual=out;
+        imageActual = out;
         return out;
     }
     public BufferedImage aplicarMediana(int sizeConvx, int sizeConvy, int pivotx, int pivoty){
@@ -189,60 +190,18 @@ public class ProcesamientoImagen {
                 
             }
         }
-        imageActual=out;
+        imageActual = out;
         return out;
     }
-    
-    /*
-    public BufferedImage[] histogramas(int px){
-        BufferedImage[] out = new BufferedImage[3];
-        int pixelHor = 3, maxAlto = 500, paddingVertical = 10, paddingHorizontal = 20, altoLinea = 5;
-        int initHistoY = paddingVertical/2 + altoLinea;
-        int finHistoy = padding/2;
-        
-        for(int jj = 0; jj < 3; jj++){
-            /*
-            el ancho de las barras del histograma es pixHor
-            PEROOOO 
-            el alto de cada barra será frecuencia / frecuenciaMaxima * maxAlto
-            
-            //el +10 es para darle un chance por arriba y por debajo de la vaina
-            
-            
-            out[0] = new BufferedImage((pixelHor *  256), maxAlto + paddingVertical, imageActual.getType());
-            
-            for (int ii = 0; ii < ; ii++) {
-                
-            }
-            
-            
-            for(int cc = 0; cc < 255; cc++){
-                
-            }
-        }
-    }
-    */
-    
-    public BufferedImage filtroMedia(int sizex, int sizey, int pivotx, int pivoty){
-        BufferedImage out = new BufferedImage(imageActual.getWidth(), imageActual.getHeight(), imageActual.getType());
-        Convolucion conv = new Convolucion(sizex, sizey, pivotx, pivoty);//fill con 1s
-        
-        return out;
-    }
-    
     
     public BufferedImage operarImagenes(BufferedImage other, int alpha){
         BufferedImage out = new BufferedImage(imageActual.getWidth(), imageActual.getHeight(), imageActual.getType());
         
         return out;
     }
-//    public BufferedImage rotarLibre(){
-//        //BufferedImage out = new BufferedImage(imageA);
-//        
-//    }
 
     public void CambiarUmbral(int u){
-       Umbral=u;
+       Umbral = u;
     }
     
     public BufferedImage BlancoYNegro(boolean a) {    // Ta mal
@@ -372,16 +331,16 @@ public class ProcesamientoImagen {
     }
 
     public Integer ContarColores() {
-        Map<Integer, Integer> out = new HashMap<>();
+        conteoColores = new HashMap<>();
         int size;
         size = 0;
         for (int ii = 0; ii < imageActual.getWidth(); ii++) {
             for (int jj = 0; jj < imageActual.getHeight(); jj++) {
                 int colorsito = imageActual.getRGB(ii, jj);
-                if (out.containsKey(colorsito)) {
-                    out.replace(colorsito, out.get(colorsito) + 1);
+                if (conteoColores.containsKey(colorsito)) {
+                    conteoColores.replace(colorsito, conteoColores.get(colorsito) + 1);
                 } else {
-                    out.put(colorsito, 1);
+                    conteoColores.put(colorsito, 1);
                     size++;
                 }
             }
@@ -529,7 +488,7 @@ public class ProcesamientoImagen {
     }
    
  public void CambiarBrillo(int u){
-       brillo=u;
+       brillo = u;
     }
     
     public BufferedImage BrilloPN(boolean a){
@@ -598,7 +557,7 @@ public class ProcesamientoImagen {
     }   
     
     public void CambiarContraste(int u){
-       contraste=u;
+       contraste = u;
     }
     
     public static BufferedImage rotacionImagen(double grados,boolean a) {
