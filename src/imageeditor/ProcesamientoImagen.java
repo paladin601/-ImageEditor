@@ -57,9 +57,9 @@ public class ProcesamientoImagen {
                 if (ext.equals(".bmp") || ext.equals(".png") || ext.equals(".jpg")) {
                     bmp = ImageIO.read(imagenSeleccionada);
                     formato = ext;
-                    BufferedImage source = new BufferedImage(bmp.getWidth(),bmp.getHeight(), BufferedImage.TYPE_INT_RGB);
-                    source.getGraphics().drawImage(bmp, 0, 0, null);
-                    bmp=source;
+                    BufferedImage aux = new BufferedImage(bmp.getWidth(),bmp.getHeight(), BufferedImage.TYPE_INT_RGB);
+                    aux.getGraphics().drawImage(bmp, 0, 0, null);
+                    bmp=aux;
                 } else {
                     formato=ext.equals(".pbm")?"P1":(ext.equals(".pgm")?"P2":"P3");
                     bmp = leerNETPBM(imagenSeleccionada);
@@ -114,9 +114,11 @@ public class ProcesamientoImagen {
                 if(nombre.contains(".")){
                    nombre = nombre.substring(0, nombre.lastIndexOf("."));//le quito la extension que tenía
                 }
-                if(formato.equals("bmp")){
-                   nombre = nombre.concat("."+formato);// concateno la extension
-                   ImageIO.write(imageActual, "BMP" , new File(nombre));
+                if(formato.equals(".bmp") || formato.equals(".jpg") || formato.equals(".png")){
+                   nombre = nombre.concat(formato);// concateno la extension
+                   formato=formato.substring(1);
+                   ImageIO.write(imageActual, formato , new File(nombre));
+                   formato="."+formato;
                 }else{
                     Map<String, String> extension = new HashMap<>();
                     extension.put("P1", ".pbm");
