@@ -30,7 +30,7 @@ public class Histogram extends javax.swing.JFrame {
         HistogramDisplay = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Histogram");
+        setTitle("Histograma");
 
         javax.swing.GroupLayout HistogramDisplayLayout = new javax.swing.GroupLayout(HistogramDisplay);
         HistogramDisplay.setLayout(HistogramDisplayLayout);
