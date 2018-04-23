@@ -118,7 +118,6 @@ public class Convolucion {
                 colores[yy][xx] = colores[yy][xx].clamp();
             }
         }
-
         return this;
     }
 

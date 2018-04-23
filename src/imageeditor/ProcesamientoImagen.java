@@ -195,7 +195,13 @@ public class ProcesamientoImagen {
     }
     
     public BufferedImage operarImagenes(BufferedImage other, int alpha){
-        BufferedImage out = new BufferedImage(imageActual.getWidth(), imageActual.getHeight(), imageActual.getType());
+        BufferedImage out = copiarImagen(imageActual);
+        
+        for (int yy = 0; yy < out.getHeight(); yy++) {
+            for (int xx = 0; xx < out.getWidth(); xx++) {
+                
+            }
+        }
         
         return out;
     }
@@ -569,8 +575,8 @@ public class ProcesamientoImagen {
         AffineTransformOp aux2 = new AffineTransformOp(imgrot.getRotacion(), AffineTransformOp.TYPE_BICUBIC);
         aux = aux2.createCompatibleDestImage(imageActual, imageActual.getColorModel());
         aux=aux2.filter(imageActual, aux);
-        if(a==true){
-          imageActual=aux;
+        if(a == true){
+          imageActual = aux;
         }
         return aux;
     }
