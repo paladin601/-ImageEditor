@@ -518,6 +518,11 @@ public class ImageEditor extends javax.swing.JFrame {
 
         filtroCustom.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_MASK));
         filtroCustom.setText("Filtro Custom");
+        filtroCustom.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                filtroCustomActionPerformed(evt);
+            }
+        });
         jMenu2.add(filtroCustom);
 
         jMenuBar1.add(jMenu2);
@@ -915,6 +920,11 @@ public class ImageEditor extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void filtroCustomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filtroCustomActionPerformed
+        // TODO add your handling code here:
+        jLabel1.setIcon(new ImageIcon(ObjProcesamiento.aplicarConvolucion("conv\\custom.txt")));
+    }//GEN-LAST:event_filtroCustomActionPerformed
 
     /**
      * @param args the command line arguments
