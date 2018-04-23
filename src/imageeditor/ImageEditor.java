@@ -66,13 +66,6 @@ public class ImageEditor extends javax.swing.JFrame {
         BitsPixel = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
         Histogram = new javax.swing.JButton();
-        convy = new javax.swing.JSpinner();
-        jLabel13 = new javax.swing.JLabel();
-        convx = new javax.swing.JSpinner();
-        jLabel14 = new javax.swing.JLabel();
-        pivoty = new javax.swing.JSpinner();
-        pivotx = new javax.swing.JSpinner();
-        jLabel15 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -338,63 +331,6 @@ public class ImageEditor extends javax.swing.JFrame {
             }
         });
 
-        convy.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
-        convy.setModel(new javax.swing.SpinnerNumberModel(0, 0, 360, 1));
-        convy.setToolTipText("");
-        convy.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        convy.setEnabled(false);
-        convy.setFocusable(false);
-        convy.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                convyStateChanged(evt);
-            }
-        });
-
-        jLabel13.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
-        jLabel13.setText("Convolucion");
-
-        convx.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
-        convx.setModel(new javax.swing.SpinnerNumberModel(0, 0, 360, 1));
-        convx.setToolTipText("");
-        convx.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        convx.setEnabled(false);
-        convx.setFocusable(false);
-        convx.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                convxStateChanged(evt);
-            }
-        });
-
-        jLabel14.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
-        jLabel14.setText("Dimensiones");
-
-        pivoty.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
-        pivoty.setModel(new javax.swing.SpinnerNumberModel(0, 0, 360, 1));
-        pivoty.setToolTipText("");
-        pivoty.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        pivoty.setEnabled(false);
-        pivoty.setFocusable(false);
-        pivoty.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                pivotyStateChanged(evt);
-            }
-        });
-
-        pivotx.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
-        pivotx.setModel(new javax.swing.SpinnerNumberModel(0, 0, 360, 1));
-        pivotx.setToolTipText("");
-        pivotx.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        pivotx.setEnabled(false);
-        pivotx.setFocusable(false);
-        pivotx.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                pivotxStateChanged(evt);
-            }
-        });
-
-        jLabel15.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
-        jLabel15.setText("Pivote");
-
         jButton3.setText("Aplicar");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -629,8 +565,7 @@ public class ImageEditor extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(RotacionNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(RotacionButtom))
-                            .addComponent(jLabel13)))
+                                .addComponent(RotacionButtom))))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -665,26 +600,10 @@ public class ImageEditor extends javax.swing.JFrame {
                                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                         .addComponent(Height, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
                                                     .addComponent(DPI)))
-                                            .addComponent(jLabel7))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(jLabel14)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(convx, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(convy, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addGap(10, 10, 10)
-                                                .addComponent(jLabel15)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(pivotx, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(pivoty, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                            .addComponent(jLabel7)))
                                     .addGroup(layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(jButton3)))
-                                .addGap(94, 94, 94)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(Histogram, javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(Close, javax.swing.GroupLayout.Alignment.TRAILING))))))
@@ -751,9 +670,7 @@ public class ImageEditor extends javax.swing.JFrame {
                             .addComponent(BitsPixel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -767,26 +684,15 @@ public class ImageEditor extends javax.swing.JFrame {
                                 .addComponent(Close)
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(convy, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(convx, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(7, 7, 7)
+                                .addGap(29, 29, 29)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(DPI, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(pivoty, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(pivotx, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jButton3)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
+                                .addContainerGap(22, Short.MAX_VALUE))))))
         );
 
-        convy.getAccessibleContext().setAccessibleName("convy");
-        convx.getAccessibleContext().setAccessibleName("convx");
-        pivoty.getAccessibleContext().setAccessibleName("pivotey");
-        pivotx.getAccessibleContext().setAccessibleName("pivotex");
         jButton3.getAccessibleContext().setAccessibleName("applyConv");
 
         pack();
@@ -930,7 +836,7 @@ public class ImageEditor extends javax.swing.JFrame {
 
     private void laplaceGaussActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_laplaceGaussActionPerformed
         // TODO add your handling code here:
-        jLabel1.setIcon(new ImageIcon(ObjProcesamiento.aplicarConvolucion("conv\\laplacegauss.txt")));
+        jLabel1.setIcon(new ImageIcon(ObjProcesamiento.aplicarConvolucion("conv\\laplacegauss5.txt")));
         ColorUnique();
     }//GEN-LAST:event_laplaceGaussActionPerformed
 
@@ -1006,22 +912,6 @@ public class ImageEditor extends javax.swing.JFrame {
         his.setVisible(true);
     }//GEN-LAST:event_HistogramActionPerformed
 
-    private void convyStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_convyStateChanged
-        // TODO add your handling code here:
-    }//GEN-LAST:event_convyStateChanged
-
-    private void convxStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_convxStateChanged
-        // TODO add your handling code here:
-    }//GEN-LAST:event_convxStateChanged
-
-    private void pivotyStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_pivotyStateChanged
-        // TODO add your handling code here:
-    }//GEN-LAST:event_pivotyStateChanged
-
-    private void pivotxStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_pivotxStateChanged
-        // TODO add your handling code here:
-    }//GEN-LAST:event_pivotxStateChanged
-
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
@@ -1096,8 +986,6 @@ public class ImageEditor extends javax.swing.JFrame {
     private javax.swing.JTextField Width;
     private javax.swing.JMenuItem ZoomIn;
     private javax.swing.JMenuItem ZoomOut;
-    private javax.swing.JSpinner convx;
-    private javax.swing.JSpinner convy;
     private javax.swing.Box.Filler filler1;
     private javax.swing.JMenuItem filtroCustom;
     private javax.swing.JButton jButton1;
@@ -1107,9 +995,6 @@ public class ImageEditor extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1125,8 +1010,6 @@ public class ImageEditor extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JMenuItem laplaceGauss;
     private javax.swing.JMenuItem mediana;
-    private javax.swing.JSpinner pivotx;
-    private javax.swing.JSpinner pivoty;
     private javax.swing.JMenuItem promedio;
     // End of variables declaration//GEN-END:variables
 }
