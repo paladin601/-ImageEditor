@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 package iev2;
-import javaCV.*;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;
