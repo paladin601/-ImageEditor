@@ -347,23 +347,22 @@ public class IEv2UI extends javax.swing.JPanel {
 
     private void CuantizacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CuantizacionActionPerformed
         // TODO add your handling code here:
-     String content = Cuantizacion.getSelectedItem().toString();
+        String content = Cuantizacion.getSelectedItem().toString();
      
-    switch (content.toUpperCase()) {
-        case "PALETA":
-            
-            break;
-        case "REDUX BITS":
-            
-            break;
-        case "K-MEANS":
-                
-            break;
-        case "":
-            break;
-        
-        default:
-            throw new AssertionError();
+        switch (content.toUpperCase()) {
+            case "PALETA":
+
+                break;
+            case "REDUX BITS":
+
+                break;
+            case "K-MEANS":
+
+                break;
+            case "":
+                break;
+            default:
+                throw new AssertionError();
         }
     }//GEN-LAST:event_CuantizacionActionPerformed
 
@@ -432,9 +431,7 @@ public class IEv2UI extends javax.swing.JPanel {
             //ImageCanvas.paint(this.copy);
             
             
-        }
-        
-        
+        }  
     }//GEN-LAST:event_CargarImagenActionPerformed
 
    
