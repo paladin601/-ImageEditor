@@ -5,15 +5,17 @@
  */
 package IEv2;
 
+import java.awt.Graphics2D;
 import java.io.File;
 import java.util.Stack;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileSystemView;
-import org.bytedeco.javacpp.helper.opencv_core;
-import org.bytedeco.javacpp.opencv_core.IplImage;
-import org.bytedeco.javacpp.opencv_core.Mat;
 import org.bytedeco.javacpp.opencv_imgcodecs;
-import org.bytedeco.javacv.CanvasFrame;
+import java.awt.image.BufferedImage;
+import javax.swing.ImageIcon;
+import org.bytedeco.javacpp.opencv_core.Mat;
+import org.bytedeco.javacv.Java2DFrameConverter;
+import static org.bytedeco.javacv.Java2DFrameUtils.deepCopy;
 import org.bytedeco.javacv.OpenCVFrameConverter;
 /**
  *
@@ -26,6 +28,9 @@ public class IEv2UI extends javax.swing.JPanel {
     Mat copy;
     static final int maxCntrl = 2;
     String dir = "";
+    private static OpenCVFrameConverter.ToMat       matConv = new OpenCVFrameConverter.ToMat();
+    private static Java2DFrameConverter             biConv  = new Java2DFrameConverter();
+
     /*
      * Creates new form IEv2UI
      */
@@ -68,7 +73,8 @@ public class IEv2UI extends javax.swing.JPanel {
         CargarImagen = new javax.swing.JButton();
         GuardarImagen = new javax.swing.JButton();
         canvas4 = new java.awt.Canvas();
-        ImageCanvas = new java.awt.Canvas();
+        ContainerImage = new javax.swing.JScrollPane();
+        ImageDisplay = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(142, 174, 189));
 
@@ -149,7 +155,7 @@ public class IEv2UI extends javax.swing.JPanel {
             }
         });
 
-        CustomMorfologico.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        CustomMorfologico.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         jSeparator4.setBackground(new java.awt.Color(207, 103, 102));
 
@@ -274,8 +280,13 @@ public class IEv2UI extends javax.swing.JPanel {
             }
         });
 
-        ImageCanvas.setBackground(new java.awt.Color(255, 255, 255));
-        ImageCanvas.setCursor(new java.awt.Cursor(java.awt.Cursor.CROSSHAIR_CURSOR));
+        ContainerImage.setBackground(new java.awt.Color(255, 255, 255));
+        ContainerImage.setToolTipText("");
+
+        ImageDisplay.setBackground(new java.awt.Color(255, 255, 255));
+        ImageDisplay.setCursor(new java.awt.Cursor(java.awt.Cursor.CROSSHAIR_CURSOR));
+        ImageDisplay.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        ContainerImage.setViewportView(ImageDisplay);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -289,21 +300,23 @@ public class IEv2UI extends javax.swing.JPanel {
                     .addComponent(jSeparator1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jSeparator3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(5, 5, 5)
-                        .addComponent(ImageCanvas, javax.swing.GroupLayout.PREFERRED_SIZE, 756, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(CargarImagen)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(GuardarImagen)
-                        .addGap(22, 22, 22)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jSeparator3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(0, 607, Short.MAX_VALUE)
+                                .addComponent(CargarImagen)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(GuardarImagen)
+                                .addGap(22, 22, 22))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(17, 17, 17)
+                        .addComponent(ContainerImage)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addComponent(canvas4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -318,31 +331,29 @@ public class IEv2UI extends javax.swing.JPanel {
                 .addComponent(TabbedHistogramas)
                 .addGap(19, 19, 19))
             .addGroup(layout.createSequentialGroup()
+                .addGap(35, 35, 35)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(35, 35, 35)
-                        .addComponent(jSeparator2))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(484, 484, 484)
-                                .addComponent(canvas4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(449, 449, 449)
+                                .addComponent(canvas4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(34, 34, 34)
-                                .addComponent(ImageCanvas, javax.swing.GroupLayout.PREFERRED_SIZE, 560, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(ContainerImage)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                         .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(CargarImagen)
                             .addComponent(GuardarImagen))
-                        .addGap(5, 5, 5)))
+                        .addGap(5, 5, 5))
+                    .addComponent(jSeparator2))
                 .addContainerGap())
         );
 
         TabbedTareas.getAccessibleContext().setAccessibleName("TabbedTareas");
         TabbedHistogramas.getAccessibleContext().setAccessibleName("TabbedHistograma");
-        ImageCanvas.getAccessibleContext().setAccessibleName("ImageCanvas");
     }// </editor-fold>//GEN-END:initComponents
 
     private void CuantizacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CuantizacionActionPerformed
@@ -426,7 +437,11 @@ public class IEv2UI extends javax.swing.JPanel {
             //Cargar
             this.original = opencv_imgcodecs.imread((fSelected.getAbsolutePath()));
             this.copy = this.original.clone();
+            BufferedImage aux= toBufferedImage(original);
+            //Graphics2D g2 = aux.createGraphics();
             
+            //ImageCanvas.printAll(g1);
+            ImageDisplay.setIcon(new ImageIcon(aux));
             //Mostrar en Canvas
             //ImageCanvas.paint(this.copy);
             
@@ -434,7 +449,11 @@ public class IEv2UI extends javax.swing.JPanel {
         }  
     }//GEN-LAST:event_CargarImagenActionPerformed
 
-   
+    public synchronized static BufferedImage toBufferedImage(Mat src) {
+        return deepCopy(biConv.getBufferedImage(matConv.convert(src).clone()));
+    }
+    
+    
     private void GuardarImagenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GuardarImagenActionPerformed
         // TODO add your handling code here:
         JFileChooser fChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
@@ -457,6 +476,7 @@ public static <t>void pushToStack(Stack<t> stack, t data){
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton CargarImagen;
+    private javax.swing.JScrollPane ContainerImage;
     private javax.swing.JComboBox<String> Cuantizacion;
     private java.awt.TextArea CustomMorfologico;
     private javax.swing.JComboBox<String> FiltroMorfologico;
@@ -464,7 +484,7 @@ public static <t>void pushToStack(Stack<t> stack, t data){
     private java.awt.Canvas HistogramaB;
     private java.awt.Canvas HistogramaG;
     private java.awt.Canvas HistogramaR;
-    private java.awt.Canvas ImageCanvas;
+    private javax.swing.JLabel ImageDisplay;
     private javax.swing.JPanel T1;
     private javax.swing.JPanel T2;
     private javax.swing.JPanel T3;
