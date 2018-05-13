@@ -380,31 +380,78 @@ public class IEv2UI extends javax.swing.JPanel {
     }//GEN-LAST:event_CuantizacionActionPerformed
 
     
-   public Mat extractCustomStructurantElement(){
-       int px = 2, py = 2, width = 5, heigth = 5;
+   public structurantShit extractCustomStructurantElement(){
+       int anchorx = 2, anchory = 2, width = 5, heigth = 5;
        int structurantType = opencv_imgproc.MORPH_ELLIPSE;
        Mat out;
        String structurantTxt = this.CustomMorfologico.getText();
-       System.out.println(structurantTxt);
-       if(structurantTxt.length() == 1){
-           switch(structurantTxt.charAt(0)){
-               case '0':
-                   structurantType = opencv_imgproc.MORPH_CROSS;
-                   break;
-               case '1':
-                   structurantType = opencv_imgproc.MORPH_RECT;
-                   break;
-               case '2':
-                    structurantType = opencv_imgproc.MORPH_ELLIPSE;
-                   break;
-                   default:
-                       System.out.println("Bad input, se pone por default un elemento\n"
-                               + "estructurante eliptico 5 x 5 ");
-           }
+       String[] lines = structurantTxt.split("\n");
+       String[] params = (lines.length == 0 ) ? null : lines[0].split(" ");
+       System.out.println("structurant, len="+structurantTxt.length()+" content= /" + structurantTxt + "/");
+       if(lines.length <= 1){// En caso de que escoja algun predefinido------------------------------------------------------
            
-           return opencv_imgproc.getStructuringElement(structurantType, new opencv_core.Size(width, heigth), new opencv_core.Point(2,2));
+           
+               if(params.length > 0) {// Si quiero darle size y poner pivot del elemento estructurante
+                   
+                   if(params.length == 5){
+                        width = Integer.parseInt(params[1]);
+                        heigth = Integer.parseInt(params[2]);
+                        anchorx = Integer.parseInt(params[3]);
+                        anchory = Integer.parseInt(params[4]);           
+                   }else if (params[0].equals("")){
+                       System.out.println("faltan parametros, se toma el elemento estructurante default");
+                       params[0] = String.valueOf(structurantType);
+                   }
+                   
+                switch(Integer.parseInt(params[0])){
+                    case 0:
+                        structurantType = opencv_imgproc.MORPH_CROSS;
+                        System.out.println("MORPH_CROSS");
+                        break;
+                    case 1:
+                        structurantType = opencv_imgproc.MORPH_RECT;
+                        System.out.println("MORPH_RECT");
+
+                        break;
+                    case 2:
+                         structurantType = opencv_imgproc.MORPH_ELLIPSE;
+                        System.out.println("MORPH_ELLIPSE");
+
+                        break;
+                        default:
+                            System.out.println("Bad input, se pone por default un elemento\n"
+                                    + "estructurante eliptico 5 x 5 ");
+                }
+           }//******************************************************************************************
+           
+           out = opencv_imgproc.getStructuringElement(structurantType, new opencv_core.Size( 2*width + 1, 2*heigth+1 ),
+                                       new opencv_core.Point( anchorx, anchory ) );
+           
+           return new structurantShit(anchorx, anchory, width, heigth, out);
+       
+       }else{// en caso de que se cree su propio elemento estructurante -------------------------------------------------
+            structurantType = opencv_imgproc.CV_SHAPE_CUSTOM;
+           if(params.length == 4){
+                width = Integer.parseInt(params[0]);
+                heigth = Integer.parseInt(params[1]);
+                anchorx = Integer.parseInt(params[2]);
+                anchory = Integer.parseInt(params[3]);
+                
+                
+                
+                
+                
+                return null;
+            }
+            else{
+                System.out.println("Bad input");
+            }
+
+           
+           
+
        }
-       return out;
+       return null;
    }
     
     
@@ -412,20 +459,12 @@ public class IEv2UI extends javax.swing.JPanel {
         // TODO add your handling code here:
         
         String content = this.FiltroMorfologico.getSelectedItem().toString();
-        
-        if(this.CustomMorfologico.getText().equals("")){
-            //usar default
-            
-        }else{
-            //usar custom
-            Mat structurantElement = extractCustomStructurantElement();
-            
-        
-        }
-        
+        structurantShit structurantElement = extractCustomStructurantElement();
+             
+        pushToStack(cntrlz, this.copy);
         switch (content.toUpperCase()) {
             case "EROSIÓN":
-
+                this.copy = IEProcessor.erotion(copy, structurantElement);
                 break;
             case "DILATACIÓN":
                 
@@ -439,6 +478,7 @@ public class IEv2UI extends javax.swing.JPanel {
             default:
                 throw new AssertionError();
         }
+        display(this.copy);
     }//GEN-LAST:event_FiltroMorfologicoActionPerformed
 
     private void UmbralAutomaticoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UmbralAutomaticoActionPerformed
@@ -470,18 +510,14 @@ public class IEv2UI extends javax.swing.JPanel {
             //Cargar
             this.original = opencv_imgcodecs.imread((fSelected.getAbsolutePath()));
             this.copy = this.original.clone();
-            BufferedImage aux= toBufferedImage(original);
-            //Graphics2D g2 = aux.createGraphics();
-            
-            //ImageCanvas.printAll(g1);
-            ImageDisplay.setIcon(new ImageIcon(aux));
-            //Mostrar en Canvas
-            //ImageCanvas.paint(this.copy);
-            
-            
+            display(this.copy);
         }  
     }//GEN-LAST:event_CargarImagenActionPerformed
 
+    public void display(Mat img){
+        this.copy = img;
+        ImageDisplay.setIcon(new ImageIcon(toBufferedImage(img)));
+    }
     public synchronized static BufferedImage toBufferedImage(Mat src) {
         return deepCopy(biConv.getBufferedImage(matConv.convert(src).clone()));
     }
@@ -501,12 +537,24 @@ public class IEv2UI extends javax.swing.JPanel {
     }//GEN-LAST:event_GuardarImagenActionPerformed
 
 public static void pushToStack(Stack<Mat> stack, Mat data){
-    Mat copy = null;
-    data.copyTo(copy);
-    stack.push(copy);
+    stack.push(new Mat(data));
     if(stack.size() > maxCntrl){
         stack.removeElementAt(0);
     }
+}
+
+public class structurantShit{
+    int anchorx, anchory, width, heigth;
+    Mat kernel;
+
+    public structurantShit(int anchorx, int anchory, int width, int heigth, Mat kernel) {
+        this.anchorx = anchorx;
+        this.anchory = anchory;
+        this.width = width;
+        this.heigth = heigth;
+        this.kernel = kernel;
+    }
+    
 }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
