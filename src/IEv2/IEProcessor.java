@@ -20,7 +20,7 @@ import org.bytedeco.javacv.OpenCVFrameConverter;
  */
 public class IEProcessor {
     
-    public static Mat erotion(Mat img, structurantShit SS){
+    public static Mat erode(Mat img, structurantShit SS){
 //        erode(opencv_core.Mat src, opencv_core.Mat dst, opencv_core.Mat kernel, opencv_core.Point anchor, int iterations, int borderType, opencv_core.Scalar borderValue)
 //\brief Erodes an image by using a specific structuring element.
         Mat out = new Mat(img.size(), img.type());
@@ -28,17 +28,25 @@ public class IEProcessor {
         return out;
     }
     
-//        public static Mat dilation(Mat img, int elementSize, int elementShape){
-////        erode(opencv_core.Mat src, opencv_core.Mat dst, opencv_core.Mat kernel, opencv_core.Point anchor, int iterations, int borderType, opencv_core.Scalar borderValue)
-////\brief Erodes an image by using a specific structuring element.
-//        Mat out = null;
-//        img.copyTo(out);
-//        
-////        Mat element = getKernelFromShape(elementSize, elementShape);
-//        opencv_imgproc.dilate(img, out, element);
-//        return out;
-//    }
+        public static Mat dilate(Mat img, structurantShit SS){
+//        erode(opencv_core.Mat src, opencv_core.Mat dst, opencv_core.Mat kernel, opencv_core.Point anchor, int iterations, int borderType, opencv_core.Scalar borderValue)
+//\brief Erodes an image by using a specific structuring element.
+        Mat out = new Mat(img.size(), img.type());
+        opencv_imgproc.dilate(img, out, SS.kernel);
+        return out;
+    }
     
+        public static Mat open(Mat img, structurantShit SS){
+            Mat out = new Mat(img.size(), img.type());
+            out = erode(dilate(img, SS), SS);
+            return out;
+        }
+        
+        public static Mat close(Mat img, structurantShit SS){
+            Mat out = new Mat(img.size(), img.type());
+            out = dilate(erode(img, SS), SS);
+            return out;
+        }
 //    private static Mat getKernelFromShape(int elementSize, int elementShape) {
 //        return Imgproc.getStructuringElement(elementShape, new
 //        Size(elementSize*2+1, elementSize*2+1), new Point(elementSize,

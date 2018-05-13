@@ -464,16 +464,16 @@ public class IEv2UI extends javax.swing.JPanel {
         pushToStack(cntrlz, this.copy);
         switch (content.toUpperCase()) {
             case "EROSIÓN":
-                this.copy = IEProcessor.erotion(copy, structurantElement);
+                this.copy = IEProcessor.erode(copy, structurantElement);
                 break;
             case "DILATACIÓN":
-                
+                this.copy = IEProcessor.dilate(copy, structurantElement);
                 break;
             case "APERTURA":
-                
+                this.copy = IEProcessor.open(copy, structurantElement);
                 break;
             case "CIERRE":
-                
+                this.copy = IEProcessor.close(copy, structurantElement);
                 break;
             default:
                 throw new AssertionError();
