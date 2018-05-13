@@ -11,8 +11,10 @@ import java.util.Stack;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileSystemView;
 import org.bytedeco.javacpp.opencv_imgcodecs;
+import org.bytedeco.javacpp.opencv_imgproc;
 import java.awt.image.BufferedImage;
 import javax.swing.ImageIcon;
+import org.bytedeco.javacpp.opencv_core;
 import org.bytedeco.javacpp.opencv_core.Mat;
 import org.bytedeco.javacv.Java2DFrameConverter;
 import static org.bytedeco.javacv.Java2DFrameUtils.deepCopy;
@@ -377,6 +379,35 @@ public class IEv2UI extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_CuantizacionActionPerformed
 
+    
+   public Mat extractCustomStructurantElement(){
+       int px = 2, py = 2, width = 5, heigth = 5;
+       int structurantType = opencv_imgproc.MORPH_ELLIPSE;
+       Mat out;
+       String structurantTxt = this.CustomMorfologico.getText();
+       System.out.println(structurantTxt);
+       if(structurantTxt.length() == 1){
+           switch(structurantTxt.charAt(0)){
+               case '0':
+                   structurantType = opencv_imgproc.MORPH_CROSS;
+                   break;
+               case '1':
+                   structurantType = opencv_imgproc.MORPH_RECT;
+                   break;
+               case '2':
+                    structurantType = opencv_imgproc.MORPH_ELLIPSE;
+                   break;
+                   default:
+                       System.out.println("Bad input, se pone por default un elemento\n"
+                               + "estructurante eliptico 5 x 5 ");
+           }
+           
+           return opencv_imgproc.getStructuringElement(structurantType, new opencv_core.Size(width, heigth), new opencv_core.Point(2,2));
+       }
+       return out;
+   }
+    
+    
     private void FiltroMorfologicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FiltroMorfologicoActionPerformed
         // TODO add your handling code here:
         
@@ -387,7 +418,9 @@ public class IEv2UI extends javax.swing.JPanel {
             
         }else{
             //usar custom
+            Mat structurantElement = extractCustomStructurantElement();
             
+        
         }
         
         switch (content.toUpperCase()) {
@@ -467,8 +500,10 @@ public class IEv2UI extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_GuardarImagenActionPerformed
 
-public static <t>void pushToStack(Stack<t> stack, t data){
-    stack.push(data);
+public static void pushToStack(Stack<Mat> stack, Mat data){
+    Mat copy = null;
+    data.copyTo(copy);
+    stack.push(copy);
     if(stack.size() > maxCntrl){
         stack.removeElementAt(0);
     }
