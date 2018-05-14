@@ -316,6 +316,7 @@ public class IEv2UI extends javax.swing.JPanel {
         ContainerImage.setToolTipText("");
 
         ImageDisplay.setBackground(new java.awt.Color(255, 255, 255));
+        ImageDisplay.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         ImageDisplay.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         ImageDisplay.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         ContainerImage.setViewportView(ImageDisplay);
@@ -419,7 +420,7 @@ public class IEv2UI extends javax.swing.JPanel {
             case "REDUX BITS":
 
                 break;
-            case "K-MEAN":
+            case "K-MEAN": // No Funciona mosca
                 IplImage src = new IplImage(original);
 
                 int cluster_count = 2;// K 
