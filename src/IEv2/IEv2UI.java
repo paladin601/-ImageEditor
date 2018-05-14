@@ -14,6 +14,7 @@ import org.bytedeco.javacpp.opencv_imgcodecs;
 import org.bytedeco.javacpp.opencv_imgproc;
 import java.awt.image.BufferedImage;
 import javax.swing.ImageIcon;
+import org.bytedeco.javacpp.indexer.DoubleIndexer;
 import org.bytedeco.javacpp.opencv_core;
 import org.bytedeco.javacpp.opencv_core.Mat;
 import org.bytedeco.javacv.Java2DFrameConverter;
@@ -34,8 +35,8 @@ public class IEv2UI extends javax.swing.JPanel {
     static int Conty=0;
     static final int maxCntrl = 2;
     String dir = "";
-    private static OpenCVFrameConverter.ToMat       matConv = new OpenCVFrameConverter.ToMat();
-    private static Java2DFrameConverter             biConv  = new Java2DFrameConverter();
+    private static final OpenCVFrameConverter.ToMat       matConv = new OpenCVFrameConverter.ToMat();
+    private static final Java2DFrameConverter             biConv  = new Java2DFrameConverter();
 
     /*
      * Creates new form IEv2UI
@@ -462,44 +463,48 @@ public class IEv2UI extends javax.swing.JPanel {
        Mat out;
        String structurantTxt = this.CustomMorfologico.getText();
        String[] lines = structurantTxt.split("\n");
-       String[] params = (lines.length == 0 ) ? null : lines[0].split(" ");
-       System.out.println("structurant, len="+structurantTxt.length()+" content= /" + structurantTxt + "/");
+       for (int ii = 0; ii < lines.length; ii++) {
+           lines[ii] = lines[ii].trim();
+       }
+       
+       
+       String[] params = (lines.length == 0) ? null : lines[0].split(" ");
        if(lines.length <= 1){// En caso de que escoja algun predefinido------------------------------------------------------
            
-           
-               if(params.length > 0) {// Si quiero darle size y poner pivot del elemento estructurante
+            if(lines.length == 1){
+                if(params.length > 0) {// Si quiero darle size y poner pivot del elemento estructurante
+
+                    if(params.length == 5){
+                         width = Integer.parseInt(params[1]);
+                         heigth = Integer.parseInt(params[2]);
+                         anchorx = Integer.parseInt(params[3]);
+                         anchory = Integer.parseInt(params[4]);           
+                    }else if (params[0].equals("")){
+                        System.out.println("faltan parametros, se toma el elemento estructurante default");
+                        params[0] = String.valueOf(structurantType);
+                    }
                    
-                   if(params.length == 5){
-                        width = Integer.parseInt(params[1]);
-                        heigth = Integer.parseInt(params[2]);
-                        anchorx = Integer.parseInt(params[3]);
-                        anchory = Integer.parseInt(params[4]);           
-                   }else if (params[0].equals("")){
-                       System.out.println("faltan parametros, se toma el elemento estructurante default");
-                       params[0] = String.valueOf(structurantType);
+                    switch(Integer.parseInt(params[0])){
+                        case 0:
+                            structurantType = opencv_imgproc.MORPH_CROSS;
+                            System.out.println("MORPH_CROSS");
+                            break;
+                        case 1:
+                            structurantType = opencv_imgproc.MORPH_RECT;
+                            System.out.println("MORPH_RECT");
+
+                            break;
+                        case 2:
+                            structurantType = opencv_imgproc.MORPH_ELLIPSE;
+                           System.out.println("MORPH_ELLIPSE");
+
+                           break;
+                           default:
+                               System.out.println("Bad input, se pone por default un elemento\n"
+                                       + "estructurante eliptico 5 x 5 ");
                    }
-                   
-                switch(Integer.parseInt(params[0])){
-                    case 0:
-                        structurantType = opencv_imgproc.MORPH_CROSS;
-                        System.out.println("MORPH_CROSS");
-                        break;
-                    case 1:
-                        structurantType = opencv_imgproc.MORPH_RECT;
-                        System.out.println("MORPH_RECT");
-
-                        break;
-                    case 2:
-                         structurantType = opencv_imgproc.MORPH_ELLIPSE;
-                        System.out.println("MORPH_ELLIPSE");
-
-                        break;
-                        default:
-                            System.out.println("Bad input, se pone por default un elemento\n"
-                                    + "estructurante eliptico 5 x 5 ");
-                }
-           }//******************************************************************************************
-           
+                }//******************************************************************************************
+            }
            out = opencv_imgproc.getStructuringElement(structurantType, new opencv_core.Size( 2*width + 1, 2*heigth+1 ),
                                        new opencv_core.Point( anchorx, anchory ) );
            
@@ -507,17 +512,40 @@ public class IEv2UI extends javax.swing.JPanel {
        
        }else{// en caso de que se cree su propio elemento estructurante -------------------------------------------------
             structurantType = opencv_imgproc.CV_SHAPE_CUSTOM;
+            
+            for (int ii = 0; ii < lines.length; ii++) {//limpiar vaina
+               lines[ii] = lines[ii].trim();
+           }
+            
            if(params.length == 4){
+               /*
+5 5 2 2
+1 0 0 0 0
+0 1 0 0 0
+0 0 1 0 0
+0 0 0 1 0
+0 0 0 0 1
+               
+               */
+               System.out.println("Cargando filtro custom con /"+lines[0]+"/");
+               
                 width = Integer.parseInt(params[0]);
                 heigth = Integer.parseInt(params[1]);
                 anchorx = Integer.parseInt(params[2]);
                 anchory = Integer.parseInt(params[3]);
                 
+                out = new Mat(new opencv_core.Size(width, heigth));
                 
+                DoubleIndexer i = out.createIndexer();
+                for (long yy = 0; yy < out.rows(); yy++) {
+                    for (long xx = 0; xx < out.cols(); xx++) {
+                        System.out.println(i.get(yy, xx)); 
+                        i.put(yy, xx, CV_PI);
+                    }
+               }
                 
-                
-                
-                return null;
+                System.out.println("filtro custom cargado");
+                return new structurantShit(anchorx, anchory, width, heigth, out);
             }
             else{
                 System.out.println("Bad input");
