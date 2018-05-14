@@ -6,10 +6,7 @@
 package IEv2;
 
 import javax.swing.JFrame;
-/**
- *
- * @author FliaMejias
- */
+
 public class IEv2 extends JFrame{
 
     public IEv2(){

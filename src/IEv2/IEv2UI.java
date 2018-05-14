@@ -19,15 +19,19 @@ import org.bytedeco.javacpp.opencv_core.Mat;
 import org.bytedeco.javacv.Java2DFrameConverter;
 import static org.bytedeco.javacv.Java2DFrameUtils.deepCopy;
 import org.bytedeco.javacv.OpenCVFrameConverter;
+import static org.bytedeco.javacpp.opencv_core.*;
+import static org.bytedeco.javacpp.opencv_imgcodecs.cvConvertImage;
 /**
  *
  * @author FliaMejias
  */
 public class IEv2UI extends javax.swing.JPanel {
-    Stack<Mat> cntrlz = new Stack<>();
-    Stack<Mat> cntrly = new Stack<>();
+    static Stack<Mat> cntrlz = new Stack<>();
+    static Stack<Mat> cntrly = new Stack<>();
     Mat original;
     Mat copy;
+    static int Contz=0;
+    static int Conty=0;
     static final int maxCntrl = 2;
     String dir = "";
     private static OpenCVFrameConverter.ToMat       matConv = new OpenCVFrameConverter.ToMat();
@@ -51,6 +55,8 @@ public class IEv2UI extends javax.swing.JPanel {
 
         TabbedTareas = new javax.swing.JTabbedPane();
         T1 = new javax.swing.JPanel();
+        FilterFirstTarea = new javax.swing.JComboBox<>();
+        jLabel5 = new javax.swing.JLabel();
         T2 = new javax.swing.JPanel();
         T3 = new javax.swing.JPanel();
         Cuantizacion = new javax.swing.JComboBox<>();
@@ -77,6 +83,8 @@ public class IEv2UI extends javax.swing.JPanel {
         canvas4 = new java.awt.Canvas();
         ContainerImage = new javax.swing.JScrollPane();
         ImageDisplay = new javax.swing.JLabel();
+        ctrlz = new javax.swing.JButton();
+        Ctrly = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(142, 174, 189));
 
@@ -86,15 +94,37 @@ public class IEv2UI extends javax.swing.JPanel {
         T1.setAlignmentX(0.0F);
         T1.setAlignmentY(0.0F);
 
+        FilterFirstTarea.setMaximumRowCount(3);
+        FilterFirstTarea.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Blanco y Negro", "Escala de Grises", "Negativo" }));
+        FilterFirstTarea.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                FilterFirstTareaActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setText("Filtros");
+
         javax.swing.GroupLayout T1Layout = new javax.swing.GroupLayout(T1);
         T1.setLayout(T1Layout);
         T1Layout.setHorizontalGroup(
             T1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 299, Short.MAX_VALUE)
+            .addGroup(T1Layout.createSequentialGroup()
+                .addGap(51, 51, 51)
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 93, Short.MAX_VALUE)
+                .addComponent(FilterFirstTarea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(76, 76, 76))
         );
         T1Layout.setVerticalGroup(
             T1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 278, Short.MAX_VALUE)
+            .addGroup(T1Layout.createSequentialGroup()
+                .addGap(40, 40, 40)
+                .addGroup(T1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(FilterFirstTarea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
+                .addContainerGap(218, Short.MAX_VALUE))
         );
 
         TabbedTareas.addTab("T1", T1);
@@ -108,7 +138,7 @@ public class IEv2UI extends javax.swing.JPanel {
         T2.setLayout(T2Layout);
         T2Layout.setHorizontalGroup(
             T2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 299, Short.MAX_VALUE)
+            .addGap(0, 351, Short.MAX_VALUE)
         );
         T2Layout.setVerticalGroup(
             T2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -204,7 +234,7 @@ public class IEv2UI extends javax.swing.JPanel {
                             .addGroup(T3Layout.createSequentialGroup()
                                 .addGap(29, 29, 29)
                                 .addComponent(jLabel4)))
-                        .addGap(0, 55, Short.MAX_VALUE)))
+                        .addGap(0, 107, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         T3Layout.setVerticalGroup(
@@ -232,7 +262,7 @@ public class IEv2UI extends javax.swing.JPanel {
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(CustomMorfologico, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         TabbedTareas.addTab("T3", T3);
@@ -246,7 +276,7 @@ public class IEv2UI extends javax.swing.JPanel {
         T4.setLayout(T4Layout);
         T4Layout.setHorizontalGroup(
             T4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 299, Short.MAX_VALUE)
+            .addGap(0, 351, Short.MAX_VALUE)
         );
         T4Layout.setVerticalGroup(
             T4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -286,9 +316,23 @@ public class IEv2UI extends javax.swing.JPanel {
         ContainerImage.setToolTipText("");
 
         ImageDisplay.setBackground(new java.awt.Color(255, 255, 255));
-        ImageDisplay.setCursor(new java.awt.Cursor(java.awt.Cursor.CROSSHAIR_CURSOR));
+        ImageDisplay.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         ImageDisplay.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         ContainerImage.setViewportView(ImageDisplay);
+
+        ctrlz.setText("Deshacer");
+        ctrlz.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ctrlzActionPerformed(evt);
+            }
+        });
+
+        Ctrly.setText("Rehacer");
+        Ctrly.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CtrlyActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -310,7 +354,11 @@ public class IEv2UI extends javax.swing.JPanel {
                                 .addComponent(jSeparator3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGap(0, 607, Short.MAX_VALUE)
+                                .addGap(12, 12, 12)
+                                .addComponent(Ctrly)
+                                .addGap(18, 18, 18)
+                                .addComponent(ctrlz)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 375, Short.MAX_VALUE)
                                 .addComponent(CargarImagen)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(GuardarImagen)
@@ -348,7 +396,9 @@ public class IEv2UI extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(CargarImagen)
-                            .addComponent(GuardarImagen))
+                            .addComponent(GuardarImagen)
+                            .addComponent(ctrlz)
+                            .addComponent(Ctrly))
                         .addGap(5, 5, 5))
                     .addComponent(jSeparator2))
                 .addContainerGap())
@@ -369,8 +419,33 @@ public class IEv2UI extends javax.swing.JPanel {
             case "REDUX BITS":
 
                 break;
-            case "K-MEANS":
+            case "K-MEAN":
+                IplImage src = new IplImage(original);
 
+                int cluster_count = 2;// K 
+                int attempts = 10;
+                CvTermCriteria termCriteria = new CvTermCriteria(TermCriteria.EPS + TermCriteria.MAX_ITER, 10, 1.0);
+
+                cvReshape(src, src.asCvMat(), 1, src.height() * src.width());
+                IplImage samples = cvCreateImage(cvGetSize(src), src.depth(), 1);
+                cvConvertImage(src, samples, CV_32F);
+
+                IplImage labels = cvCreateImage(new CvSize(samples.height()), 1, CV_8U);
+                IplImage centers = cvCreateImage(new CvSize(cluster_count), 1, CV_32F);
+               /* Mat labels = new Mat(samples.height(), 1, CV_8U);
+                Mat centers = new Mat(cluster_count, 1, CV_32F);*/
+                try{
+                cvKMeans2(samples, cluster_count, labels, termCriteria, 1, new long[attempts], KMEANS_RANDOM_CENTERS, centers, new double[attempts]);
+                }catch(Exception e){
+                 
+                    int i=0;
+                    i++;
+                }
+                int j=0;
+                for(j=0;j<100;j++){
+                    j++;
+                }
+                
                 break;
             case "":
                 break;
@@ -461,7 +536,7 @@ public class IEv2UI extends javax.swing.JPanel {
         String content = this.FiltroMorfologico.getSelectedItem().toString();
         structurantShit structurantElement = extractCustomStructurantElement();
              
-        pushToStack(cntrlz, this.copy);
+        Contz=pushToStack(cntrlz, this.copy,Contz);
         switch (content.toUpperCase()) {
             case "EROSIÓN":
                 this.copy = IEProcessor.erode(copy, structurantElement);
@@ -510,6 +585,8 @@ public class IEv2UI extends javax.swing.JPanel {
             //Cargar
             this.original = opencv_imgcodecs.imread((fSelected.getAbsolutePath()));
             this.copy = this.original.clone();
+            Contz=0;
+            Conty=0;
             display(this.copy);
         }  
     }//GEN-LAST:event_CargarImagenActionPerformed
@@ -518,6 +595,7 @@ public class IEv2UI extends javax.swing.JPanel {
         this.copy = img;
         ImageDisplay.setIcon(new ImageIcon(toBufferedImage(img)));
     }
+    
     public synchronized static BufferedImage toBufferedImage(Mat src) {
         return deepCopy(biConv.getBufferedImage(matConv.convert(src).clone()));
     }
@@ -536,11 +614,77 @@ public class IEv2UI extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_GuardarImagenActionPerformed
 
-public static void pushToStack(Stack<Mat> stack, Mat data){
-    stack.push(new Mat(data));
-    if(stack.size() > maxCntrl){
-        stack.removeElementAt(0);
+    private void FilterFirstTareaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FilterFirstTareaActionPerformed
+        String content = this.FilterFirstTarea.getSelectedItem().toString();
+        
+        Contz=pushToStack(cntrlz,copy,Contz);
+        switch (content.toUpperCase()) {
+            case "ESCALA DE GRISES":
+                this.copy=IEFirstTarea.SelectFilter(copy, 1);
+                break;
+            case "BLANCO Y NEGRO":
+                this.copy=IEFirstTarea.SelectFilter(copy, 2);
+                break;
+            case "NEGATIVO":
+                this.copy=IEFirstTarea.SelectFilter(copy, 3);
+                break;
+            default:
+                throw new AssertionError();
+        }
+        display(this.copy);
+    }//GEN-LAST:event_FilterFirstTareaActionPerformed
+
+    private void ctrlzActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ctrlzActionPerformed
+        Contz=Contz-1;
+        if(!cntrlz.isEmpty() && Contz>-1){
+            Conty=pushToStack(cntrly,copy,Conty);
+            this.copy=ObtainImage(cntrlz,Contz);
+            display(copy);
+        }else{
+            Contz=0;
+        }
+    }//GEN-LAST:event_ctrlzActionPerformed
+
+    private void CtrlyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CtrlyActionPerformed
+        Conty=Conty-1;
+        if(!cntrly.isEmpty() && Conty>-1){
+            Contz++;
+            this.copy=ObtainImagey(cntrly,Conty);
+            display(copy);
+        }else{
+            Conty=0;
+        }
+    }//GEN-LAST:event_CtrlyActionPerformed
+
+    public static Mat ObtainImage(Stack<Mat> stack,int a){
+        return stack.get(a);
     }
+    public static Mat ObtainImagey(Stack<Mat> stack,int a){
+        Mat aux=stack.get(a);
+        stack.removeElementAt(stack.size()-1);
+        return aux;
+    }
+    
+    
+public static int pushToStack(Stack<Mat> stack, Mat data,int Cont){
+    int aux=stack.size();
+    if(aux>Cont){
+       for(int i=0;i<Cont;i++){
+           stack.removeElementAt(aux-1);
+           aux=stack.size();
+       }
+       while(!cntrly.isEmpty()){
+           cntrly.removeElementAt(cntrly.size()-1);
+       }
+       Conty=0;
+    }
+    stack.push(new Mat(data));
+    Cont++;
+    if(aux > maxCntrl){
+        stack.removeElementAt(0);
+        Cont--;
+    }
+    return Cont;
 }
 
 public class structurantShit{
@@ -560,8 +704,10 @@ public class structurantShit{
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton CargarImagen;
     private javax.swing.JScrollPane ContainerImage;
+    private javax.swing.JButton Ctrly;
     private javax.swing.JComboBox<String> Cuantizacion;
     private java.awt.TextArea CustomMorfologico;
+    private javax.swing.JComboBox<String> FilterFirstTarea;
     private javax.swing.JComboBox<String> FiltroMorfologico;
     private javax.swing.JButton GuardarImagen;
     private java.awt.Canvas HistogramaB;
@@ -576,10 +722,12 @@ public class structurantShit{
     private javax.swing.JTabbedPane TabbedTareas;
     private javax.swing.JComboBox<String> UmbralAutomatico;
     private java.awt.Canvas canvas4;
+    private javax.swing.JButton ctrlz;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
