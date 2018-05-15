@@ -15,6 +15,8 @@ import org.bytedeco.javacpp.opencv_imgproc;
 import java.awt.image.BufferedImage;
 import javax.swing.ImageIcon;
 import org.bytedeco.javacpp.indexer.DoubleIndexer;
+import org.bytedeco.javacpp.indexer.IntRawIndexer;
+import org.bytedeco.javacpp.indexer.UByteRawIndexer;
 import org.bytedeco.javacpp.opencv_core;
 import org.bytedeco.javacpp.opencv_core.Mat;
 import org.bytedeco.javacv.Java2DFrameConverter;
@@ -505,9 +507,10 @@ public class IEv2UI extends javax.swing.JPanel {
                    }
                 }//******************************************************************************************
             }
-           out = opencv_imgproc.getStructuringElement(structurantType, new opencv_core.Size( 2*width + 1, 2*heigth+1 ),
+           out = opencv_imgproc.getStructuringElement(structurantType, new opencv_core.Size( width, heigth ),
                                        new opencv_core.Point( anchorx, anchory ) );
            
+            UByteRawIndexer ix = out.createIndexer();
            return new structurantShit(anchorx, anchory, width, heigth, out);
        
        }else{// en caso de que se cree su propio elemento estructurante -------------------------------------------------
@@ -518,33 +521,25 @@ public class IEv2UI extends javax.swing.JPanel {
            }
             
            if(params.length == 4){
-               /*
-5 5 2 2
-1 0 0 0 0
-0 1 0 0 0
-0 0 1 0 0
-0 0 0 1 0
-0 0 0 0 1
-               
-               */
-               System.out.println("Cargando filtro custom con /"+lines[0]+"/");
                
                 width = Integer.parseInt(params[0]);
                 heigth = Integer.parseInt(params[1]);
                 anchorx = Integer.parseInt(params[2]);
                 anchory = Integer.parseInt(params[3]);
                 
-                out = new Mat(new opencv_core.Size(width, heigth));
-                
-                DoubleIndexer i = out.createIndexer();
-                for (long yy = 0; yy < out.rows(); yy++) {
-                    for (long xx = 0; xx < out.cols(); xx++) {
-                        System.out.println(i.get(yy, xx)); 
-                        i.put(yy, xx, CV_PI);
+                out = new Mat(width, heigth, 0);
+                out.asByteBuffer();
+                UByteRawIndexer ix = out.createIndexer();
+
+                for (int yy = 0; yy < out.rows(); yy++) {
+                    
+                    String[] input; //el split 0 es el de los params
+                    input = lines[yy+1].split(" ");
+                    
+                    for (int xx = 0; xx < out.cols(); xx++) {  
+                        ix.put(yy, xx, Integer.parseInt(input[xx]));
                     }
                }
-                
-                System.out.println("filtro custom cargado");
                 return new structurantShit(anchorx, anchory, width, heigth, out);
             }
             else{
