@@ -527,16 +527,16 @@ public class IEv2UI extends javax.swing.JPanel {
                 anchorx = Integer.parseInt(params[2]);
                 anchory = Integer.parseInt(params[3]);
                 
-                out = new Mat(width, heigth, 0);
+                out = new Mat(heigth, width, 0);
                 out.asByteBuffer();
                 UByteRawIndexer ix = out.createIndexer();
-
-                for (int yy = 0; yy < out.rows(); yy++) {
+                
+               for (int yy = 0; yy < out.rows(); yy++)  {
                     
                     String[] input; //el split 0 es el de los params
                     input = lines[yy+1].split(" ");
                     
-                    for (int xx = 0; xx < out.cols(); xx++) {  
+                     for (int xx = 0; xx < out.cols(); xx++) {  
                         ix.put(yy, xx, Integer.parseInt(input[xx]));
                     }
                }
