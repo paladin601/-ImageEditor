@@ -430,7 +430,7 @@ public class IEv2UI extends javax.swing.JPanel {
         // TODO add your handling code here:
         String content = Cuantizacion.getSelectedItem().toString();
         //probando
-        
+        Contz=pushToStack(cntrlz,copy,Contz);
         switch (content.toUpperCase()) {
             case "PALETA":
 
@@ -439,15 +439,14 @@ public class IEv2UI extends javax.swing.JPanel {
                 BitsRedux.setEnabled(true);
                 Redux=1;
                 BitsRedux.setValue(Redux);
-                Contz=pushToStack(cntrlz,copy,Contz);
                 BufferedImage a =IEProcessor.ReduxBits(toBufferedImage(copy), Redux);
                 copy=toMat(a);
                 display(copy);
                 break;
             case "K-MEAN": // No Funciona mosca
                 //Mat samples=copy.clone();
-                Mat samples = new Mat(copy.rows()*copy.cols(),1,CV_32F);
-                
+                Mat samples = new Mat(copy.rows(),copy.cols(),CV_32F);
+                copy.convertTo(samples, CV_32F);
 
                 int cluster_count = 2;// K 
                 int attempts = 10;
@@ -460,7 +459,7 @@ public class IEv2UI extends javax.swing.JPanel {
                 IplImage labels = cvCreateImage(new CvSize(samples.height()), 1, CV_8U);
                 IplImage centers = cvCreateImage(new CvSize(cluster_count), 1, CV_32F);
                 */
-                Mat labels = new Mat(samples.rows(), 1, CV_8U);
+                Mat labels = new Mat(samples.rows(), samples.cols(), CV_8U);
                 Mat centers = new Mat(cluster_count, 1, CV_32F);
                 try{
                 kmeans(samples, cluster_count, labels, termCriteria,attempts, KMEANS_RANDOM_CENTERS, centers);
@@ -470,10 +469,7 @@ public class IEv2UI extends javax.swing.JPanel {
                     int i=0;
                     i++;
                 }
-                int j=0;
-                for(j=0;j<100;j++){
-                    j++;
-                }
+
                 
                 break;
             case "":
