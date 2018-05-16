@@ -608,13 +608,15 @@ public class IEv2UI extends javax.swing.JPanel {
     private void UmbralAutomaticoActionPerformed(java.awt.event.ActionEvent evt) {                                                 
         // TODO add your handling code here:
         String content = this.UmbralAutomatico.getSelectedItem().toString();
-        
+        Contz=pushToStack(cntrlz, this.copy,Contz);
         switch (content.toUpperCase()) {
             case "OTSU":
-
+                copy=IEProcessor.OTSU(copy);
+                display(copy);
                 break;
             case "OTSUCV":
-                
+                copy=IEProcessor.OTSU_UCV(copy);
+                display(copy);
                 break;
             case "OTRO METODO":
                 
