@@ -5,6 +5,7 @@
  */
 package IEv2;
 import IEv2.IEv2UI.structurantShit;
+import java.awt.image.BufferedImage;
 import org.bytedeco.javacpp.helper.opencv_core;
 import org.bytedeco.javacpp.opencv_core.Mat;
 import org.bytedeco.javacpp.opencv_imgproc;
@@ -40,6 +41,24 @@ public class IEProcessor {
             Mat out = new Mat(img.size(), img.type());
             out = erode(dilate(img, SS), SS);
             return out;
+        }
+        
+        public static BufferedImage ReduxBits (BufferedImage aux,int a){
+            int colorAux;
+            
+            for (int i = 0; i < aux.getWidth(); i++) {
+                for (int j = 0; j < aux.getHeight(); j++) {
+                    // Almacenamos color del pixel
+                    colorAux = aux.getRGB(i, j);
+                    
+                    colorAux = (colorAux <<  (8*a) );
+                    colorAux = (colorAux >>  (8*a) );
+                    
+                    // Asignamos el nuevo valor al BufferedImage
+                    aux.setRGB(i, j, colorAux);
+                }
+            }
+            return aux;
         }
         
         public static Mat close(Mat img, structurantShit SS){

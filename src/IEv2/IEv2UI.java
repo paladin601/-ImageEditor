@@ -32,6 +32,7 @@ public class IEv2UI extends javax.swing.JPanel {
     Mat copy;
     static int Contz=0;
     static int Conty=0;
+    static int Redux=1;
     static final int maxCntrl = 2;
     String dir = "";
     private static OpenCVFrameConverter.ToMat       matConv = new OpenCVFrameConverter.ToMat();
@@ -70,6 +71,8 @@ public class IEv2UI extends javax.swing.JPanel {
         jSeparator5 = new javax.swing.JSeparator();
         jSeparator6 = new javax.swing.JSeparator();
         jLabel4 = new javax.swing.JLabel();
+        BitsRedux = new javax.swing.JSpinner();
+        jLabel6 = new javax.swing.JLabel();
         T4 = new javax.swing.JPanel();
         TabbedHistogramas = new javax.swing.JTabbedPane();
         HistogramaR = new java.awt.Canvas();
@@ -113,7 +116,7 @@ public class IEv2UI extends javax.swing.JPanel {
             .addGroup(T1Layout.createSequentialGroup()
                 .addGap(51, 51, 51)
                 .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 93, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 103, Short.MAX_VALUE)
                 .addComponent(FilterFirstTarea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(76, 76, 76))
         );
@@ -138,7 +141,7 @@ public class IEv2UI extends javax.swing.JPanel {
         T2.setLayout(T2Layout);
         T2Layout.setHorizontalGroup(
             T2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 351, Short.MAX_VALUE)
+            .addGap(0, 361, Short.MAX_VALUE)
         );
         T2Layout.setVerticalGroup(
             T2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -199,6 +202,19 @@ public class IEv2UI extends javax.swing.JPanel {
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Custom");
 
+        BitsRedux.setModel(new javax.swing.SpinnerNumberModel(1, 1, 3, 1));
+        BitsRedux.setToolTipText("");
+        BitsRedux.setEnabled(false);
+        BitsRedux.setFocusable(false);
+        BitsRedux.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                BitsReduxStateChanged(evt);
+            }
+        });
+
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setText("Bits");
+
         javax.swing.GroupLayout T3Layout = new javax.swing.GroupLayout(T3);
         T3.setLayout(T3Layout);
         T3Layout.setHorizontalGroup(
@@ -212,29 +228,31 @@ public class IEv2UI extends javax.swing.JPanel {
                             .addComponent(jSeparator5, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jSeparator6)
                             .addComponent(CustomMorfologico, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(T3Layout.createSequentialGroup()
-                        .addGroup(T3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(T3Layout.createSequentialGroup()
-                                .addGap(27, 27, 27)
-                                .addGroup(T3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(T3Layout.createSequentialGroup()
-                                        .addGroup(T3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel1)
-                                            .addComponent(jLabel2))
-                                        .addGap(18, 18, 18)
-                                        .addGroup(T3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(UmbralAutomatico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, T3Layout.createSequentialGroup()
-                                                .addComponent(Cuantizacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(1, 1, 1))))
-                                    .addGroup(T3Layout.createSequentialGroup()
-                                        .addComponent(jLabel3)
-                                        .addGap(50, 50, 50)
-                                        .addComponent(FiltroMorfologico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addGroup(T3Layout.createSequentialGroup()
-                                .addGap(29, 29, 29)
-                                .addComponent(jLabel4)))
-                        .addGap(0, 107, Short.MAX_VALUE)))
+                    .addGroup(T3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(T3Layout.createSequentialGroup()
+                            .addGap(27, 27, 27)
+                            .addGroup(T3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(T3Layout.createSequentialGroup()
+                                    .addComponent(jLabel3)
+                                    .addGap(50, 50, 50)
+                                    .addComponent(FiltroMorfologico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(T3Layout.createSequentialGroup()
+                                    .addGroup(T3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel1)
+                                        .addComponent(jLabel2))
+                                    .addGap(18, 18, 18)
+                                    .addGroup(T3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(UmbralAutomatico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, T3Layout.createSequentialGroup()
+                                            .addComponent(Cuantizacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(1, 1, 1)))
+                                    .addGap(34, 34, 34)
+                                    .addComponent(BitsRedux, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(jLabel6))))
+                        .addGroup(T3Layout.createSequentialGroup()
+                            .addGap(29, 29, 29)
+                            .addComponent(jLabel4))))
                 .addContainerGap())
         );
         T3Layout.setVerticalGroup(
@@ -243,7 +261,9 @@ public class IEv2UI extends javax.swing.JPanel {
                 .addGap(27, 27, 27)
                 .addGroup(T3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Cuantizacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
+                    .addComponent(jLabel1)
+                    .addComponent(BitsRedux, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(8, 8, 8)
@@ -276,7 +296,7 @@ public class IEv2UI extends javax.swing.JPanel {
         T4.setLayout(T4Layout);
         T4Layout.setHorizontalGroup(
             T4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 351, Short.MAX_VALUE)
+            .addGap(0, 361, Short.MAX_VALUE)
         );
         T4Layout.setVerticalGroup(
             T4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -359,7 +379,7 @@ public class IEv2UI extends javax.swing.JPanel {
                                 .addComponent(Ctrly)
                                 .addGap(18, 18, 18)
                                 .addComponent(ctrlz)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 375, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 365, Short.MAX_VALUE)
                                 .addComponent(CargarImagen)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(GuardarImagen)
@@ -412,33 +432,44 @@ public class IEv2UI extends javax.swing.JPanel {
     private void CuantizacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CuantizacionActionPerformed
         // TODO add your handling code here:
         String content = Cuantizacion.getSelectedItem().toString();
-     
+        //probando
+        
         switch (content.toUpperCase()) {
             case "PALETA":
 
                 break;
             case "REDUX BITS":
-
+                BitsRedux.setEnabled(true);
+                Redux=1;
+                BitsRedux.setValue(Redux);
+                Contz=pushToStack(cntrlz,copy,Contz);
+                BufferedImage a =IEProcessor.ReduxBits(toBufferedImage(copy), Redux);
+                copy=toMat(a);
+                display(copy);
                 break;
             case "K-MEAN": // No Funciona mosca
-                IplImage src = new IplImage(original);
+                //Mat samples=copy.clone();
+                Mat samples = new Mat(copy.rows()*copy.cols(),1,CV_32F);
+                
 
                 int cluster_count = 2;// K 
                 int attempts = 10;
-                CvTermCriteria termCriteria = new CvTermCriteria(TermCriteria.EPS + TermCriteria.MAX_ITER, 10, 1.0);
+                TermCriteria termCriteria = new TermCriteria(CV_TERMCRIT_ITER|CV_TERMCRIT_EPS, 10, 1.0);
 
-                cvReshape(src, src.asCvMat(), 1, src.height() * src.width());
+                /*cvReshape(src, src.asCvMat(), 1, src.height() * src.width());
                 IplImage samples = cvCreateImage(cvGetSize(src), src.depth(), 1);
                 cvConvertImage(src, samples, CV_32F);
 
                 IplImage labels = cvCreateImage(new CvSize(samples.height()), 1, CV_8U);
                 IplImage centers = cvCreateImage(new CvSize(cluster_count), 1, CV_32F);
-               /* Mat labels = new Mat(samples.height(), 1, CV_8U);
-                Mat centers = new Mat(cluster_count, 1, CV_32F);*/
+                */
+                Mat labels = new Mat(samples.rows(), 1, CV_8U);
+                Mat centers = new Mat(cluster_count, 1, CV_32F);
                 try{
-                cvKMeans2(samples, cluster_count, labels, termCriteria, 1, new long[attempts], KMEANS_RANDOM_CENTERS, centers, new double[attempts]);
-                }catch(Exception e){
-                 
+                kmeans(samples, cluster_count, labels, termCriteria,attempts, KMEANS_RANDOM_CENTERS, centers);
+                display(samples);
+                }catch(Exception excepcion){
+                    System.out.println("ERROR :" + excepcion);
                     int i=0;
                     i++;
                 }
@@ -601,6 +632,9 @@ public class IEv2UI extends javax.swing.JPanel {
         return deepCopy(biConv.getBufferedImage(matConv.convert(src).clone()));
     }
     
+    public synchronized static Mat toMat(BufferedImage src){
+        return matConv.convertToMat(biConv.convert(src)).clone();
+    }
     
     private void GuardarImagenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GuardarImagenActionPerformed
         // TODO add your handling code here:
@@ -657,6 +691,29 @@ public class IEv2UI extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_CtrlyActionPerformed
 
+    private void BitsReduxStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_BitsReduxStateChanged
+        Contz=pushToStack(cntrlz,copy,Contz);
+        Redux = (Integer) BitsRedux.getValue();
+        //int depth=copy.depth();
+    /*    if((depth==0 && Redux > 8) || (depth==1 && Redux > 8)){
+           Redux=8;
+           BitsRedux.setValue(Redux);
+        }else{
+            if((depth==2 && Redux > 16)||(depth==3 && Redux > 16)){
+                Redux=16;
+                BitsRedux.setValue(Redux);
+            }else{
+               if((depth==4 && Redux > 32)||(depth==5 && Redux > 32)){
+                Redux=32;
+                BitsRedux.setValue(Redux);
+               }
+            }
+        }*/
+        BufferedImage a =IEProcessor.ReduxBits(toBufferedImage(copy), Redux);
+        copy=toMat(a);
+        display(copy);
+    }//GEN-LAST:event_BitsReduxStateChanged
+
     public static Mat ObtainImage(Stack<Mat> stack,int a){
         return stack.get(a);
     }
@@ -670,7 +727,7 @@ public class IEv2UI extends javax.swing.JPanel {
 public static int pushToStack(Stack<Mat> stack, Mat data,int Cont){
     int aux=stack.size();
     if(aux>Cont){
-       for(int i=0;i<Cont;i++){
+       for(int i=0;i<aux-Cont;i++){
            stack.removeElementAt(aux-1);
            aux=stack.size();
        }
@@ -703,6 +760,7 @@ public class structurantShit{
 }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JSpinner BitsRedux;
     private javax.swing.JButton CargarImagen;
     private javax.swing.JScrollPane ContainerImage;
     private javax.swing.JButton Ctrly;
@@ -729,6 +787,7 @@ public class structurantShit{
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
