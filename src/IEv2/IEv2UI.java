@@ -14,6 +14,7 @@ import org.bytedeco.javacpp.opencv_imgcodecs;
 import org.bytedeco.javacpp.opencv_imgproc;
 import java.awt.image.BufferedImage;
 import javax.swing.ImageIcon;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import org.bytedeco.javacpp.indexer.DoubleIndexer;
 import org.bytedeco.javacpp.indexer.IntRawIndexer;
 import org.bytedeco.javacpp.indexer.UByteRawIndexer;
@@ -618,7 +619,9 @@ public class IEv2UI extends javax.swing.JPanel {
     private void CargarImagenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CargarImagenActionPerformed
        // TODO add your handling code here:
         JFileChooser fChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-        
+        fChooser.setFileFilter(new FileNameExtensionFilter("bmp", "bmp"));        
+        fChooser.setFileFilter(new FileNameExtensionFilter("png", "png"));
+        fChooser.setFileFilter(new FileNameExtensionFilter("jpg", "jpg"));
         if (fChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
             File fSelected = fChooser.getSelectedFile();
             
@@ -647,12 +650,21 @@ public class IEv2UI extends javax.swing.JPanel {
     private void GuardarImagenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GuardarImagenActionPerformed
         // TODO add your handling code here:
         JFileChooser fChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-        
+        fChooser.setFileFilter(new FileNameExtensionFilter("bmp", "bmp"));        
+        fChooser.setFileFilter(new FileNameExtensionFilter("png", "png"));
+        fChooser.setFileFilter(new FileNameExtensionFilter("jpg", "jpg"));
+
         if( fChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION){
+            
+            
             File fSelected = fChooser.getSelectedFile();
             
+            String name = fSelected.getAbsolutePath();
+            if(!name.endsWith(".jpg") || !name.endsWith(".bmp") || !name.endsWith(".png")){
+                name = name + "." + fChooser.getFileFilter().getDescription();
+            }
             //Guardar imagen
-            opencv_imgcodecs.imwrite(fSelected.getAbsolutePath(), this.copy);
+            opencv_imgcodecs.imwrite(name, this.copy);
             
         }
     }//GEN-LAST:event_GuardarImagenActionPerformed
