@@ -7,6 +7,7 @@ package IEv2;
 import IEv2.IEv2UI.structurantShit;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+import static java.awt.image.BufferedImage.TYPE_INT_RGB;
 import org.bytedeco.javacpp.helper.opencv_core;
 import static org.bytedeco.javacpp.opencv_core.CV_8U;
 import org.bytedeco.javacpp.opencv_core.Mat;
@@ -110,7 +111,7 @@ public class IEProcessor {
         public static Mat OTHER(Mat img,int a){
             Mat gray=GRAYSCALE(img);
             Mat out=new Mat(img.rows(), img.cols(), CV_8U);
-            threshold(gray,out,a,255, ADAPTIVE_THRESH_MEAN_C );
+            threshold(gray,out,a,255, ADAPTIVE_THRESH_MEAN_C );//Umbral es la suma ponderada de la vecindad asumimos la ventana del tamaño de la imagen
             return out;
         }
         
@@ -171,7 +172,19 @@ public class IEProcessor {
             return Umbral;
 
         }
-                   
+        public static BufferedImage BufferedImageKmeans(BufferedImage data){
+            BufferedImage aux = new BufferedImage(data.getWidth()*data.getHeight(),1,TYPE_INT_RGB);
+            Color colorAux;
+            int x=0;
+            for (int i = 0; i < data.getWidth(); i++) {
+               for (int j = 0; j < data.getHeight(); j++) {
+                    colorAux = new Color(data.getRGB(i, j));
+                    aux.setRGB(x,0, colorAux.getRGB());
+                    x++;
+               }
+            }
+            return aux;
+        }       
 //    private static Mat getKernelFromShape(int elementSize, int elementShape) {
 //        return Imgproc.getStructuringElement(elementShape, new
 //        Size(elementSize*2+1, elementSize*2+1), new Point(elementSize,

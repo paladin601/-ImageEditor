@@ -76,6 +76,7 @@ public class IEv2UI extends javax.swing.JPanel {
         jSeparator6 = new javax.swing.JSeparator();
         jLabel4 = new javax.swing.JLabel();
         BitsRedux = new javax.swing.JSpinner();
+        jLabel6 = new javax.swing.JLabel();
         T4 = new javax.swing.JPanel();
         TabbedHistogramas = new javax.swing.JTabbedPane();
         HistogramaR = new java.awt.Canvas();
@@ -102,6 +103,8 @@ public class IEv2UI extends javax.swing.JPanel {
 
         FilterFirstTarea.setMaximumRowCount(3);
         FilterFirstTarea.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Blanco y Negro", "Escala de Grises", "Negativo" }));
+        FilterFirstTarea.setEnabled(false);
+        FilterFirstTarea.setFocusable(false);
         FilterFirstTarea.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 FilterFirstTareaActionPerformed(evt);
@@ -205,7 +208,17 @@ public class IEv2UI extends javax.swing.JPanel {
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Custom");
 
-        BitsRedux.setModel(new javax.swing.SpinnerNumberModel(1, 1, 4, 1));
+        BitsRedux.setModel(new javax.swing.SpinnerNumberModel(1, 1, 8, 1));
+        BitsRedux.setEnabled(false);
+        BitsRedux.setFocusable(false);
+        BitsRedux.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                BitsReduxStateChanged(evt);
+            }
+        });
+
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setText("Bits a reducir");
 
         javax.swing.GroupLayout T3Layout = new javax.swing.GroupLayout(T3);
         T3.setLayout(T3Layout);
@@ -214,43 +227,47 @@ public class IEv2UI extends javax.swing.JPanel {
             .addGroup(T3Layout.createSequentialGroup()
                 .addGroup(T3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(T3Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(T3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jSeparator4, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jSeparator5, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jSeparator6)
-                            .addComponent(CustomMorfologico, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(T3Layout.createSequentialGroup()
+                        .addGap(27, 27, 27)
                         .addGroup(T3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(T3Layout.createSequentialGroup()
-                                .addGap(27, 27, 27)
+                                .addComponent(jLabel3)
+                                .addGap(50, 50, 50)
+                                .addComponent(FiltroMorfologico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(T3Layout.createSequentialGroup()
                                 .addGroup(T3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(T3Layout.createSequentialGroup()
-                                        .addComponent(jLabel3)
-                                        .addGap(50, 50, 50)
-                                        .addComponent(FiltroMorfologico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(T3Layout.createSequentialGroup()
-                                        .addGroup(T3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel1)
-                                            .addComponent(jLabel2))
-                                        .addGap(18, 18, 18)
-                                        .addGroup(T3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(UmbralAutomatico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, T3Layout.createSequentialGroup()
-                                                .addComponent(Cuantizacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(1, 1, 1)))
-                                        .addGap(27, 27, 27)
-                                        .addComponent(BitsRedux, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addGroup(T3Layout.createSequentialGroup()
-                                .addGap(29, 29, 29)
-                                .addComponent(jLabel4)))
-                        .addGap(0, 51, Short.MAX_VALUE)))
+                                    .addComponent(jLabel1)
+                                    .addComponent(jLabel2))
+                                .addGap(18, 18, 18)
+                                .addGroup(T3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(UmbralAutomatico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, T3Layout.createSequentialGroup()
+                                        .addComponent(Cuantizacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(1, 1, 1))))))
+                    .addGroup(T3Layout.createSequentialGroup()
+                        .addGap(29, 29, 29)
+                        .addComponent(jLabel4)))
+                .addContainerGap(119, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, T3Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(T3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(BitsRedux, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6))
+                .addGap(49, 49, 49))
+            .addGroup(T3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(T3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jSeparator4, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jSeparator5, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jSeparator6)
+                    .addComponent(CustomMorfologico, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         T3Layout.setVerticalGroup(
             T3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(T3Layout.createSequentialGroup()
-                .addGap(27, 27, 27)
+                .addGap(7, 7, 7)
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(T3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Cuantizacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1)
@@ -273,7 +290,7 @@ public class IEv2UI extends javax.swing.JPanel {
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(CustomMorfologico, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
 
         TabbedTareas.addTab("T3", T3);
@@ -426,7 +443,7 @@ public class IEv2UI extends javax.swing.JPanel {
         //probando
         Contz=pushToStack(cntrlz,copy,Contz);
         switch (content.toUpperCase()) {
-            case "PALETA":
+            case "PALETA"://No funciona
 
                 break;
             case "REDUX BITS":
@@ -437,32 +454,21 @@ public class IEv2UI extends javax.swing.JPanel {
                 display(copy);
                 break;
             case "K-MEAN": // No Funciona mosca
-                //Mat samples=copy.clone();
-                Mat samples = new Mat(copy.rows(),copy.cols(),CV_32F);
-                copy.convertTo(samples, CV_32F);
-
+                
+                Mat samples = new Mat(copy.rows()*copy.cols(),1,CV_32F);
+                toMat(IEProcessor.BufferedImageKmeans(toBufferedImage(copy))).convertTo(samples, CV_32F);
                 int cluster_count = 2;// K 
                 int attempts = 10;
                 TermCriteria termCriteria = new TermCriteria(CV_TERMCRIT_ITER|CV_TERMCRIT_EPS, 10, 1.0);
-
-                /*cvReshape(src, src.asCvMat(), 1, src.height() * src.width());
-                IplImage samples = cvCreateImage(cvGetSize(src), src.depth(), 1);
-                cvConvertImage(src, samples, CV_32F);
-
-                IplImage labels = cvCreateImage(new CvSize(samples.height()), 1, CV_8U);
-                IplImage centers = cvCreateImage(new CvSize(cluster_count), 1, CV_32F);
-                */
-                Mat labels = new Mat(samples.rows(), samples.cols(), CV_8U);
+                Mat labels = new Mat(samples.cols(), 1, CV_8U);
                 Mat centers = new Mat(cluster_count, 1, CV_32F);
                 try{
                 kmeans(samples, cluster_count, labels, termCriteria,attempts, KMEANS_RANDOM_CENTERS, centers);
+                BufferedImage a= IEProcessor.BufferedImageKmeans(toBufferedImage(centers));
                 display(samples);
                 }catch(Exception excepcion){
                     System.out.println("ERROR :" + excepcion);
-                    int i=0;
-                    i++;
                 }
-
                 
                 break;
             case "":
@@ -711,6 +717,13 @@ public class IEv2UI extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_CtrlyActionPerformed
 
+    private void BitsReduxStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_BitsReduxStateChanged
+        Contz=pushToStack(cntrlz,copy,Contz);
+        Redux = (Integer) BitsRedux.getValue();
+        copy =IEProcessor.ReduxBits(copy, Redux);
+        display(copy);
+    }//GEN-LAST:event_BitsReduxStateChanged
+
     public static Mat ObtainImage(Stack<Mat> stack,int a){
         return stack.get(a);
     }
@@ -719,14 +732,7 @@ public class IEv2UI extends javax.swing.JPanel {
         stack.removeElementAt(stack.size()-1);
         return aux;
     }
-    
-     private void BitsReduxStateChanged(javax.swing.event.ChangeEvent evt) {                                       
-        Contz=pushToStack(cntrlz,copy,Contz);
-        Redux = (Integer) BitsRedux.getValue();
-        copy =IEProcessor.ReduxBits(copy, Redux);
-        display(copy);
-    } 
-    
+        
 public static int pushToStack(Stack<Mat> stack, Mat data,int Cont){
    int aux=stack.size();
     if(aux>Cont){
@@ -790,6 +796,7 @@ public class structurantShit{
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
