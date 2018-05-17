@@ -12,9 +12,8 @@ import static org.bytedeco.javacpp.opencv_core.CV_8U;
 import org.bytedeco.javacpp.opencv_core.Mat;
 import org.bytedeco.javacpp.opencv_imgproc;
 import org.bytedeco.javacpp.opencv_imgcodecs;
+import static org.bytedeco.javacpp.opencv_imgproc.ADAPTIVE_THRESH_MEAN_C;
 import static org.bytedeco.javacpp.opencv_imgproc.CV_BGR2GRAY;
-import static org.bytedeco.javacpp.opencv_imgproc.CV_THRESH_BINARY;
-import static org.bytedeco.javacpp.opencv_imgproc.CV_THRESH_OTSU;
 import static org.bytedeco.javacpp.opencv_imgproc.THRESH_OTSU;
 import static org.bytedeco.javacpp.opencv_imgproc.cvtColor;
 import static org.bytedeco.javacpp.opencv_imgproc.threshold;
@@ -29,7 +28,7 @@ import org.bytedeco.javacv.OpenCVFrameConverter;
  */
 public class IEProcessor {
     
-    public static Mat erode(Mat img, structurantShit SS){
+     public static Mat erode(Mat img, structurantShit SS){
 //        erode(opencv_core.Mat src, opencv_core.Mat dst, opencv_core.Mat kernel, opencv_core.Point anchor, int iterations, int borderType, opencv_core.Scalar borderValue)
 //\brief Erodes an image by using a specific structuring element.
         Mat out = new Mat(img.size(), img.type());
@@ -37,7 +36,7 @@ public class IEProcessor {
         return out;
     }
     
-        public static Mat dilate(Mat img, structurantShit SS){
+    public static Mat dilate(Mat img, structurantShit SS){
 //        erode(opencv_core.Mat src, opencv_core.Mat dst, opencv_core.Mat kernel, opencv_core.Point anchor, int iterations, int borderType, opencv_core.Scalar borderValue)
 //\brief Erodes an image by using a specific structuring element.
         Mat out = new Mat(img.size(), img.type());
@@ -45,29 +44,35 @@ public class IEProcessor {
         return out;
     }
     
-        public static Mat open(Mat img, structurantShit SS){
-            Mat out = new Mat(img.size(), img.type());
-            out = erode(dilate(img, SS), SS);
-            return out;
-        }
+    public static Mat open(Mat img, structurantShit SS){
+        Mat out = new Mat(img.size(), img.type());
+        out = erode(dilate(img, SS), SS);
+        return out;
+    }
         
-        public static BufferedImage ReduxBits (BufferedImage aux,int a){
-            int colorAux;
-            
-            for (int i = 0; i < aux.getWidth(); i++) {
-                for (int j = 0; j < aux.getHeight(); j++) {
-                    // Almacenamos color del pixel
-                    colorAux = aux.getRGB(i, j);
-                    
-                    colorAux = (colorAux <<  (8*a) );
-                    colorAux = (colorAux >>  (8*a) );
-                    
-                    // Asignamos el nuevo valor al BufferedImage
-                    aux.setRGB(i, j, colorAux);
-                }
+    public static Mat ReduxBits (Mat in, int bitsRedux){
+
+        BufferedImage aux = IEv2UI.toBufferedImage(in);
+        Color colorAux;
+        for (int i = 0; i < aux.getWidth(); i++) {
+            for (int j = 0; j < aux.getHeight(); j++) {
+                // Almacenamos color del pixel
+                colorAux = new Color(aux.getRGB(i, j));
+                int R = colorAux.getRed()
+                    ,G = colorAux.getGreen()
+                    ,B = colorAux.getBlue();
+
+
+                    R = ((R<<bitsRedux)& 0x0000FF) >> bitsRedux;
+                    G = ((G<<bitsRedux)& 0x0000FF) >> bitsRedux;
+                    B = ((B<<bitsRedux)& 0x0000FF) >> bitsRedux;
+
+                // Asignamos el nuevo valor al BufferedImage
+                aux.setRGB(i, j, new Color(R,G,B).getRGB());
             }
-            return aux;
         }
+        return IEv2UI.toMat(aux);
+    }
         
         public static Mat close(Mat img, structurantShit SS){
             Mat out = new Mat(img.size(), img.type());
@@ -88,7 +93,27 @@ public class IEProcessor {
             threshold(gray,out,0,255, THRESH_OTSU);
             return out;
         }
-              
+        
+        public static int UmbralProm(BufferedImage aux){
+            int a=0;
+            Color colorAux;
+            for (int i = 0; i < aux.getWidth(); i++) {
+               for (int j = 0; j < aux.getHeight(); j++) {
+                    colorAux = new Color(aux.getRGB(i, j));
+                    a = a + colorAux.getRed();
+               }
+            }
+            a=a/(aux.getWidth()*aux.getHeight());
+            return a;
+        }
+        
+        public static Mat OTHER(Mat img,int a){
+            Mat gray=GRAYSCALE(img);
+            Mat out=new Mat(img.rows(), img.cols(), CV_8U);
+            threshold(gray,out,a,255, ADAPTIVE_THRESH_MEAN_C );
+            return out;
+        }
+        
         public static Mat OTSU_UCV(Mat img){
             Mat aux,dst = new Mat(img.rows(), img.cols(), CV_8U);
             BufferedImage image;
@@ -164,8 +189,5 @@ public class IEProcessor {
 //        
 //    }
 
-    private static void cvThreshold(Mat gray, Mat out, int i, int i0, int i1) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
     
 }
