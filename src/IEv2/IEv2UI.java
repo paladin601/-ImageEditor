@@ -5,7 +5,6 @@
  */
 package IEv2;
 
-import java.awt.Graphics2D;
 import java.io.File;
 import java.util.Stack;
 import javax.swing.JFileChooser;
@@ -13,10 +12,10 @@ import javax.swing.filechooser.FileSystemView;
 import org.bytedeco.javacpp.opencv_imgcodecs;
 import org.bytedeco.javacpp.opencv_imgproc;
 import java.awt.image.BufferedImage;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import org.bytedeco.javacpp.indexer.DoubleIndexer;
-import org.bytedeco.javacpp.indexer.IntRawIndexer;
 import org.bytedeco.javacpp.indexer.UByteRawIndexer;
 import org.bytedeco.javacpp.opencv_core;
 import org.bytedeco.javacpp.opencv_core.Mat;
@@ -24,7 +23,9 @@ import org.bytedeco.javacv.Java2DFrameConverter;
 import static org.bytedeco.javacv.Java2DFrameUtils.deepCopy;
 import org.bytedeco.javacv.OpenCVFrameConverter;
 import static org.bytedeco.javacpp.opencv_core.*;
-import static org.bytedeco.javacpp.opencv_imgcodecs.cvConvertImage;
+import org.bytedeco.javacv.FFmpegFrameGrabber;
+import org.bytedeco.javacv.Frame;
+import org.bytedeco.javacv.FrameGrabber;
 /**
  *
  * @author FliaMejias
@@ -34,10 +35,16 @@ public class IEv2UI extends javax.swing.JPanel {
     static Stack<Mat> cntrly = new Stack<>();
     Mat original;
     Mat copy;
+    static boolean video=false;
     static int Contz=0;
     static int Conty=0;
     static int Redux=1;
+    static long lengthInTime;//microsegundos
+    static int lengthInVideoFrames;  
     static final int maxCntrl = 2;
+    static FFmpegFrameGrabber grabber;
+    static int FrameNumber=0;
+    static Frame frame;
     String dir = "";
     private static final OpenCVFrameConverter.ToMat       matConv = new OpenCVFrameConverter.ToMat();
     private static final Java2DFrameConverter             biConv  = new Java2DFrameConverter();
@@ -78,6 +85,7 @@ public class IEv2UI extends javax.swing.JPanel {
         BitsRedux = new javax.swing.JSpinner();
         jLabel6 = new javax.swing.JLabel();
         T4 = new javax.swing.JPanel();
+        jSlider1 = new javax.swing.JSlider();
         TabbedHistogramas = new javax.swing.JTabbedPane();
         HistogramaR = new java.awt.Canvas();
         HistogramaG = new java.awt.Canvas();
@@ -92,6 +100,7 @@ public class IEv2UI extends javax.swing.JPanel {
         ImageDisplay = new javax.swing.JLabel();
         ctrlz = new javax.swing.JButton();
         Ctrly = new javax.swing.JButton();
+        jCheckBox1 = new javax.swing.JCheckBox();
 
         setBackground(new java.awt.Color(142, 174, 189));
 
@@ -300,15 +309,30 @@ public class IEv2UI extends javax.swing.JPanel {
         T4.setAlignmentY(0.0F);
         T4.setEnabled(false);
 
+        jSlider1.setBackground(new java.awt.Color(48, 65, 82));
+        jSlider1.setMaximum(200);
+        jSlider1.setValue(100);
+        jSlider1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jSlider1MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout T4Layout = new javax.swing.GroupLayout(T4);
         T4.setLayout(T4Layout);
         T4Layout.setHorizontalGroup(
             T4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 353, Short.MAX_VALUE)
+            .addGroup(T4Layout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(49, Short.MAX_VALUE))
         );
         T4Layout.setVerticalGroup(
             T4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 278, Short.MAX_VALUE)
+            .addGroup(T4Layout.createSequentialGroup()
+                .addGap(31, 31, 31)
+                .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(224, Short.MAX_VALUE))
         );
 
         TabbedTareas.addTab("T4", T4);
@@ -363,6 +387,13 @@ public class IEv2UI extends javax.swing.JPanel {
             }
         });
 
+        jCheckBox1.setText("Video");
+        jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -387,7 +418,9 @@ public class IEv2UI extends javax.swing.JPanel {
                                 .addComponent(Ctrly)
                                 .addGap(18, 18, 18)
                                 .addComponent(ctrlz)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 373, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 304, Short.MAX_VALUE)
+                                .addComponent(jCheckBox1)
+                                .addGap(18, 18, 18)
                                 .addComponent(CargarImagen)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(GuardarImagen)
@@ -427,7 +460,8 @@ public class IEv2UI extends javax.swing.JPanel {
                             .addComponent(CargarImagen)
                             .addComponent(GuardarImagen)
                             .addComponent(ctrlz)
-                            .addComponent(Ctrly))
+                            .addComponent(Ctrly)
+                            .addComponent(jCheckBox1))
                         .addGap(5, 5, 5))
                     .addComponent(jSeparator2))
                 .addContainerGap())
@@ -453,19 +487,20 @@ public class IEv2UI extends javax.swing.JPanel {
                 copy =IEProcessor.ReduxBits(copy, Redux);
                 display(copy);
                 break;
-            case "K-MEAN": // No Funciona mosca
+            case "K-MEANs": // No Funciona mosca
                 
-                Mat samples = new Mat(copy.rows()*copy.cols(),1,CV_32F);
-                toMat(IEProcessor.BufferedImageKmeans(toBufferedImage(copy))).convertTo(samples, CV_32F);
+                Mat samples = new Mat(copy.rows()*copy.cols(),1,CV_32FC3);
+                toMat(IEProcessor.BufferedImageKmeans(toBufferedImage(copy))).convertTo(samples, CV_32FC3);
                 int cluster_count = 2;// K 
                 int attempts = 10;
                 TermCriteria termCriteria = new TermCriteria(CV_TERMCRIT_ITER|CV_TERMCRIT_EPS, 10, 1.0);
-                Mat labels = new Mat(samples.cols(), 1, CV_8U);
-                Mat centers = new Mat(cluster_count, 1, CV_32F);
+                Mat labels = new Mat(samples.cols(), 1, CV_8UC3);
+                Mat centers = new Mat(cluster_count, 1, CV_32FC3);
                 try{
                 kmeans(samples, cluster_count, labels, termCriteria,attempts, KMEANS_RANDOM_CENTERS, centers);
-                BufferedImage a= IEProcessor.BufferedImageKmeans(toBufferedImage(centers));
-                display(samples);
+               // BufferedImage a= IEProcessor.BufferedImageKmeans(toBufferedImage(centers));
+                copy=IEProcessor.ConvertoKmeans(centers,labels,copy,cluster_count);
+                display(copy);
                 }catch(Exception excepcion){
                     System.out.println("ERROR :" + excepcion);
                 }
@@ -624,7 +659,30 @@ public class IEv2UI extends javax.swing.JPanel {
 
     private void CargarImagenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CargarImagenActionPerformed
        // TODO add your handling code here:
-        JFileChooser fChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+       JFileChooser fChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+       if(video==true){
+            fChooser.setFileFilter(new FileNameExtensionFilter("mp4", "mp4"));        
+            fChooser.setFileFilter(new FileNameExtensionFilter("mkv", "mkv"));
+            fChooser.setFileFilter(new FileNameExtensionFilter("avi", "avi"));
+            if (fChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+                File fSelected = fChooser.getSelectedFile();
+                grabber = new FFmpegFrameGrabber(fSelected.getAbsolutePath());
+                try {
+                    grabber.start();
+                    lengthInTime= grabber.getLengthInTime();//microsegundos
+                    lengthInVideoFrames= grabber.getLengthInVideoFrames(); 
+                    FrameNumber=lengthInVideoFrames/2;
+                    grabber.setVideoFrameNumber(FrameNumber);
+                    frame=grabber.grab();
+                    display_frame(frame);
+                    jSlider1.setMaximum(lengthInVideoFrames);
+                    jSlider1.setValue(FrameNumber);
+                } catch (FrameGrabber.Exception ex) {
+                    Logger.getLogger(IEv2UI.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } 
+       }else{
+        
         fChooser.setFileFilter(new FileNameExtensionFilter("bmp", "bmp"));        
         fChooser.setFileFilter(new FileNameExtensionFilter("png", "png"));
         fChooser.setFileFilter(new FileNameExtensionFilter("jpg", "jpg"));
@@ -638,8 +696,15 @@ public class IEv2UI extends javax.swing.JPanel {
             Conty=0;
             display(this.copy);
         }  
+       }
     }//GEN-LAST:event_CargarImagenActionPerformed
-
+    public void display_frame(Frame img){
+        ImageDisplay.setIcon(new ImageIcon(frameToBufferedImage(img)));
+    }
+    
+    public synchronized static BufferedImage frameToBufferedImage(Frame src) {
+        return deepCopy(biConv.getBufferedImage(src.clone()));
+    }
     public void display(Mat img){
         this.copy = img;
         ImageDisplay.setIcon(new ImageIcon(toBufferedImage(img)));
@@ -724,6 +789,21 @@ public class IEv2UI extends javax.swing.JPanel {
         display(copy);
     }//GEN-LAST:event_BitsReduxStateChanged
 
+    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
+        video=!video;
+    }//GEN-LAST:event_jCheckBox1ActionPerformed
+
+    private void jSlider1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jSlider1MouseClicked
+                FrameNumber=jSlider1.getValue();
+        try {
+            grabber.setVideoFrameNumber(FrameNumber);
+            frame=grabber.grab();
+            display_frame(frame);
+        } catch (FrameGrabber.Exception ex) {
+            Logger.getLogger(IEv2UI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jSlider1MouseClicked
+
     public static Mat ObtainImage(Stack<Mat> stack,int a){
         return stack.get(a);
     }
@@ -791,6 +871,7 @@ public class structurantShit{
     private javax.swing.JComboBox<String> UmbralAutomatico;
     private java.awt.Canvas canvas4;
     private javax.swing.JButton ctrlz;
+    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -803,5 +884,6 @@ public class structurantShit{
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JSeparator jSeparator5;
     private javax.swing.JSeparator jSeparator6;
+    private javax.swing.JSlider jSlider1;
     // End of variables declaration//GEN-END:variables
 }

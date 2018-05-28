@@ -1,4 +1,6 @@
-﻿Guardar Imagen:
+﻿El .jar esta en ./dist
+
+Guardar Imagen:
 
 Para guardar tiene que agregarse la extension del archivo al final de su nombre.
 Ejemplos:

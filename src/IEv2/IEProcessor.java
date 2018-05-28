@@ -184,7 +184,28 @@ public class IEProcessor {
                }
             }
             return aux;
-        }       
+        }
+        
+        public static Mat ConvertoKmeans(Mat centers,Mat labels, Mat data,int num){
+            BufferedImage center=IEv2UI.toBufferedImage(centers);
+            BufferedImage label=IEv2UI.toBufferedImage(labels);
+            BufferedImage dat=IEv2UI.toBufferedImage(data);
+            int x=0,aux;
+            for (int i = 0; i < dat.getWidth(); i++) {
+               for (int j = 0; j < dat.getHeight(); j++) {
+                    aux=label.getRGB(x,0);
+                    for (int jj=0; jj<num;jj++){
+                        if(aux==jj){
+                            dat.setRGB(i,j, center.getRGB(0,jj));
+                            break;
+                        }  
+                    }
+                    x++;
+               }
+            }
+            data=IEv2UI.toMat(dat);
+            return data;
+        }
 //    private static Mat getKernelFromShape(int elementSize, int elementShape) {
 //        return Imgproc.getStructuringElement(elementShape, new
 //        Size(elementSize*2+1, elementSize*2+1), new Point(elementSize,
